@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px grey;
+  border-radius: 5;
+  width: 320px;
+  height: 380px;
+}
+
+.container h2,
+.container h3,
+.container p {
+  margin: 0;
+}
+
+.rating {
+  color: gold;
+  font-size: 1.2em;
+}
+
+.image {
+  width: 320px;
+  height: 264px;
+  object-fit: cover;
+}
