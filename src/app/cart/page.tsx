@@ -1,7 +1,7 @@
 export default function Cart() {
   return (
     <>
-      <h1 style={{ margin: '50px auto' }}>Cart</h1>
+      <h1 style={{ margin: '30px auto' }}>Shopping Cart</h1>
     </>
   );
 }
