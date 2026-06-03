@@ -4,7 +4,6 @@
   width: 320px;
   height: 400px;
   overflow: hidden;
-  background-color: white;
 }
 
 .image {
@@ -23,7 +22,7 @@
 }
 
 .heart {
-  color: white;
+  color: var(--light);
   position: absolute;
   top: 10px;
   left: 277px;
@@ -32,6 +31,7 @@
 .media {
   position: relative;
   background-color: var(--bg);
+  border-bottom: solid 1px var(--border);
 }
 
 .prices {
