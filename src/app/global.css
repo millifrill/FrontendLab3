@@ -1,0 +1,29 @@
+:root {
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --heading: 'Montserrat', system-ui, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--sans);
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --text: #2d303b;
+  --text-h: #121425;
+  --bg: #f6f6f6;
+  --border: #797c8d;
+  --primary: #083a4f;
+  --secondary: #a58d66;
+  --success: #577717;
+  --info: #407e8c;
+  --warning: #ac5b2c;
+  --danger: #88193a;
+  --light: #ccdfe0;
+  --dark: #2f2f2f;
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+/* c0d5d6 */
