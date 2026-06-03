@@ -21,8 +21,9 @@
   --info: #407e8c;
   --warning: #ac5b2c;
   --danger: #88193a;
-  --light: #ccdfe0;
+  --light: #eaeaea;
   --dark: #2f2f2f;
+  --star: #fde047;
   --shadow:
     rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
