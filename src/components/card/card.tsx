@@ -12,7 +12,7 @@ export default function Card(props) {
     <article className={`${styles.container} border border-2 rounded-4`}>
       <section className={`${styles.media}`}>
         <img
-          className={`${styles.image} bg-light`}
+          className={`${styles.image}`}
           src='https://cdn.dummyjson.com/product-images/groceries/cucumber/1.webp'
           alt='placeholderimg'></img>
         <IoHeartOutline
@@ -26,13 +26,13 @@ export default function Card(props) {
           <TfiLayoutLineSolid />
         </figure>
         <span
-          className={`${styles.deal} bg-danger text-light badge rounded-1 ms-1 fw-normal`}>
+          className={`${styles.deal} bg-danger badge rounded-1 ms-1 fw-normal`}>
           Deal 10%
         </span>
       </section>
       <section className='ms-3 mt-2'>
         <h2 className='fs-5 my-0'>Cucumber</h2>
-        <p className={`${styles.brand} my-0 text-light`}>Lidl</p>
+        <p className={`${styles.brand} my-0`}>Lidl</p>
         <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
           <IoStar />
           <IoStar />

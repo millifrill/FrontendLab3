@@ -12,6 +12,7 @@
   width: 320px;
   height: 264px;
   object-fit: cover;
+  border-bottom: solid 1px var(--light);
 }
 
 .brand {
@@ -39,7 +40,6 @@
 }
 
 .deal {
-  color: white;
   position: absolute;
   top: 235px;
   font-size: 0.8em;
