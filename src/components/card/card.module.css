@@ -12,7 +12,6 @@
   width: 320px;
   height: 264px;
   object-fit: cover;
-  border-bottom: solid 1px var(--light);
 }
 
 .brand {
@@ -32,6 +31,7 @@
 
 .media {
   position: relative;
+  background-color: var(--bg);
 }
 
 .prices {

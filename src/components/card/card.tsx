@@ -9,7 +9,7 @@ import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
 export default function Card(props) {
   return (
-    <article className={`${styles.container} border border-2 rounded-4`}>
+    <article className={`${styles.container} border rounded-4 shadow`}>
       <section className={`${styles.media}`}>
         <img
           className={`${styles.image}`}
