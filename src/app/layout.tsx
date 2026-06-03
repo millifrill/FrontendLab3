@@ -1,11 +1,14 @@
-import './bootstrap.scss';
+import Navigationbar from '../components/navbar/navbar';
+import 'bootstrap/dist/css/bootstrap.css';
+// import './bootstrap.scss';
 import './global.css';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
-        <main>{children}</main>
+        <Navigationbar />
+        <main style={{ display: 'flex' }}>{children}</main>
       </body>
     </html>
   );
