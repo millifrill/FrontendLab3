@@ -3,11 +3,12 @@
   flex-direction: column;
   width: 320px;
   height: 380px;
-  overflow: visible;
+  overflow: hidden;
   background-color: white;
 }
 
 .image {
+  display: block;
   width: 320px;
   height: 264px;
   object-fit: cover;
@@ -19,4 +20,19 @@
 
 .rating {
   color: #fde047;
+}
+
+.heart {
+  color: white;
+  position: absolute;
+  top: 10px;
+  left: 270px;
+}
+
+.media {
+  position: relative;
+}
+
+.deal {
+  /*display:none*/
 }
