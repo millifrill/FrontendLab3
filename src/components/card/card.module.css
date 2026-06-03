@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 380px;
+  height: 400px;
   overflow: hidden;
   background-color: white;
 }
@@ -26,13 +26,21 @@
   color: white;
   position: absolute;
   top: 10px;
-  left: 270px;
+  left: 277px;
 }
 
 .media {
   position: relative;
 }
 
+.prices {
+  display: flex;
+  gap: 1em;
+}
+
 .deal {
-  /*display:none*/
+  color: white;
+  position: absolute;
+  top: 235px;
+  font-size: 0.8em;
 }

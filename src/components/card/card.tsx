@@ -20,23 +20,33 @@ function Card(props) {
         />
         <HiOutlineChevronLeft className="position-absolute fs-3 top-50 start-0 text-dark" />
         <HiOutlineChevronRight className="position-absolute fs-3 top-50 end-0 text-dark" />
-        <figure className="position-absolute bottom-0 w-100 d-flex justify-content-center gap-1">
+        <figure className="position-absolute bottom-0 w-100 d-flex justify-content-center gap-1 mb-1">
           <TfiLayoutLineSolid />
           <TfiLayoutLineSolid />
           <TfiLayoutLineSolid />
         </figure>
+        <span
+          className={`${styles.deal} bg-danger text-light badge rounded-1 ms-1 fw-normal`}>
+          Deal 10%
+        </span>
       </section>
       <section className="ms-3 mt-2">
         <h2 className="fs-5 my-0">Cucumber</h2>
         <p className={`${styles.brand} my-0 text-light`}>Lidl</p>
-        <figure className={`${styles.rating} d-flex gap-1 my-1 fs-5`}>
+        <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
           <IoStar />
           <IoStar />
           <IoStar />
           <IoStarHalf />
           <IoStarOutline />
         </figure>
-        <p className="fs-5 my-0 fw-semibold">10000$</p>
+        <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
+          <p className={`${styles.discountedPrice} text-danger`}>9000$</p>
+          <p className={`${styles.oldPrice} text-decoration-line-through`}>
+            10000$
+          </p>
+          <p className={`${styles.normalPrice}`}>10000$</p>
+        </section>
       </section>
     </article>
   );
