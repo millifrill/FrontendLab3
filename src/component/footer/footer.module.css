@@ -1,0 +1,57 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: Primary;
+}
+
+footer .p {
+}
+
+footer .brandLogo {
+  border-radius: 10px;
+  width: 193px;
+  height: 60px;
+  align-self: center;
+}
+
+footer .copyright {
+  font-size: 0.8rem;
+}
+
+footer .twitterLogo,
+.facebookLogo,
+.youtubeLogo,
+.linkedinLogo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+  }
+
+  footer .p {
+    flex-direction: row;
+  }
+
+  footer .brandLogo {
+    border-radius: 10px;
+    width: 193px;
+    height: 60px;
+  }
+
+  footer .copyright {
+    font-size: 0.8rem;
+  }
+
+  footer .twitterLogo,
+  .facebookLogo,
+  .youtubeLogo,
+  .linkedinLogo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+  }
+}
