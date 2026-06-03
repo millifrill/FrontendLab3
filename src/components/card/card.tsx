@@ -16,7 +16,7 @@ export default function Card(props) {
           src='https://cdn.dummyjson.com/product-images/groceries/cucumber/1.webp'
           alt='placeholderimg'></img>
         <IoHeartOutline
-          className={`${styles.heart} fs-1 p-1 bg-dark bg-opacity-50 rounded-circle`}
+          className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
         />
         <HiOutlineChevronLeft className='position-absolute fs-3 top-50 start-0 text-dark' />
         <HiOutlineChevronRight className='position-absolute fs-3 top-50 end-0 text-dark' />
