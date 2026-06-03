@@ -61,7 +61,7 @@ export default function Cart() {
   );
 
   return (
-    <div className={styles.page}>
+    <>
       <h1 className={styles.title}>Shopping cart</h1>
 
       {items.length === 0 ? (
@@ -142,6 +142,6 @@ export default function Cart() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
