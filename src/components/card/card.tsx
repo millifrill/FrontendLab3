@@ -40,12 +40,10 @@ export default function Card(props) {
           <IoStarHalf />
           <IoStarOutline />
         </figure>
-        <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
-          <p className={`${styles.discountedPrice} text-danger`}>9000$</p>
-          <p className={`${styles.oldPrice} text-decoration-line-through`}>
-            10000$
-          </p>
-          <p className={`${styles.normalPrice}`}>10000$</p>
+        <section className='fs-5 my-0 fw-semibold'>
+          <p className='text-danger'>9000$</p>
+          <p className='text-decoration-line-through'>10000$</p>
+          <p>10000$</p>
         </section>
       </section>
     </article>
