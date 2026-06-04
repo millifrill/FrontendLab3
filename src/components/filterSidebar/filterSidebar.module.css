@@ -1,0 +1,63 @@
+.rating {
+  color: var(--star);
+}
+
+.black,
+.white,
+.yellow,
+.green,
+.blue,
+.purple,
+.pink,
+.brown,
+.beige {
+  border: 1px solid #646464;
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+}
+
+.black {
+  background-color: #000000;
+}
+
+.white {
+  background-color: #ffffff;
+}
+
+.yellow {
+  background-color: #f6f612;
+}
+
+.green {
+  background-color: #038103;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.purple {
+  background-color: #6908a1;
+}
+
+.pink {
+  background-color: #c6209c;
+}
+.brown {
+  background-color: #4c3228;
+}
+
+.beige {
+  background-color: #e4d5b7;
+}
+
+.applyFilterBtn {
+  background-color: var(--primary);
+}
+
+.applyFilterBtn:hover {
+  border: none;
+  background-color: var(--btn-hover);
+}
