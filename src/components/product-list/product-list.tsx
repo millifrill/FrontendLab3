@@ -14,13 +14,14 @@ export default function ProductList() {
     }
     getProducts();
   }, []);
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
 
-  return products.length > 0
-    ? products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))
-    : null;
+  return (
+    <div className={styles.list}>
+      {products.length > 0
+        ? products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        : null}
+    </div>
+  );
 }
