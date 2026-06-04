@@ -1,7 +1,5 @@
-export default function Cart() {
-  return (
-    <>
-      <h1 style={{ margin: '30px auto' }}>Shopping Cart</h1>
-    </>
-  );
+import Cart from '@/components/cart/cart';
+
+export default function CartPage() {
+  return <Cart />;
 }

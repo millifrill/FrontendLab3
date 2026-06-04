@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang='en'>
       <body>
         <Navigationbar />
-        <main style={{ display: 'flex' }}>{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

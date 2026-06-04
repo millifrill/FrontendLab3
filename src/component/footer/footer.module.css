@@ -5,6 +5,7 @@
   gap: 20px;
   padding: 45px 0;
   min-height: 249px;
+  align-items: center;
 }
 body {
   margin: 0;
