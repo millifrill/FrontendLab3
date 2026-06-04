@@ -1,4 +1,4 @@
-import styles from './card.module.css';
+import styles from './product-card.module.css';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { IoStarHalf } from 'react-icons/io5';

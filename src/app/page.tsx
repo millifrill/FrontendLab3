@@ -1,4 +1,4 @@
-import Card from '../../src/components/card/card';
+import Card from '../components/product-card/product-card';
 
 export default function Page() {
   return (
