@@ -1,6 +1,6 @@
 'use client';
 import { Accordion, Form } from 'react-bootstrap';
-import { IoStar, IoStarHalf, IoStarOutline } from 'react-icons/io5';
+import { IoStar } from 'react-icons/io5';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
