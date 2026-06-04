@@ -1,57 +1,88 @@
 .footer {
   display: flex;
   flex-direction: column;
-  background-color: Primary;
+  background-color: var(--primary);
+  gap: 20px;
+  padding: 45px 0;
+  min-height: 249px;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-footer .p {
+.footer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+footer .lingk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  gap: 30px;
+}
+
+footer .brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 footer .brandLogo {
+  display: flex;
   border-radius: 10px;
   width: 193px;
   height: 60px;
-  align-self: center;
+}
+
+footer .copyrightString {
+  display: flex;
+  justify-content: center;
 }
 
 footer .copyright {
   font-size: 0.8rem;
+  color: var(--bg);
+  opacity: 0.5;
+}
+
+footer .socialMedia {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 }
 
 footer .twitterLogo,
 .facebookLogo,
 .youtubeLogo,
 .linkedinLogo {
-  width: 60px;
-  height: 60px;
+  flex-direction: row;
+  width: 39px;
+  height: 39px;
   border-radius: 50px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 820px) {
   .footer {
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 40px;
+    gap: 10px;
+    padding-bottom: 0;
   }
 
-  footer .p {
-    flex-direction: row;
-  }
-
-  footer .brandLogo {
-    border-radius: 10px;
-    width: 193px;
-    height: 60px;
-  }
-
-  footer .copyright {
-    font-size: 0.8rem;
-  }
-
-  footer .twitterLogo,
-  .facebookLogo,
-  .youtubeLogo,
-  .linkedinLogo {
-    width: 60px;
-    height: 60px;
-    border-radius: 50px;
+  footer .brand,
+  .lingk,
+  .socialMedia {
+    display: flex;
+    width: 30%;
   }
 }
