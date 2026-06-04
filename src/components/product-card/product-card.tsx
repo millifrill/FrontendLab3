@@ -7,14 +7,16 @@ import { HiOutlineChevronLeft } from 'react-icons/hi';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
-export default function Card(props) {
+export default function ProductCard({ product }) {
+  console.log(product);
   return (
     <article className={`${styles.container} border rounded-4 shadow`}>
       <section className={`${styles.media}`}>
         <img
           className={`${styles.image}`}
-          src='https://cdn.dummyjson.com/product-images/groceries/cucumber/1.webp'
-          alt='placeholderimg'></img>
+          src={product.images[0]}
+          alt='placeholderimg'
+        />
         <IoHeartOutline
           className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
         />
@@ -31,8 +33,8 @@ export default function Card(props) {
         </span>
       </section>
       <section className='ms-3 mt-2'>
-        <h2 className='fs-5 my-0'>Cucumber</h2>
-        <p className={`${styles.brand} my-0`}>Lidl</p>
+        <h2 className='fs-5 my-0'>{product.title}</h2>
+        <p className={`${styles.brand} my-0`}>{product.brand}</p>
         <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
           <IoStar />
           <IoStar />
@@ -41,9 +43,14 @@ export default function Card(props) {
           <IoStarOutline />
         </figure>
         <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
-          <p className='text-danger'>9000$</p>
-          <p className='text-decoration-line-through'>10000$</p>
-          <p>10000$</p>
+          <p className='text-danger'>
+            {(product.price * (1 - product.discountPercentage / 100)).toFixed(
+              2,
+            )}
+            $
+          </p>
+          <p className='text-decoration-line-through'>{product.price}$</p>
+          <p>{product.price}$</p>
         </section>
       </section>
     </article>
