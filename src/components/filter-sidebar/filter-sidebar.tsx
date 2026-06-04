@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import styles from './filterSidebar.module.css';
+import styles from './filter-sidebar.module.css';
 
 export default function FilterSidebar() {
   return (

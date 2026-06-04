@@ -1,5 +1,5 @@
 import Card from '../../src/components/card/card';
-import FilterSidebar from '../../src/components/filterSidebar/filterSidebar';
+import FilterSidebar from '../components/filter-sidebar/filter-sidebar';
 
 export default function Page() {
   return (
