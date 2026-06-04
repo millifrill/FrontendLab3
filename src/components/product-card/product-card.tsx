@@ -33,7 +33,7 @@ export default function ProductCard({ product }) {
       </section>
       <section className='ms-3 mt-2'>
         <h2 className='fs-5 my-0'>{product.title}</h2>
-        <p className={`${styles.brand} my-0`}>{product.brand}</p>
+        <p className={`${styles.brand} my-0`}>{product.brand || '\u00A0'}</p>
         <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
           <IoStar />
           <IoStar />
