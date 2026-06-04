@@ -8,7 +8,6 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
 export default function ProductCard({ product }) {
-  console.log(product);
   return (
     <article className={`${styles.container} border rounded-4 shadow`}>
       <section className={`${styles.media}`}>

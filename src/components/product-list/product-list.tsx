@@ -18,5 +18,9 @@ export default function ProductList() {
     console.log(products);
   }, [products]);
 
-  return products.length > 0 ? <ProductCard product={products[0]} /> : null;
+  return products.length > 0
+    ? products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))
+    : null;
 }
