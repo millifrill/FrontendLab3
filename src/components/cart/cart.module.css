@@ -250,3 +250,37 @@
 .checkoutBtn:hover {
   opacity: 0.9;
 }
+
+.stepperDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.modalBody {
+  font-size: 1rem;
+  color: var(--text-h);
+  text-align: center;
+}
+
+.modalFooter {
+  justify-content: center;
+}
+
+.btnPrimary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.btnOutline {
+  color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.btnOutline:hover {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+}

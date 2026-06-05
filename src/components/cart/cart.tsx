@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
+import { Button, Modal } from 'react-bootstrap';
 import styles from './cart.module.css';
 
 interface CartItem {
@@ -40,6 +41,7 @@ const initialItems: CartItem[] = [
 
 export default function Cart() {
   const [items, setItems] = useState<CartItem[]>(initialItems);
+  const [confirmId, setConfirmId] = useState<number | null>(null);
 
   function changeQty(id: number, delta: number) {
     setItems((prev) =>
@@ -53,6 +55,7 @@ export default function Cart() {
 
   function removeItem(id: number) {
     setItems((prev) => prev.filter((item) => item.id !== id));
+    setConfirmId(null);
   }
 
   const total = items.reduce(
@@ -63,6 +66,30 @@ export default function Cart() {
   return (
     <>
       <h1 className={styles.title}>Shopping cart</h1>
+
+      {/* ── Confirm modal ── */}
+      <Modal
+        show={confirmId !== null}
+        onHide={() => setConfirmId(null)}
+        centered>
+        <Modal.Body className={styles.modalBody}>
+          Are you sure you want to remove this item from your cart?
+        </Modal.Body>
+        <Modal.Footer className={styles.modalFooter}>
+          <Button
+            variant='primary'
+            className={styles.btnPrimary}
+            onClick={() => setConfirmId(null)}>
+            Cancel
+          </Button>
+          <Button
+            variant='outline-primary'
+            className={styles.btnOutline}
+            onClick={() => removeItem(confirmId!)}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {items.length === 0 ? (
         <p className={styles.empty}>Your cart is empty.</p>
@@ -87,7 +114,11 @@ export default function Cart() {
                   <div className={styles.stepper}>
                     <button
                       onClick={() => changeQty(item.id, -1)}
-                      aria-label='Decrease quantity'>
+                      aria-label='Decrease quantity'
+                      disabled={item.quantity === 1}
+                      className={
+                        item.quantity === 1 ? styles.stepperDisabled : ''
+                      }>
                       -
                     </button>
                     <span>{item.quantity}</span>
@@ -100,7 +131,7 @@ export default function Cart() {
                 </div>
                 <button
                   className={styles.deleteBtn}
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => setConfirmId(item.id)}
                   aria-label={`Remove ${item.name}`}>
                   <FaTrash size={14} />
                 </button>
