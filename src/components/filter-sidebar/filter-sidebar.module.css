@@ -1,0 +1,12 @@
+.rating {
+  color: var(--star);
+}
+
+.applyFilterBtn {
+  background-color: var(--primary);
+}
+
+.applyFilterBtn:hover {
+  border: none;
+  background-color: var(--btn-hover);
+}
