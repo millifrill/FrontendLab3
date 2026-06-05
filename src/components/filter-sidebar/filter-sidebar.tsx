@@ -65,15 +65,15 @@ export default function FilterSidebar() {
                   <Accordion.Body>
                     <p>Sort by color</p>
                     <div className='mb-3'>
-                      <button className={styles.black}></button>
-                      <button className={styles.white}></button>
-                      <button className={styles.yellow}></button>
-                      <button className={styles.green}></button>
-                      <button className={styles.blue}></button>
-                      <button className={styles.purple}></button>
-                      <button className={styles.pink}></button>
-                      <button className={styles.brown}></button>
-                      <button className={styles.beige}></button>
+                      <button className='black'></button>
+                      <button className='white'></button>
+                      <button className='yellow'></button>
+                      <button className='green'></button>
+                      <button className='blue'></button>
+                      <button className='purple'></button>
+                      <button className='pink'></button>
+                      <button className='brown'></button>
+                      <button className='beige'></button>
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>

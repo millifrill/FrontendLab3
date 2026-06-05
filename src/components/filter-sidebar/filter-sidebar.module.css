@@ -2,22 +2,6 @@
   color: var(--star);
 }
 
-.black,
-.white,
-.yellow,
-.green,
-.blue,
-.purple,
-.pink,
-.brown,
-.beige {
-  border: 1px solid #646464;
-  border-radius: 50px;
-  width: 30px;
-  height: 30px;
-  margin: 2px;
-}
-
 .applyFilterBtn {
   background-color: var(--primary);
 }
