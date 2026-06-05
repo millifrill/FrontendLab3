@@ -78,9 +78,9 @@ export default function FilterSidebar() {
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='4'>
-                  <Accordion.Header>Raiting</Accordion.Header>
+                  <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by raiting</p>
+                    <p>Sort by rating</p>
                     <figure
                       className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
                       <IoStar />
