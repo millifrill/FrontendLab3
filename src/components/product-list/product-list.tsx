@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import styles from './product-list.module.css';
 import axios from 'axios';
 import ProductCard from '../product-card/product-card';
-import { Product } from '../../app/types/product';
+import { Product, ProductRes } from '../../app/types/product';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     async function getProducts() {
-      const res = await axios.get('https://dummyjson.com/products');
+      const res = await axios.get<ProductRes>('https://dummyjson.com/products');
       setProducts(res.data.products);
     }
     getProducts();

@@ -7,3 +7,7 @@ export type Product = {
   rating: number;
   discountPercentage: number;
 };
+
+export type ProductRes = {
+  products: Product[];
+};
