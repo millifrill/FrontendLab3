@@ -8,7 +8,7 @@ import { Product, ProductRes } from '../../app/types/product';
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-    async function getProducts() {
+    async function getProducts(): Promise<void> {
       const res = await axios.get<ProductRes>('https://dummyjson.com/products');
       setProducts(res.data.products);
     }

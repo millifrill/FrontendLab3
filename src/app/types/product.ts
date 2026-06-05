@@ -10,4 +10,7 @@ export type Product = {
 
 export type ProductRes = {
   products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
 };
