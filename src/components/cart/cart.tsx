@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { Alert, Button, Modal } from 'react-bootstrap';
-import { useCart } from './cart.context';
+import { useCart } from '../../context/cart.context';
 import styles from './cart.module.css';
 
 export default function Cart() {

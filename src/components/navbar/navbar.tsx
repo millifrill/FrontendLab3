@@ -8,7 +8,7 @@ import { IoCartSharp, IoHeartSharp, IoPersonSharp } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
-import { useCart } from '../cart/cart.context';
+import { useCart } from '../../context/cart.context';
 
 export default function Navigationbar() {
   const { totalCount } = useCart();

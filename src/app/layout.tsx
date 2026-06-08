@@ -1,5 +1,5 @@
 import Navigationbar from '../components/navbar/navbar';
-import { CartProvider } from '../components/cart/cart.context';
+import { CartProvider } from '../context/cart.context';
 import 'bootstrap/dist/css/bootstrap.css';
 import './global.css';
 
