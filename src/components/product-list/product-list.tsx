@@ -10,7 +10,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
-  const limit = 15;
+  const limit = 12;
 
   useEffect(() => {
     async function getProducts(): Promise<void> {
@@ -24,7 +24,7 @@ export default function ProductList() {
   }, [active]);
 
   return (
-    <>
+    <div className={styles.listPagination}>
       <div className={styles.list}>
         {products.length > 0
           ? products.map((product) => (
@@ -33,6 +33,9 @@ export default function ProductList() {
           : null}
       </div>
       <Pagination className={styles.pagination}>
+        <Pagination.Prev
+          onClick={() => setActive(active > 1 ? active + -1 : active)}
+        />
         {Array.from({ length: pages }, (_, i) => {
           const num = i + 1;
           return (
@@ -44,7 +47,10 @@ export default function ProductList() {
             </Pagination.Item>
           );
         })}
+        <Pagination.Next
+          onClick={() => setActive(active < pages ? active + 1 : active)}
+        />
       </Pagination>
-    </>
+    </div>
   );
 }

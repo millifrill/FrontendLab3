@@ -2,15 +2,16 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, 320px);
   justify-content: center;
-  gap: 2em;
 }
 
 .pagination {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  padding: 10px;
+  width: 100%;
+  justify-content: center;
 }
 
 .listPagination {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
 }
