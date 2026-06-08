@@ -8,17 +8,21 @@ import Pagination from 'react-bootstrap/Pagination';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [pages, setPages] = useState<number>(1);
+  const limit = 30;
+
   useEffect(() => {
     async function getProducts(): Promise<void> {
       const res = await axios.get<ProductRes>(
-        'https://dummyjson.com/products?limit=6',
+        `https://dummyjson.com/products?limit=${limit}`,
       );
       setProducts(res.data.products);
+      setPages(Math.floor(res.data.total / limit) + 1);
     }
     getProducts();
   }, []);
 
-  const [active, setActive] = useState<Number>(1);
+  const [active, setActive] = useState<number>(1);
 
   return (
     <>
@@ -30,7 +34,7 @@ export default function ProductList() {
           : null}
       </div>
       <Pagination className={styles.pagination}>
-        {Array.from({ length: 5 }, (_, i) => {
+        {Array.from({ length: pages }, (_, i) => {
           const num = i + 1;
           return (
             <Pagination.Item
