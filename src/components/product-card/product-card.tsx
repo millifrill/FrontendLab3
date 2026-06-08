@@ -9,6 +9,7 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
 export default function ProductCard({ product }) {
+  const smallestPossibleDiscount = 5;
   return (
     <>
       <Card className='shadow'>
@@ -28,10 +29,12 @@ export default function ProductCard({ product }) {
             <TfiLayoutLineSolid />
             <TfiLayoutLineSolid />
           </figure>
-          <span
-            className={`${styles.deal} bg-danger badge rounded-1 ms-1 mb-5 fw-normal`}>
-            Deal 10%
-          </span>
+          {product.discountPercentage > smallestPossibleDiscount ? (
+            <span
+              className={`${styles.deal} bg-danger badge rounded-1 ms-1 mb-5 fw-normal`}>
+              Deal {Math.round(product.discountPercentage)}%
+            </span>
+          ) : null}
         </section>
 
         <Card.Body className='pb-0'>
@@ -49,16 +52,22 @@ export default function ProductCard({ product }) {
             <IoStarOutline />
           </figure>
           <section className={`${styles.prices} fs-5 fw-semibold`}>
-            <Card.Text className='text-danger'>
-              {(product.price * (1 - product.discountPercentage / 100)).toFixed(
-                2,
-              )}
-              $
-            </Card.Text>
-            <Card.Text className='text-decoration-line-through'>
-              {product.price}$
-            </Card.Text>
-            <Card.Text>{product.price}$</Card.Text>
+            {product.discountPercentage > smallestPossibleDiscount ? (
+              <>
+                <Card.Text className='text-danger'>
+                  {(
+                    product.price *
+                    (1 - product.discountPercentage / 100)
+                  ).toFixed(2)}
+                  $
+                </Card.Text>
+                <Card.Text className='text-decoration-line-through'>
+                  {product.price}$
+                </Card.Text>
+              </>
+            ) : (
+              <Card.Text>{product.price}$</Card.Text>
+            )}
           </section>
         </Card.Body>
       </Card>
