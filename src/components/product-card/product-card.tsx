@@ -11,7 +11,7 @@ import { TfiLayoutLineSolid } from 'react-icons/tfi';
 export default function ProductCard({ product }) {
   const smallestPossibleDiscount: number = 5;
   const roundedRatingHalf: number = Math.round(product.rating * 2) / 2;
-  const totalIncludedHalf: number = 0;
+  const roundedUp: number = Math.ceil(roundedRatingHalf);
 
   return (
     <>
@@ -52,6 +52,9 @@ export default function ProductCard({ product }) {
               <IoStar />
             ))}
             {roundedRatingHalf % 1 === 0.5 ? <IoStarHalf /> : null}
+            {Array.from({ length: 5 - roundedUp }, (_, i) => (
+              <IoStarOutline />
+            ))}
           </figure>
           <section className={`${styles.prices} fs-5 fw-semibold`}>
             {product.discountPercentage > smallestPossibleDiscount ? (
