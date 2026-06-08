@@ -10,7 +10,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
-  const limit = 12;
+  const limit = 30;
 
   useEffect(() => {
     async function getProducts(): Promise<void> {
@@ -24,16 +24,16 @@ export default function ProductList() {
   }, [active]);
 
   return (
-    <div className={styles.listPagination}>
-      <div className={styles.list}>
-        {products.length > 0
-          ? products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))
-          : null}
-      </div>
-      <Pagination className={styles.pagination}>
+    <div className={styles.list}>
+      {products.length > 0
+        ? products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        : null}
+
+      <Pagination className={`${styles.pagination} flex-fill`}>
         <Pagination.Prev
+          className={styles.paginationItem}
           onClick={() => setActive(active - 1)}
           disabled={active === 1}
         />
@@ -41,6 +41,7 @@ export default function ProductList() {
           const num = i + 1;
           return (
             <Pagination.Item
+              className={styles.paginationItem}
               key={num}
               active={num === active}
               onClick={() => setActive(num)}>
@@ -49,6 +50,7 @@ export default function ProductList() {
           );
         })}
         <Pagination.Next
+          className={styles.paginationItem}
           onClick={() => setActive(active + 1)}
           disabled={active === pages}
         />

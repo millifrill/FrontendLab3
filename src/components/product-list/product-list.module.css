@@ -2,16 +2,17 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, 320px);
   justify-content: center;
+  gap: 2em;
 }
 
 .pagination {
-  width: 100%;
+  max-width: 100%;
+  flex-grow: 1;
   justify-content: center;
+  grid-column: 1 / -1;
 }
 
-.listPagination {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
+.paginationItem {
+  text-align: center;
+  flex: 1;
 }
