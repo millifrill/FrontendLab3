@@ -10,6 +10,7 @@ import { TfiLayoutLineSolid } from 'react-icons/tfi';
 import styles from './product-card.module.css';
 
 export default function ProductCard({ product }) {
+  console.log('product', product);
   return (
     <>
       <Card className='shadow'>
@@ -38,7 +39,7 @@ export default function ProductCard({ product }) {
         <Card.Body className='pb-0'>
           <section className={`${styles.titles}`}>
             <Link
-              href={`/product-details${product.id}`}
+              href={`/product-details/${product.id}`}
               className={styles.link}>
               <Card.Title className='fs-6'>{product.title}</Card.Title>
             </Link>
