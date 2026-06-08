@@ -2,60 +2,23 @@
 
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { Button, Modal } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
+import { useCart } from '../../context/cart.context';
 import styles from './cart.module.css';
 
-interface CartItem {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
-  image: string;
-  color: string;
-  size: string;
-  quantity: number;
-}
-
-const initialItems: CartItem[] = [
-  {
-    id: 1,
-    name: 'Cotton T-shirt',
-    brand: 'Gucci',
-    price: 19.9,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=T-shirt',
-    color: 'Black',
-    size: 'L',
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: 'Black Watch',
-    brand: 'Gucci',
-    price: 49.8,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=Watch',
-    color: 'Black',
-    size: 'One size',
-    quantity: 1,
-  },
-];
-
 export default function Cart() {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const { items, removeItem, changeQty, recentlyAdded, clearRecentlyAdded } =
+    useCart();
+
   const [confirmId, setConfirmId] = useState<number | null>(null);
+  const [removeAlert, setRemoveAlert] = useState<string | null>(null);
 
-  function changeQty(id: number, delta: number) {
-    setItems((prev) =>
-      prev
-        .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + delta } : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
-  }
-
-  function removeItem(id: number) {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+  function handleConfirmRemove() {
+    if (confirmId === null) return;
+    const item = items.find((i) => i.id === confirmId);
+    removeItem(confirmId);
     setConfirmId(null);
+    if (item) setRemoveAlert(item.name);
   }
 
   const total = items.reduce(
@@ -67,7 +30,26 @@ export default function Cart() {
     <>
       <h1 className={styles.title}>Shopping cart</h1>
 
-      {/* ── Confirm modal ── */}
+      {recentlyAdded && (
+        <Alert
+          variant='success'
+          dismissible
+          onClose={clearRecentlyAdded}
+          className={styles.alert}>
+          <strong>{recentlyAdded}</strong> was added to your cart.
+        </Alert>
+      )}
+
+      {removeAlert && (
+        <Alert
+          variant='success'
+          dismissible
+          onClose={() => setRemoveAlert(null)}
+          className={styles.alert}>
+          <strong>{removeAlert}</strong> was removed from your cart.
+        </Alert>
+      )}
+
       <Modal
         show={confirmId !== null}
         onHide={() => setConfirmId(null)}
@@ -85,7 +67,7 @@ export default function Cart() {
           <Button
             variant='outline-primary'
             className={styles.btnOutline}
-            onClick={() => removeItem(confirmId!)}>
+            onClick={handleConfirmRemove}>
             Confirm
           </Button>
         </Modal.Footer>
@@ -95,7 +77,6 @@ export default function Cart() {
         <p className={styles.empty}>Your cart is empty.</p>
       ) : (
         <div className={styles.layout}>
-          {/* ── Left: item list ── */}
           <ul className={styles.itemList}>
             {items.map((item) => (
               <li key={item.id} className={styles.item}>
@@ -139,7 +120,6 @@ export default function Cart() {
             ))}
           </ul>
 
-          {/* ── Right: order summary ── */}
           <div className={styles.summary}>
             <h2 className={styles.summaryTitle}>Order summary</h2>
             <div className={styles.summaryItems}>
