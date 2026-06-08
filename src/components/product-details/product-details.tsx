@@ -10,6 +10,7 @@ import {
 } from 'react-icons/io5';
 import styles from './product-details.module.css';
 import { Button, Tab, Tabs } from 'react-bootstrap';
+import { useCart } from '@/context/cart.context';
 
 interface Product {
   id: number;
@@ -36,6 +37,7 @@ interface Product {
 
 export default function ProductDetails({ id }) {
   console.log('id', id);
+  const { changeQty } = useCart();
   const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
@@ -93,7 +95,11 @@ export default function ProductDetails({ id }) {
                 <p>{product.price}$</p>
               </section>
               <div className={styles.btns}>
-                <Button variant='primary'>Add to cart</Button>
+                <Button
+                  variant='primary'
+                  onClick={() => changeQty(product.id, 1)}>
+                  Add to cart
+                </Button>
                 <Button variant='success'>Buy now</Button>
               </div>
             </section>
