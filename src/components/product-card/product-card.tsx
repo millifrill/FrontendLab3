@@ -9,9 +9,9 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
 export default function ProductCard({ product }) {
-  const smallestPossibleDiscount = 5;
-  const roundedRatingHalf = Math.round(product.rating * 2) / 2;
-  const totalIncludedHalf = 0;
+  const smallestPossibleDiscount: number = 5;
+  const roundedRatingHalf: number = Math.round(product.rating * 2) / 2;
+  const totalIncludedHalf: number = 0;
 
   return (
     <>
