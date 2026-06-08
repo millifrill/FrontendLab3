@@ -34,7 +34,8 @@ export default function ProductList() {
       </div>
       <Pagination className={styles.pagination}>
         <Pagination.Prev
-          onClick={() => setActive(active > 1 ? active + -1 : active)}
+          onClick={() => setActive(active - 1)}
+          disabled={active === 1}
         />
         {Array.from({ length: pages }, (_, i) => {
           const num = i + 1;
@@ -48,7 +49,8 @@ export default function ProductList() {
           );
         })}
         <Pagination.Next
-          onClick={() => setActive(active < pages ? active + 1 : active)}
+          onClick={() => setActive(active + 1)}
+          disabled={active === pages}
         />
       </Pagination>
     </div>
