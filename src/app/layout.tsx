@@ -1,5 +1,5 @@
 import Navigationbar from '../components/navbar/navbar';
-import Footer from '../component/footer/footer';
+import Footer from '../components/footer/footer';
 import 'bootstrap/dist/css/bootstrap.css';
 // import './bootstrap.scss';
 import './global.css';
