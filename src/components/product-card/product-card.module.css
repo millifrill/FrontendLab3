@@ -1,20 +1,12 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 320px;
-  height: 400px;
-  overflow: hidden;
-}
-
 .image {
   display: block;
-  width: 320px;
+  background-color: var(--bg);
   height: 264px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .brand {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 .rating {
@@ -25,13 +17,12 @@
   color: var(--light);
   position: absolute;
   top: 10px;
-  left: 277px;
+  left: 270px;
   opacity: 80%;
 }
 
 .media {
   position: relative;
-  background-color: var(--bg);
   border-bottom: solid 1px var(--border);
 }
 
@@ -42,6 +33,10 @@
 
 .deal {
   position: absolute;
-  top: 235px;
+  top: 230px;
   font-size: 0.8em;
+}
+
+.titles {
+  min-height: 58px;
 }
