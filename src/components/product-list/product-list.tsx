@@ -9,20 +9,19 @@ import Pagination from 'react-bootstrap/Pagination';
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
-  const limit = 30;
+  const [active, setActive] = useState<number>(1);
+  const limit = 15;
 
   useEffect(() => {
     async function getProducts(): Promise<void> {
       const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products?limit=${limit}`,
+        `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
       );
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
     }
     getProducts();
-  }, []);
-
-  const [active, setActive] = useState<number>(1);
+  }, [active]);
 
   return (
     <>
