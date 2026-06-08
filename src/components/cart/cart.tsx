@@ -2,57 +2,23 @@
 
 import { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
+import { Alert, Button, Modal } from 'react-bootstrap';
+import { useCart } from '../../context/cart.context';
 import styles from './cart.module.css';
 
-interface CartItem {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
-  image: string;
-  color: string;
-  size: string;
-  quantity: number;
-}
-
-const initialItems: CartItem[] = [
-  {
-    id: 1,
-    name: 'Cotton T-shirt',
-    brand: 'Gucci',
-    price: 19.9,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=T-shirt',
-    color: 'Black',
-    size: 'L',
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: 'Black Watch',
-    brand: 'Gucci',
-    price: 49.8,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=Watch',
-    color: 'Black',
-    size: 'One size',
-    quantity: 1,
-  },
-];
-
 export default function Cart() {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const { items, removeItem, changeQty, recentlyAdded, clearRecentlyAdded } =
+    useCart();
 
-  function changeQty(id: number, delta: number) {
-    setItems((prev) =>
-      prev
-        .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + delta } : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
-  }
+  const [confirmId, setConfirmId] = useState<number | null>(null);
+  const [removeAlert, setRemoveAlert] = useState<string | null>(null);
 
-  function removeItem(id: number) {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+  function handleConfirmRemove() {
+    if (confirmId === null) return;
+    const item = items.find((i) => i.id === confirmId);
+    removeItem(confirmId);
+    setConfirmId(null);
+    if (item) setRemoveAlert(item.name);
   }
 
   const total = items.reduce(
@@ -64,11 +30,53 @@ export default function Cart() {
     <>
       <h1 className={styles.title}>Shopping cart</h1>
 
+      {recentlyAdded && (
+        <Alert
+          variant='success'
+          dismissible
+          onClose={clearRecentlyAdded}
+          className={styles.alert}>
+          <strong>{recentlyAdded}</strong> was added to your cart.
+        </Alert>
+      )}
+
+      {removeAlert && (
+        <Alert
+          variant='success'
+          dismissible
+          onClose={() => setRemoveAlert(null)}
+          className={styles.alert}>
+          <strong>{removeAlert}</strong> was removed from your cart.
+        </Alert>
+      )}
+
+      <Modal
+        show={confirmId !== null}
+        onHide={() => setConfirmId(null)}
+        centered>
+        <Modal.Body className={styles.modalBody}>
+          Are you sure you want to remove this item from your cart?
+        </Modal.Body>
+        <Modal.Footer className={styles.modalFooter}>
+          <Button
+            variant='primary'
+            className={styles.btnPrimary}
+            onClick={() => setConfirmId(null)}>
+            Cancel
+          </Button>
+          <Button
+            variant='outline-primary'
+            className={styles.btnOutline}
+            onClick={handleConfirmRemove}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       {items.length === 0 ? (
         <p className={styles.empty}>Your cart is empty.</p>
       ) : (
         <div className={styles.layout}>
-          {/* ── Left: item list ── */}
           <ul className={styles.itemList}>
             {items.map((item) => (
               <li key={item.id} className={styles.item}>
@@ -87,7 +95,11 @@ export default function Cart() {
                   <div className={styles.stepper}>
                     <button
                       onClick={() => changeQty(item.id, -1)}
-                      aria-label='Decrease quantity'>
+                      aria-label='Decrease quantity'
+                      disabled={item.quantity === 1}
+                      className={
+                        item.quantity === 1 ? styles.stepperDisabled : ''
+                      }>
                       -
                     </button>
                     <span>{item.quantity}</span>
@@ -100,7 +112,7 @@ export default function Cart() {
                 </div>
                 <button
                   className={styles.deleteBtn}
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => setConfirmId(item.id)}
                   aria-label={`Remove ${item.name}`}>
                   <FaTrash size={14} />
                 </button>
@@ -108,7 +120,6 @@ export default function Cart() {
             ))}
           </ul>
 
-          {/* ── Right: order summary ── */}
           <div className={styles.summary}>
             <h2 className={styles.summaryTitle}>Order summary</h2>
             <div className={styles.summaryItems}>

@@ -8,8 +8,11 @@ import { IoCartSharp, IoHeartSharp, IoPersonSharp } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
+import { useCart } from '../../context/cart.context';
 
 export default function Navigationbar() {
+  const { totalCount } = useCart();
+
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
       <Container>
@@ -39,7 +42,7 @@ export default function Navigationbar() {
             <Nav.Link href='/cart' className={styles.navLink}>
               <IoCartSharp className={styles.icon} />
               <Badge bg='dark' className={styles.cartBadge}>
-                1
+                {totalCount}
               </Badge>
               Cart
             </Nav.Link>
