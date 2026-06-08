@@ -1,5 +1,5 @@
-import styles from './product-card.module.css';
 import Card from 'react-bootstrap/Card';
+import Link from 'next/link';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoStar } from 'react-icons/io5';
 import { IoStarHalf } from 'react-icons/io5';
@@ -7,6 +7,7 @@ import { IoStarOutline } from 'react-icons/io5';
 import { HiOutlineChevronLeft } from 'react-icons/hi';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
+import styles from './product-card.module.css';
 
 export default function ProductCard({ product }) {
   return (
@@ -16,7 +17,7 @@ export default function ProductCard({ product }) {
           <Card.Img
             className={`${styles.image}`}
             src={product.images[0]}
-            alt={product.title}
+            alt={`${product.title} image`}
           />
           <IoHeartOutline
             className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
@@ -36,7 +37,11 @@ export default function ProductCard({ product }) {
 
         <Card.Body className='pb-0'>
           <section className={`${styles.titles}`}>
-            <Card.Title className='fs-6'>{product.title}</Card.Title>
+            <Link
+              href={`/product-details${product.id}`}
+              className={styles.link}>
+              <Card.Title className='fs-6'>{product.title}</Card.Title>
+            </Link>
             <Card.Subtitle className={`${styles.brand}`}>
               {product.brand || '\u00A0'}
             </Card.Subtitle>

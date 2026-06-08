@@ -40,3 +40,7 @@
 .titles {
   min-height: 58px;
 }
+
+.link {
+  color: var(--dark);
+}
