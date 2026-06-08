@@ -10,7 +10,9 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     async function getProducts(): Promise<void> {
-      const res = await axios.get<ProductRes>('https://dummyjson.com/products');
+      const res = await axios.get<ProductRes>(
+        'https://dummyjson.com/products?limit=6',
+      );
       setProducts(res.data.products);
     }
     getProducts();
@@ -27,7 +29,7 @@ export default function ProductList() {
             ))
           : null}
       </div>
-      <Pagination>
+      <Pagination className={styles.pagination}>
         {Array.from({ length: 5 }, (_, i) => {
           const num = i + 1;
           return (
