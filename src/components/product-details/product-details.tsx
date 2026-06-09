@@ -140,7 +140,7 @@ export default function ProductDetails({ id }) {
               <Tab eventKey='contact' title='Reviews' className='text-dark m-4'>
                 {product.reviews.map((review) => (
                   <div
-                    key={`${review.date}${review.comment}`}
+                    key={`${review.date}-${review.reviewerName}-${review.comment}`}
                     className={styles.review}>
                     <p>
                       <strong>Date:</strong> {review.date}
