@@ -4,10 +4,10 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 export interface CartItem {
   id: number;
-  name: string;
+  title: string;
   brand: string;
   price: number;
-  image: string;
+  images: string[];
   color: string;
   size: string;
   quantity: number;
@@ -28,20 +28,20 @@ const CartContext = createContext<CartContextValue | null>(null);
 const initialItems: CartItem[] = [
   {
     id: 1,
-    name: 'Cotton T-shirt',
+    title: 'Cotton T-shirt',
     brand: 'Gucci',
     price: 19.9,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=T-shirt',
+    images: ['https://dummyjson.com/image/400x400/083a4f/ffffff?text=T-shirt'],
     color: 'Black',
     size: 'L',
     quantity: 1,
   },
   {
     id: 2,
-    name: 'Black Watch',
+    title: 'Black Watch',
     brand: 'Gucci',
     price: 49.8,
-    image: 'https://dummyjson.com/image/400x400/083a4f/ffffff?text=Watch',
+    images: ['https://dummyjson.com/image/400x400/083a4f/ffffff?text=Watch'],
     color: 'Black',
     size: 'One size',
     quantity: 1,
@@ -62,7 +62,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
-    setRecentlyAdded(product.name);
+    setRecentlyAdded(product.title);
   }
 
   function removeItem(id: number) {

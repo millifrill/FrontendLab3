@@ -18,7 +18,7 @@ export default function Cart() {
     const item = items.find((i) => i.id === confirmId);
     removeItem(confirmId);
     setConfirmId(null);
-    if (item) setRemoveAlert(item.name);
+    if (item) setRemoveAlert(item.title);
   }
 
   const total = items.reduce(
@@ -81,12 +81,12 @@ export default function Cart() {
             {items.map((item) => (
               <li key={item.id} className={styles.item}>
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={item.images[0]}
+                  alt={item.title}
                   className={styles.itemImage}
                 />
                 <div className={styles.itemInfo}>
-                  <p className={styles.itemName}>{item.name}</p>
+                  <p className={styles.itemName}>{item.title}</p>
                   <p className={styles.itemBrand}>{item.brand}</p>
                   <p className={styles.itemPrice}>${item.price.toFixed(2)}</p>
                   <p className={styles.itemMeta}>
@@ -113,7 +113,7 @@ export default function Cart() {
                 <button
                   className={styles.deleteBtn}
                   onClick={() => setConfirmId(item.id)}
-                  aria-label={`Remove ${item.name}`}>
+                  aria-label={`Remove ${item.title}`}>
                   <FaTrash size={14} />
                 </button>
               </li>
@@ -127,12 +127,12 @@ export default function Cart() {
                 <div key={item.id} className={styles.summaryRow}>
                   <div className={styles.summaryLeft}>
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.images[0]}
+                      alt={item.title}
                       className={styles.summaryImage}
                     />
                     <div>
-                      <p className={styles.summaryName}>{item.name}</p>
+                      <p className={styles.summaryName}>{item.title}</p>
                       <p className={styles.summaryBrand}>{item.brand}</p>
                     </div>
                   </div>

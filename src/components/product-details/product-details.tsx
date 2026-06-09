@@ -37,7 +37,7 @@ interface Product {
 
 export default function ProductDetails({ id }) {
   console.log('id', id);
-  const { changeQty } = useCart();
+  const { addItem } = useCart();
   const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
@@ -97,7 +97,9 @@ export default function ProductDetails({ id }) {
               <div className={styles.btns}>
                 <Button
                   variant='primary'
-                  onClick={() => changeQty(product.id, 1)}>
+                  onClick={() => {
+                    addItem(product);
+                  }}>
                   Add to cart
                 </Button>
                 <Button variant='success'>Buy now</Button>
