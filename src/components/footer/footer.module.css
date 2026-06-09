@@ -5,10 +5,18 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  align-items: stretch;
+  padding: 40px 20px;
   gap: 20px;
-  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.förstrad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .brandLogo {
@@ -16,11 +24,13 @@
 }
 .link {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
+  gap: 30px;
 }
 
+.link a {
+  color: var(--bg);
+  text-decoration: none;
+}
 .socialMedia {
   display: flex;
   gap: 20px;
@@ -30,21 +40,23 @@
 .twitterLogo,
 .youtubeLogo,
 .linkedinLogo {
-  width: 50px;
+  width: 59.3px;
 }
 
 .copyright {
   color: var(--bg);
+  opacity: 0.6;
 }
 .footer p {
   margin-bottom: 0;
 }
 
 @media (min-width: 900px) {
-  .container {
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  .förstrad {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -56,11 +68,17 @@
     align-items: center;
     gap: 20px;
   }
+  .brand {
+    justify-self: start;
+  }
   .link {
-    width: auto;
+    justify-self: center;
+  }
+  .socialMedia {
+    justify-self: end;
   }
   .copyright {
-    width: 100%;
+    grid-column: 2;
     text-align: center;
   }
 }
