@@ -148,7 +148,13 @@ export default function ProductDetails({ id }) {
                       <strong>Date:</strong> {review.date}
                     </p>
                     <p>
-                      <strong>Rating:</strong> {review.rating}
+                      <strong>Rating:</strong>{' '}
+                      <figure
+                        className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                        {Array.from({ length: review.rating }, (_, i) => (
+                          <IoStar />
+                        ))}
+                      </figure>
                     </p>
                     <p>
                       <strong>Comment:</strong> {review.comment}
