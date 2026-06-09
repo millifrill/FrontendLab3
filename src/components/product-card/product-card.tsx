@@ -1,6 +1,7 @@
 import styles from './product-card.module.css';
 import Card from 'react-bootstrap/Card';
 import ProductInfo from '../product-info/product-info';
+import Carousel from 'react-bootstrap/Carousel';
 import { IoHeartOutline } from 'react-icons/io5';
 
 export default function ProductCard({ product, smallestPossibleDiscount }) {
@@ -8,11 +9,18 @@ export default function ProductCard({ product, smallestPossibleDiscount }) {
     <>
       <Card className='shadow'>
         <section className={`${styles.media}`}>
-          <Card.Img
-            className={`${styles.image}`}
-            src={product.images[0]}
-            alt={product.title}
-          />
+          <Carousel interval={null} variant='dark'>
+            {product.images.map((image: string, index: number) => (
+              <Carousel.Item>
+                <Card.Img
+                  className={`${styles.image}`}
+                  src={image}
+                  alt={`${product.title} #${index + 1}`}
+                />
+              </Carousel.Item>
+            ))}
+          </Carousel>
+
           <IoHeartOutline
             className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
           />
