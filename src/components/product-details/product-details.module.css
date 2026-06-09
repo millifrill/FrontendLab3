@@ -17,6 +17,15 @@
   }
 }
 
+.secondSection {
+  display: flex;
+  justify-content: space-between;
+  max-width: 385px;
+  @media (min-width: 768px) {
+    flex-direction: column;
+  }
+}
+
 .image {
   display: block;
   width: 100%;
@@ -76,5 +85,10 @@
 .btns {
   display: flex;
   flex-direction: column;
+  width: 120px;
   gap: 10px;
+}
+
+.reviewRating {
+  display: flex;
 }

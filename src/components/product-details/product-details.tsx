@@ -71,29 +71,33 @@ export default function ProductDetails({ id }) {
                 Deal 10%
               </span>
             </section>
-            <section className='ms-3 mt-2'>
-              <h2 className='fs-5 my-0'>{product.title}</h2>
-              <p className={`${styles.brand} my-0`}>
-                {product.brand || '\u00A0'}
-              </p>
-              <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                <IoStar />
-                <IoStar />
-                <IoStar />
-                <IoStarHalf />
-                <IoStarOutline />
-              </figure>
-              <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
-                <p className='text-danger'>
-                  {(
-                    product.price *
-                    (1 - product.discountPercentage / 100)
-                  ).toFixed(2)}
-                  $
+            <section className={`${styles.secondSection} ms-3 mt-2`}>
+              <div>
+                <h2 className='fs-5 my-0'>{product.title}</h2>
+                <p className={`${styles.brand} my-0`}>
+                  {product.brand || '\u00A0'}
                 </p>
-                <p className='text-decoration-line-through'>{product.price}$</p>
-                <p>{product.price}$</p>
-              </section>
+                <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                  <IoStar />
+                  <IoStar />
+                  <IoStar />
+                  <IoStarHalf />
+                  <IoStarOutline />
+                </figure>
+                <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
+                  <p className='text-danger'>
+                    {(
+                      product.price *
+                      (1 - product.discountPercentage / 100)
+                    ).toFixed(2)}
+                    $
+                  </p>
+                  <p className='text-decoration-line-through'>
+                    {product.price}$
+                  </p>
+                  <p>{product.price}$</p>
+                </section>
+              </div>
               <div className={styles.btns}>
                 <Button
                   variant='primary'
@@ -147,15 +151,17 @@ export default function ProductDetails({ id }) {
                     <p>
                       <strong>Date:</strong> {review.date}
                     </p>
-                    <p>
-                      <strong>Rating:</strong>{' '}
+                    <div className={styles.reviewRating}>
+                      <p>
+                        <strong>Rating: </strong>
+                      </p>
                       <figure
-                        className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                        className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
                         {Array.from({ length: review.rating }, (_, i) => (
-                          <IoStar />
+                          <IoStar key={i} />
                         ))}
                       </figure>
-                    </p>
+                    </div>
                     <p>
                       <strong>Comment:</strong> {review.comment}
                     </p>
