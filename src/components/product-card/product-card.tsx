@@ -9,17 +9,25 @@ export default function ProductCard({ product, smallestPossibleDiscount }) {
     <>
       <Card className='shadow'>
         <section className={`${styles.media}`}>
-          <Carousel interval={null} variant='dark'>
-            {product.images.map((image: string, index: number) => (
-              <Carousel.Item>
-                <Card.Img
-                  className={`${styles.image}`}
-                  src={image}
-                  alt={`${product.title} #${index + 1}`}
-                />
-              </Carousel.Item>
-            ))}
-          </Carousel>
+          {product.images.length > 1 ? (
+            <Carousel interval={null} variant='dark'>
+              {product.images.map((image: string, index: number) => (
+                <Carousel.Item>
+                  <Card.Img
+                    className={`${styles.image}`}
+                    src={image}
+                    alt={`${product.title} #${index + 1}`}
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          ) : (
+            <Card.Img
+              className={`${styles.image}`}
+              src={product.images[0]}
+              alt={`${product.title}`}
+            />
+          )}
 
           <IoHeartOutline
             className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
