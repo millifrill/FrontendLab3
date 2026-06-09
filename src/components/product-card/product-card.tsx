@@ -9,7 +9,10 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
 export default function ProductCard({ product }) {
-  const smallestPossibleDiscount = 5;
+  const smallestPossibleDiscount: number = 5;
+  const roundedRatingHalf: number = Math.round(product.rating * 2) / 2;
+  const emptyStars: number = 5 - Math.ceil(roundedRatingHalf);
+
   return (
     <>
       <Card className='shadow'>
@@ -41,15 +44,17 @@ export default function ProductCard({ product }) {
           <section className={`${styles.titles}`}>
             <Card.Title className='fs-6'>{product.title}</Card.Title>
             <Card.Subtitle className={`${styles.brand}`}>
-              {product.brand || '\u00A0'}
+              {product.brand}
             </Card.Subtitle>
           </section>
           <figure className={`${styles.rating} d-flex gap-1 fs-5 my-1`}>
-            <IoStar />
-            <IoStar />
-            <IoStar />
-            <IoStarHalf />
-            <IoStarOutline />
+            {Array.from({ length: Math.floor(roundedRatingHalf) }, (_, i) => (
+              <IoStar />
+            ))}
+            {roundedRatingHalf % 1 === 0.5 ? <IoStarHalf /> : null}
+            {Array.from({ length: emptyStars }, (_, i) => (
+              <IoStarOutline />
+            ))}
           </figure>
           <section className={`${styles.prices} fs-5 fw-semibold`}>
             {product.discountPercentage > smallestPossibleDiscount ? (
