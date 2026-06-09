@@ -1,0 +1,20 @@
+.titles {
+  min-height: 64px;
+}
+
+.title {
+  font-size: 1em;
+}
+
+.subtitle {
+  font-size: 0.8em;
+}
+
+.rating {
+  color: var(--star);
+}
+
+.prices {
+  display: flex;
+  gap: 0.5em;
+}
