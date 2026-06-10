@@ -9,7 +9,7 @@ import {
   IoStarOutline,
 } from 'react-icons/io5';
 import styles from './product-details.module.css';
-import { Button, Tab, Tabs } from 'react-bootstrap';
+import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
 
 interface Product {
@@ -37,7 +37,7 @@ interface Product {
 
 export default function ProductDetails({ id }) {
   console.log('id', id);
-  const { addItem } = useCart();
+  const { addItem, recentlyAdded, clearRecentlyAdded } = useCart();
   const [product, setProduct] = useState<Product>();
 
   useEffect(() => {
@@ -97,6 +97,15 @@ export default function ProductDetails({ id }) {
                   </p>
                   <p>{product.price}$</p>
                 </section>
+                {recentlyAdded && (
+                  <Alert
+                    variant='success'
+                    dismissible
+                    onClose={clearRecentlyAdded}
+                    className={styles.alert}>
+                    <strong>{recentlyAdded}</strong> was added to your cart.
+                  </Alert>
+                )}
               </div>
               <div className={styles.btns}>
                 <Button

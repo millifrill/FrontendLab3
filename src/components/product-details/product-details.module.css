@@ -20,7 +20,7 @@
 .secondSection {
   display: flex;
   justify-content: space-between;
-  max-width: 385px;
+  max-width: 500px;
   @media (min-width: 768px) {
     flex-direction: column;
   }
@@ -91,4 +91,10 @@
 
 .reviewRating {
   display: flex;
+}
+
+.alert {
+  position: absolute;
+  font-size: 0.8rem;
+  margin-right: 10px;
 }
