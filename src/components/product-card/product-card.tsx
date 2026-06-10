@@ -11,12 +11,12 @@ export default function ProductCard({ product, smallestPossibleDiscount }) {
         <section className={`${styles.media}`}>
           {product.images.length > 1 ? (
             <Carousel interval={null} variant='dark'>
-              {product.images.map((image: string, index: number) => (
-                <Carousel.Item>
+              {product.images.map((image: string, i: number) => (
+                <Carousel.Item key={`carousel#${i}`}>
                   <Card.Img
                     className={`${styles.image}`}
                     src={image}
-                    alt={`${product.title} #${index + 1}`}
+                    alt={`${product.title} #${i + 1}`}
                   />
                 </Carousel.Item>
               ))}
