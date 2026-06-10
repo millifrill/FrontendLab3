@@ -53,7 +53,7 @@ export default function ProductDetails({ id }) {
   }, [id]);
 
   useEffect(() => {
-    setTimeout(clearRecentlyAdded, 10000);
+    setTimeout(clearRecentlyAdded, 3000);
   }, [recentlyAdded]);
 
   return (
