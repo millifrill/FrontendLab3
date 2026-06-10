@@ -39,7 +39,7 @@ export default function ProductList() {
 
     async function getSearchedProducts(): Promise<void> {
       const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/search?q=phone`,
+        `https://dummyjson.com/products/search?q=${searchQuery}`,
       );
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
