@@ -1,8 +1,4 @@
 import Card from 'react-bootstrap/Card';
-import Link from 'next/link';
-import { IoStar } from 'react-icons/io5';
-import { IoStarHalf } from 'react-icons/io5';
-import { IoStarOutline } from 'react-icons/io5';
 import styles from './product-card.module.css';
 import ProductInfo from '../product-info/product-info';
 import { IoHeartOutline } from 'react-icons/io5';
@@ -32,7 +28,6 @@ export default function ProductCard({ product, smallestPossibleDiscount }) {
               alt={`${product.title}`}
             />
           )}
-
           <IoHeartOutline
             className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
           />

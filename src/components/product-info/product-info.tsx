@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './product-info.module.css';
 import { IoStar } from 'react-icons/io5';
 import { IoStarHalf } from 'react-icons/io5';
@@ -10,7 +11,9 @@ export default function ProductInfo({ product, smallestPossibleDiscount }) {
   return (
     <>
       <section className={`${styles.titles}`}>
-        <h2 className={`${styles.title}`}>{product.title}</h2>
+        <Link href={`/product-details/${product.id}`} className={styles.link}>
+          <h2 className={`${styles.title}`}>{product.title}</h2>
+        </Link>
         <h3 className={`${styles.subtitle}`}>{product.brand}</h3>
       </section>
       <figure className={`${styles.rating} d-flex gap-1 fs-5 my-1`}>

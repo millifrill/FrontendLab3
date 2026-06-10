@@ -11,6 +11,7 @@ import {
 import styles from './product-details.module.css';
 import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
+import ProductInfo from '../product-info/product-info';
 
 interface Product {
   id: number;
@@ -77,7 +78,7 @@ export default function ProductDetails({ id }) {
             </section>
             <section className={`${styles.secondSection} ms-3 mt-2`}>
               <div>
-                <h2 className='fs-5 my-0'>{product.title}</h2>
+                {/* <h2 className='fs-5 my-0'>{product.title}</h2>
                 <p className={`${styles.brand} my-0`}>
                   {product.brand || '\u00A0'}
                 </p>
@@ -100,7 +101,8 @@ export default function ProductDetails({ id }) {
                     {product.price}$
                   </p>
                   <p>{product.price}$</p>
-                </section>
+                </section> */}
+                <ProductInfo product={product} smallestPossibleDiscount={5} />
               </div>
               <div className={styles.btns}>
                 <Button
