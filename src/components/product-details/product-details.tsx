@@ -78,30 +78,6 @@ export default function ProductDetails({ id }) {
             </section>
             <section className={`${styles.secondSection} ms-3 mt-2`}>
               <div>
-                {/* <h2 className='fs-5 my-0'>{product.title}</h2>
-                <p className={`${styles.brand} my-0`}>
-                  {product.brand || '\u00A0'}
-                </p>
-                <figure className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                  <IoStar />
-                  <IoStar />
-                  <IoStar />
-                  <IoStarHalf />
-                  <IoStarOutline />
-                </figure>
-                <section className={`${styles.prices} fs-5 my-0 fw-semibold`}>
-                  <p className='text-danger'>
-                    {(
-                      product.price *
-                      (1 - product.discountPercentage / 100)
-                    ).toFixed(2)}
-                    $
-                  </p>
-                  <p className='text-decoration-line-through'>
-                    {product.price}$
-                  </p>
-                  <p>{product.price}$</p>
-                </section> */}
                 <ProductInfo product={product} smallestPossibleDiscount={5} />
               </div>
               <div className={styles.btns}>
