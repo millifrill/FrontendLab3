@@ -52,6 +52,10 @@ export default function ProductDetails({ id }) {
     getProductById();
   }, [id]);
 
+  useEffect(() => {
+    setTimeout(clearRecentlyAdded, 10000);
+  }, [recentlyAdded]);
+
   return (
     <>
       {product && (
@@ -97,15 +101,6 @@ export default function ProductDetails({ id }) {
                   </p>
                   <p>{product.price}$</p>
                 </section>
-                {recentlyAdded && (
-                  <Alert
-                    variant='success'
-                    dismissible
-                    onClose={clearRecentlyAdded}
-                    className={styles.alert}>
-                    <strong>{recentlyAdded}</strong> was added to your cart.
-                  </Alert>
-                )}
               </div>
               <div className={styles.btns}>
                 <Button
@@ -116,6 +111,15 @@ export default function ProductDetails({ id }) {
                   Add to cart
                 </Button>
                 <Button variant='success'>Buy now</Button>
+                {recentlyAdded && (
+                  <Alert
+                    variant='success'
+                    dismissible
+                    onClose={clearRecentlyAdded}
+                    className={styles.alert}>
+                    <strong>{recentlyAdded}</strong> was added to your cart.
+                  </Alert>
+                )}
               </div>
             </section>
           </section>
