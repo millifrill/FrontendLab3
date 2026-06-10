@@ -8,6 +8,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Form from 'react-bootstrap/Form';
 import { GoSearch } from 'react-icons/go';
 import { InputGroup } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -16,6 +17,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
+  const [loading, setLoading] = useState(false);
   const limit = 30;
 
   useEffect(() => {
@@ -23,11 +25,13 @@ export default function ProductList() {
       return;
     }
     async function getProducts(): Promise<void> {
+      setLoading(true);
       const res = await axios.get<ProductRes>(
         `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
       );
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
+      setLoading(false);
     }
     getProducts();
   }, [active]);
@@ -38,23 +42,25 @@ export default function ProductList() {
     }
 
     async function getSearchedProducts(): Promise<void> {
+      setLoading(true);
       const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/search?q=${searchQuery}`,
+        `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
       );
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
+      setLoading(false);
     }
     getSearchedProducts();
-  }, [searchQuery]);
+  }, [searchQuery, active]);
 
   return (
-    <>
+    <div className={styles.container}>
       <Form
         className={`{styles.search} m-3`}
         onSubmit={(e) => {
           e.preventDefault();
-          setSearchQuery(searchInput);
           hasSearched.current = true;
+          setSearchQuery(searchInput);
         }}>
         <InputGroup>
           <Form.Control
@@ -67,6 +73,12 @@ export default function ProductList() {
           </InputGroup.Text>
         </InputGroup>
       </Form>
+      {loading ? (
+        <Spinner
+          className={styles.loading}
+          animation='border'
+          role='status'></Spinner>
+      ) : null}
       <div className={styles.list}>
         {products.length > 0
           ? products.map((product) => (
@@ -78,31 +90,33 @@ export default function ProductList() {
             ))
           : null}
 
-        <Pagination className={`${styles.pagination} flex-fill`}>
-          <Pagination.Prev
-            className={styles.paginationItem}
-            onClick={() => setActive(active - 1)}
-            disabled={active === 1}
-          />
-          {Array.from({ length: pages }, (_, i) => {
-            const num = i + 1;
-            return (
-              <Pagination.Item
-                className={styles.paginationItem}
-                key={num}
-                active={num === active}
-                onClick={() => setActive(num)}>
-                {num}
-              </Pagination.Item>
-            );
-          })}
-          <Pagination.Next
-            className={styles.paginationItem}
-            onClick={() => setActive(active + 1)}
-            disabled={active === pages}
-          />
-        </Pagination>
+        {products.length > 0 ? (
+          <Pagination className={`${styles.pagination} flex-fill`}>
+            <Pagination.Prev
+              className={styles.paginationItem}
+              onClick={() => setActive(active - 1)}
+              disabled={active === 1}
+            />
+            {Array.from({ length: pages }, (_, i) => {
+              const num = i + 1;
+              return (
+                <Pagination.Item
+                  className={styles.paginationItem}
+                  key={num}
+                  active={num === active}
+                  onClick={() => setActive(num)}>
+                  {num}
+                </Pagination.Item>
+              );
+            })}
+            <Pagination.Next
+              className={styles.paginationItem}
+              onClick={() => setActive(active + 1)}
+              disabled={active === pages}
+            />
+          </Pagination>
+        ) : null}
       </div>
-    </>
+    </div>
   );
 }

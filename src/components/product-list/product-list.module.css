@@ -22,3 +22,11 @@
 
 .search {
 }
+
+.loading {
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
