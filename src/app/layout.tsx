@@ -1,4 +1,5 @@
 import Navigationbar from '../components/navbar/navbar';
+import Footer from '../components/footer/footer';
 import { CartProvider } from '../context/cart.context';
 import './bootstrap.scss';
 import './global.css';
@@ -10,7 +11,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <CartProvider>
           <Navigationbar />
           <main>{children}</main>
+        <Footer />
         </CartProvider>
+
       </body>
     </html>
   );
