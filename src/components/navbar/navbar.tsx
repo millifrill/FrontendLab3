@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from 'react-bootstrap/Navbar';
 import { Badge, Container, Nav } from 'react-bootstrap';
 import { IoMdMoon } from 'react-icons/io';
@@ -16,7 +17,7 @@ export default function Navigationbar() {
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
       <Container>
-        <Navbar.Brand href='/'>
+        <Link href='/'>
           <Image
             src={logo}
             width={100}
@@ -24,7 +25,7 @@ export default function Navigationbar() {
             alt='vesti-logo'
             className={styles.brandIcon}
           />
-        </Navbar.Brand>
+        </Link>
         <Navbar.Toggle className={styles.toggler}>
           <RxHamburgerMenu className={styles.menuIcon} />
         </Navbar.Toggle>
@@ -32,25 +33,25 @@ export default function Navigationbar() {
           id='responsive-navbar-nav'
           className={styles.navbarItems}>
           <Nav className={styles.navItems}>
-            <Nav.Link href='/wishlist' className={styles.navLink}>
+            <Link href='/wishlist' className={styles.navLink}>
               <IoHeartSharp className={styles.icon} />
               <Badge bg='dark' className={styles.wishlistBadge}>
                 8
               </Badge>
               Wishlist
-            </Nav.Link>
-            <Nav.Link href='/cart' className={styles.navLink}>
+            </Link>
+            <Link href='/cart' className={styles.navLink}>
               <IoCartSharp className={styles.icon} />
               <Badge bg='dark' className={styles.cartBadge}>
                 {totalCount}
               </Badge>
               Cart
-            </Nav.Link>
-            <Nav.Link href='/account' className={styles.navLink}>
+            </Link>
+            <Link href='/account' className={styles.navLink}>
               <IoPersonSharp className={styles.icon} />
               Account
-            </Nav.Link>
-            <Nav.Link>
+            </Link>
+            <Nav.Link className={styles.navLink}>
               <button className={styles.btn}>
                 <IoMdMoon className={styles.icon} />
                 <span className={styles.navLink}>Dark</span>

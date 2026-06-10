@@ -25,31 +25,8 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-const initialItems: CartItem[] = [
-  {
-    id: 1,
-    title: 'Cotton T-shirt',
-    brand: 'Gucci',
-    price: 19.9,
-    images: ['https://dummyjson.com/image/400x400/083a4f/ffffff?text=T-shirt'],
-    color: 'Black',
-    size: 'L',
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: 'Black Watch',
-    brand: 'Gucci',
-    price: 49.8,
-    images: ['https://dummyjson.com/image/400x400/083a4f/ffffff?text=Watch'],
-    color: 'Black',
-    size: 'One size',
-    quantity: 1,
-  },
-];
-
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const [items, setItems] = useState<CartItem[]>([]);
   const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
 
   function addItem(product: Omit<CartItem, 'quantity'>) {
