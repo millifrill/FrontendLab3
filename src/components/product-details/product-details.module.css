@@ -87,6 +87,7 @@
   flex-direction: column;
   width: 120px;
   gap: 10px;
+  position: relative;
 }
 
 .reviewRating {
@@ -95,6 +96,11 @@
 
 .alert {
   position: absolute;
+  top: 40px;
+  right: 0;
+  width: 320px;
   font-size: 0.8rem;
-  margin-right: 10px;
+  @media (min-width: 768px) {
+    width: 450px;
+  }
 }
