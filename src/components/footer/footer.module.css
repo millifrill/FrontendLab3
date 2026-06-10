@@ -58,6 +58,9 @@
     margin: 0 auto;
   }
 
+  .brandLogo {
+    min-width: 297px;
+  }
   .brand,
   .link,
   .socialMedia {
