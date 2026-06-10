@@ -3,32 +3,38 @@
   justify-items: end;
 }
 
+.navbarItems {
+  justify-content: end;
+  align-items: center;
+}
+
+.navbar .navItems {
+  margin-top: 10px;
+  margin-left: 210px;
+  gap: 10px;
+  @media (min-width: 768px) {
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
 .navItem {
   padding: 8px 16px;
 }
 
-.navbarItems {
-  justify-content: end;
-}
-
-.nav-link {
+.navLink {
   color: var(--dark);
+  text-decoration: none;
+  align-self: start;
 }
 
-.nav-link:hover {
+.navLink:hover {
   color: var(--info);
 }
 
 .navbar .toggler {
   color: var(--primary);
   border: none;
-}
-
-.navbar .navItems {
-  margin-left: 210px;
-  @media (min-width: 768px) {
-    margin-left: 0;
-  }
 }
 
 .brandIcon {
@@ -58,27 +64,16 @@
   color: var(--secondary);
 }
 
-.navbar .wishlistBadge {
-  position: absolute;
-  top: 20px;
-  left: 35px;
-  padding: 3px 4px;
-  font-size: 0.6rem;
-  @media (min-width: 768px) {
-    left: 40;
-    right: 70px;
-  }
-}
-
+.navbar .wishlistBadge,
 .navbar .cartBadge {
   position: absolute;
-  top: 20px;
-  left: 35px;
+  top: 15px;
+  left: 34px;
   padding: 3px 4px;
   font-size: 0.6rem;
   @media (min-width: 768px) {
-    left: 39;
-    right: 43px;
+    top: 15px;
+    left: 34;
   }
 }
 
@@ -87,9 +82,3 @@
   background-color: var(--primary);
   padding: 0;
 }
-
-/* .btn:hover {
-  border: none;
-  background-color: var(--btn-hover);
-  padding: 0;
-} */

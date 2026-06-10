@@ -51,12 +51,12 @@ export default function Navigationbar() {
               <IoPersonSharp className={styles.icon} />
               Account
             </Link>
-            <Nav.Link className={styles.navLink}>
+            <Link href='' className={styles.navLink}>
               <button className={styles.btn}>
                 <IoMdMoon className={styles.icon} />
                 <span className={styles.navLink}>Dark</span>
               </button>
-            </Nav.Link>
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
