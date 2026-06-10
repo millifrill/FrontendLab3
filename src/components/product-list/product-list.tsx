@@ -27,7 +27,11 @@ export default function ProductList() {
     <div className={styles.list}>
       {products.length > 0
         ? products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              smallestPossibleDiscount={5}
+            />
           ))
         : null}
 

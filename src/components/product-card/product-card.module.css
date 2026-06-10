@@ -4,15 +4,6 @@
   height: 264px;
   object-fit: contain;
 }
-
-.brand {
-  font-size: 0.8em;
-}
-
-.rating {
-  color: var(--star);
-}
-
 .heart {
   color: var(--light);
   position: absolute;
@@ -26,17 +17,9 @@
   border-bottom: solid 1px var(--border);
 }
 
-.prices {
-  display: flex;
-  gap: 0.5em;
-}
-
 .deal {
   position: absolute;
-  top: 230px;
+  top: 235px;
   font-size: 0.8em;
-}
-
-.titles {
-  min-height: 58px;
+  left: 3px;
 }
