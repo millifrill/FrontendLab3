@@ -7,6 +7,7 @@ import styles from './product-details.module.css';
 import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
 import ProductInfo from '../product-info/product-info';
+import MediaCarousel from '../media-carousel';
 
 interface Product {
   id: number;
@@ -32,18 +33,16 @@ interface Product {
 }
 
 export default function ProductDetails({ id }) {
-  console.log('id', id);
   const { addItem, recentlyAdded, clearRecentlyAdded } = useCart();
   const [product, setProduct] = useState<Product>();
+  const smallestPossibleDiscount = 5;
 
   useEffect(() => {
     async function getProductById(): Promise<void> {
       const res = await axios.get<Product>(
         `https://dummyjson.com/products/${id}`,
       );
-      console.log('res', res);
       setProduct(res.data);
-      console.log('Product', product);
     }
     getProductById();
   }, [id]);
@@ -57,20 +56,10 @@ export default function ProductDetails({ id }) {
       {product && (
         <article className={styles.mainContainer}>
           <section className={styles.firstSection}>
-            <section className={styles.media}>
-              <img
-                className={styles.image}
-                src={product.images[0]}
-                alt='placeholderimg'
-              />
-              <IoHeartOutline
-                className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
-              />
-              <span
-                className={`${styles.deal} bg-danger badge rounded-1 ms-1 fw-normal`}>
-                Deal 10%
-              </span>
-            </section>
+            <MediaCarousel
+              product={product}
+              smallestPossibleDiscount={smallestPossibleDiscount}
+            />
             <section className={`${styles.secondSection} ms-3 mt-2`}>
               <div>
                 <ProductInfo product={product} smallestPossibleDiscount={5} />
@@ -132,12 +121,13 @@ export default function ProductDetails({ id }) {
               <Tab eventKey='contact' title='Reviews' className='text-dark m-4'>
                 {product.reviews.map((review) => {
                   const emptyStars: number = 5 - review.rating;
+                  const reviewDate = review.date.split('T');
                   return (
                     <div
                       key={`${review.date}-${review.reviewerName}-${review.comment}`}
                       className={styles.review}>
                       <p>
-                        <strong>Date:</strong> {review.date}
+                        <strong>Date:</strong> {reviewDate[0]}
                       </p>
                       <p>
                         <strong>Reviewer:</strong> {review.reviewerName}
