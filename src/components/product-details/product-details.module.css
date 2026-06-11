@@ -86,7 +86,6 @@
   flex-direction: column;
   width: 120px;
   gap: 10px;
-  /* position: relative; */
 }
 
 .reviewRating {
@@ -105,5 +104,6 @@
 }
 
 .thirdSection {
-  margin-top: 20px !important;
+  margin-top: 20px;
+  padding-right: 20px;
 }
