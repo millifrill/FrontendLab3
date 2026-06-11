@@ -1,16 +1,8 @@
 .image {
   display: block;
   background-color: var(--bg);
-  height: 264px;
+  width: 100%;
   object-fit: contain;
-}
-
-.heart {
-  color: var(--light);
-  position: absolute;
-  top: 10px;
-  left: 270px;
-  opacity: 80%;
 }
 
 .media {
@@ -18,9 +10,17 @@
   border-bottom: solid 1px var(--border);
 }
 
+.heart {
+  color: var(--light);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 80%;
+}
+
 .deal {
   position: absolute;
-  top: 235px;
+  bottom: -40px;
   font-size: 0.8rem;
-  left: 3px;
+  left: 4px;
 }
