@@ -86,7 +86,10 @@ export default function ProductDetails({ id }) {
             </section>
           </section>
           <section className={styles.thirdSection}>
-            <Accordion alwaysOpen className={styles.accordion}>
+            <Accordion
+              defaultActiveKey='0'
+              alwaysOpen
+              className={styles.accordion}>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>Description</Accordion.Header>
                 <Accordion.Body>
