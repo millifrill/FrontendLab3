@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import CategoryFiltration from '../category-filtration/category-filtration';
 import styles from './filter-sidebar.module.css';
 
 export default function FilterSidebar() {
@@ -38,6 +39,7 @@ export default function FilterSidebar() {
                     </Form>
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='1'>
                   <Accordion.Header>Price</Accordion.Header>
                   <Accordion.Body>
@@ -45,21 +47,14 @@ export default function FilterSidebar() {
                     <Form.Range />
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='2'>
                   <Accordion.Header>Category</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by category</p>
-                    <Form>
-                      <div className='mb-3'>
-                        <Form.Check
-                          type='checkbox'
-                          id='category'
-                          label='Category'
-                        />
-                      </div>
-                    </Form>
+                    <CategoryFiltration />
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='3'>
                   <Accordion.Header>Color</Accordion.Header>
                   <Accordion.Body>
@@ -77,6 +72,7 @@ export default function FilterSidebar() {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='4'>
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
