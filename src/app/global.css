@@ -14,7 +14,7 @@
   --text: #2d303b;
   --text-h: #121425;
   --bg: #f6f6f6;
-  --border: #797c8d;
+  --border: #d7d8df;
   --primary: #083a4f;
   --secondary: #a58d66;
   --success: #577717;
@@ -41,6 +41,7 @@ html,
 body {
   min-height: 100vh;
   margin: 0;
+  background-color: var(--bg);
 }
 footer {
   position: sticky;

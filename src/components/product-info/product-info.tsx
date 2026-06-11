@@ -1,7 +1,7 @@
-import styles from './product-info.module.css';
 import { IoStar } from 'react-icons/io5';
 import { IoStarHalf } from 'react-icons/io5';
 import { IoStarOutline } from 'react-icons/io5';
+import styles from './product-info.module.css';
 
 export default function ProductInfo({ product, smallestPossibleDiscount }) {
   const roundedRatingHalf: number = Math.round(product.rating * 2) / 2;
