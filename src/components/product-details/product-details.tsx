@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  IoHeartOutline,
-  IoStar,
-  IoStarHalf,
-  IoStarOutline,
-} from 'react-icons/io5';
+import { IoHeartOutline, IoStar, IoStarOutline } from 'react-icons/io5';
 import styles from './product-details.module.css';
 import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
@@ -135,32 +130,38 @@ export default function ProductDetails({ id }) {
                 </p>
               </Tab>
               <Tab eventKey='contact' title='Reviews' className='text-dark m-4'>
-                {product.reviews.map((review) => (
-                  <div
-                    key={`${review.date}-${review.reviewerName}-${review.comment}`}
-                    className={styles.review}>
-                    <p>
-                      <strong>Date:</strong> {review.date}
-                    </p>
-                    <div className={styles.reviewRating}>
+                {product.reviews.map((review) => {
+                  const emptyStars: number = 5 - review.rating;
+                  return (
+                    <div
+                      key={`${review.date}-${review.reviewerName}-${review.comment}`}
+                      className={styles.review}>
                       <p>
-                        <strong>Rating: </strong>
+                        <strong>Date:</strong> {review.date}
                       </p>
-                      <figure
-                        className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
-                        {Array.from({ length: review.rating }, (_, i) => (
-                          <IoStar key={i} />
-                        ))}
-                      </figure>
+                      <p>
+                        <strong>Reviewer:</strong> {review.reviewerName}
+                      </p>
+                      <div className={styles.reviewRating}>
+                        <p>
+                          <strong>Rating: </strong>
+                        </p>
+                        <figure
+                          className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
+                          {Array.from({ length: review.rating }, (_, i) => (
+                            <IoStar key={i} />
+                          ))}
+                          {Array.from({ length: emptyStars }, (_, i) => (
+                            <IoStarOutline key={i} />
+                          ))}
+                        </figure>
+                      </div>
+                      <p>
+                        <strong>Comment:</strong> {review.comment}
+                      </p>
                     </div>
-                    <p>
-                      <strong>Comment:</strong> {review.comment}
-                    </p>
-                    <p>
-                      <strong>Reviewer:</strong> {review.reviewerName}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </Tab>
             </Tabs>
           </section>
