@@ -25,6 +25,13 @@
   }
 }
 
+.thirdSection {
+  margin-top: 20px;
+  @media (min-width: 768px) {
+    padding-right: 20px;
+  }
+}
+
 .image {
   display: block;
   width: 100%;
@@ -101,9 +108,4 @@
   @media (min-width: 768px) {
     width: 450px;
   }
-}
-
-.thirdSection {
-  margin-top: 20px;
-  padding-right: 20px;
 }
