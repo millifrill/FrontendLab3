@@ -1,0 +1,8 @@
+.card:hover {
+  transform: scale(1.02);
+}
+
+.link {
+  color: var(--text);
+  text-decoration: none;
+}
