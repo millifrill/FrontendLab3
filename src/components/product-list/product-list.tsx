@@ -42,6 +42,7 @@ export default function ProductList() {
     }
 
     async function getSearchedProducts(): Promise<void> {
+      setProducts([]);
       setLoading(true);
       const res = await axios.get<ProductRes>(
         `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
@@ -64,7 +65,7 @@ export default function ProductList() {
         }}>
         <InputGroup>
           <Form.Control
-            type=''
+            type='text'
             placeholder='Search...'
             onChange={(e) => setSearchInput(e.target.value)}
           />
