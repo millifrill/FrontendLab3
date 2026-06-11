@@ -17,7 +17,7 @@
 }
 
 .brandLogo {
-  width: 193px;
+  width: 220px;
 }
 .link {
   display: flex;
@@ -37,7 +37,7 @@
 .twitterLogo,
 .youtubeLogo,
 .linkedinLogo {
-  width: 59.3px;
+  width: 40px;
 }
 
 .copyright {
@@ -59,7 +59,7 @@
   }
 
   .brandLogo {
-    min-width: 297px;
+    min-width: 220px;
   }
   .brand,
   .link,
