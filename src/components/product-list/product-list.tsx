@@ -96,7 +96,10 @@ export default function ProductList() {
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev
               className={styles.paginationItem}
-              onClick={() => setActive(active - 1)}
+              onClick={() => {
+                setActive(active - 1);
+                window.scrollTo({ top: 0 });
+              }}
               disabled={active === 1}
             />
             {Array.from({ length: pages }, (_, i) => {
@@ -106,14 +109,20 @@ export default function ProductList() {
                   className={styles.paginationItem}
                   key={num}
                   active={num === active}
-                  onClick={() => setActive(num)}>
+                  onClick={() => {
+                    setActive(num);
+                    window.scrollTo({ top: 0 });
+                  }}>
                   {num}
                 </Pagination.Item>
               );
             })}
             <Pagination.Next
               className={styles.paginationItem}
-              onClick={() => setActive(active + 1)}
+              onClick={() => {
+                setActive(active + 1);
+                window.scrollTo({ top: 0 });
+              }}
               disabled={active === pages}
             />
           </Pagination>
