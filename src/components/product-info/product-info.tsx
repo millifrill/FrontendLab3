@@ -15,11 +15,11 @@ export default function ProductInfo({ product, smallestPossibleDiscount }) {
       </section>
       <figure className={`${styles.rating} d-flex gap-1 fs-5 my-1`}>
         {Array.from({ length: Math.floor(roundedRatingHalf) }, (_, i) => (
-          <IoStar key={`yellow#${i}`} />
+          <IoStar key={i} />
         ))}
         {roundedRatingHalf % 1 === 0.5 ? <IoStarHalf /> : null}
         {Array.from({ length: emptyStars }, (_, i) => (
-          <IoStarOutline key={`empty#${i}`} />
+          <IoStarOutline key={i} />
         ))}
       </figure>
       <section className={`${styles.prices} fs-5 fw-semibold`}>
