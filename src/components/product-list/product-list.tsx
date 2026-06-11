@@ -83,6 +83,9 @@ export default function ProductList() {
             </InputGroup.Text>
           </InputGroup>
         </Form>
+        {hasSearched && !loading && products.length === 0 ? (
+          <p>No results...</p>
+        ) : null}
         {products.length > 0
           ? products.map((product) => (
               <ProductCard
