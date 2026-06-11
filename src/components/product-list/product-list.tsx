@@ -61,6 +61,7 @@ export default function ProductList() {
           onSubmit={(e) => {
             e.preventDefault();
             hasSearched.current = true;
+            setActive(1);
             setSearchQuery(searchInput);
           }}>
           <InputGroup className='mx-auto w-100'>
