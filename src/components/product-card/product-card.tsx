@@ -12,7 +12,7 @@ export default function ProductCard({ product, smallestPossibleDiscount }) {
           {product.images.length > 1 ? (
             <Carousel interval={null} variant='dark'>
               {product.images.map((image: string, i: number) => (
-                <Carousel.Item key={`carousel#${i}`}>
+                <Carousel.Item key={i}>
                   <Card.Img
                     className={`${styles.image}`}
                     src={image}

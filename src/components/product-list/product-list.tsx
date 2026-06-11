@@ -42,7 +42,6 @@ export default function ProductList() {
     }
 
     async function getSearchedProducts(): Promise<void> {
-      setProducts([]);
       setLoading(true);
       const res = await axios.get<ProductRes>(
         `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
