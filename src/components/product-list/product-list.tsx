@@ -56,34 +56,33 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
-      <Form
-        className={`{styles.searchForm} m-2`}
-        onSubmit={(e) => {
-          e.preventDefault();
-          hasSearched.current = true;
-          setSearchQuery(searchInput);
-        }}>
-        <InputGroup className='mx-auto w-100'>
-          <Form.Control
-            className={styles.searchFormControl}
-            type='text'
-            placeholder='Search...'
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <InputGroup.Text as='button' type='submit' className='bg-dark'>
-            {loading ? (
-              <Spinner
-                className={`${styles.loadingIcon} text-light`}
-                animation='border'
-                role='status'></Spinner>
-            ) : (
-              <GoSearch className={`${styles.searchIcon} text-light`} />
-            )}
-          </InputGroup.Text>
-        </InputGroup>
-      </Form>
-
       <div className={styles.list}>
+        <Form
+          className={`${styles.searchForm}`}
+          onSubmit={(e) => {
+            e.preventDefault();
+            hasSearched.current = true;
+            setSearchQuery(searchInput);
+          }}>
+          <InputGroup className='mx-auto w-100'>
+            <Form.Control
+              className={styles.searchFormControl}
+              type='text'
+              placeholder='Search...'
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <InputGroup.Text as='button' type='submit' className='bg-dark'>
+              {loading ? (
+                <Spinner
+                  className={`${styles.loadingIcon} text-light`}
+                  animation='border'
+                  role='status'></Spinner>
+              ) : (
+                <GoSearch className={`${styles.searchIcon} text-light`} />
+              )}
+            </InputGroup.Text>
+          </InputGroup>
+        </Form>
         {products.length > 0
           ? products.map((product) => (
               <ProductCard

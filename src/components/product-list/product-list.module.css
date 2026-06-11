@@ -17,9 +17,6 @@
   flex: 1;
 }
 
-.searchFormControl {
-}
-
 .loadingIcon,
 .searchIcon {
   width: 2.5rem;
@@ -31,6 +28,12 @@
   flex-direction: column;
 }
 
+.searchForm {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
 .searchFormControl:focus {
   box-shadow: none;
+  border-color: var(--border);
 }
