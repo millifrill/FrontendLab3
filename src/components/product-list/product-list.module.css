@@ -16,3 +16,24 @@
   text-align: center;
   flex: 1;
 }
+
+.loadingIcon,
+.searchIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchForm {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.searchFormControl:focus {
+  box-shadow: none;
+  border-color: var(--border);
+}
