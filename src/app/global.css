@@ -37,6 +37,15 @@ main {
   background: var(--bg);
   flex: 1;
 }
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+footer {
+  position: sticky;
+  top: 100vh;
+}
 
 .black,
 .white,
