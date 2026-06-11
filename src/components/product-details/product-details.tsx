@@ -2,16 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  IoHeartOutline,
-  IoStar,
-  IoStarHalf,
-  IoStarOutline,
-} from 'react-icons/io5';
+import { IoStar, IoStarOutline } from 'react-icons/io5';
 import styles from './product-details.module.css';
-import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
+import { Accordion, Alert, Button } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
 import ProductInfo from '../product-info/product-info';
+import MediaCarousel from '../media-carousel/media-carousel';
 
 interface Product {
   id: number;
@@ -37,18 +33,16 @@ interface Product {
 }
 
 export default function ProductDetails({ id }) {
-  console.log('id', id);
   const { addItem, recentlyAdded, clearRecentlyAdded } = useCart();
   const [product, setProduct] = useState<Product>();
+  const smallestPossibleDiscount = 5;
 
   useEffect(() => {
     async function getProductById(): Promise<void> {
       const res = await axios.get<Product>(
         `https://dummyjson.com/products/${id}`,
       );
-      console.log('res', res);
       setProduct(res.data);
-      console.log('Product', product);
     }
     getProductById();
   }, [id]);
@@ -62,20 +56,10 @@ export default function ProductDetails({ id }) {
       {product && (
         <article className={styles.mainContainer}>
           <section className={styles.firstSection}>
-            <section className={styles.media}>
-              <img
-                className={styles.image}
-                src={product.images[0]}
-                alt='placeholderimg'
-              />
-              <IoHeartOutline
-                className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
-              />
-              <span
-                className={`${styles.deal} bg-danger badge rounded-1 ms-1 fw-normal`}>
-                Deal 10%
-              </span>
-            </section>
+            <MediaCarousel
+              product={product}
+              smallestPossibleDiscount={smallestPossibleDiscount}
+            />
             <section className={`${styles.secondSection} ms-3 mt-2`}>
               <div>
                 <ProductInfo product={product} smallestPossibleDiscount={5} />
@@ -101,68 +85,82 @@ export default function ProductDetails({ id }) {
               </div>
             </section>
           </section>
-          <section>
-            <Tabs defaultActiveKey='description' className='my-3 text-dark'>
-              <Tab
-                eventKey='description'
-                title='Description'
-                className='text-dark m-4'>
-                <p className={styles.description}>{product.description}</p>
-              </Tab>
-              <Tab
-                eventKey='specifications'
-                title='Specifications'
-                className='text-dark m-4'>
-                <p>
-                  <strong>Width: </strong>
-                  {product.dimensions.width} cm
-                </p>
-                <p>
-                  <strong>Height: </strong>
-                  {product.dimensions.height} cm
-                </p>
-                <p>
-                  <strong>Depth: </strong>
-                  {product.dimensions.depth} cm
-                </p>
-                <p>
-                  <strong>Weight: </strong>
-                  {product.weight} g
-                </p>
-                <p>
-                  <strong>WarrantyInformation: </strong>
-                  {product.warrantyInformation}
-                </p>
-              </Tab>
-              <Tab eventKey='contact' title='Reviews' className='text-dark m-4'>
-                {product.reviews.map((review) => (
-                  <div
-                    key={`${review.date}-${review.reviewerName}-${review.comment}`}
-                    className={styles.review}>
-                    <p>
-                      <strong>Date:</strong> {review.date}
-                    </p>
-                    <div className={styles.reviewRating}>
-                      <p>
-                        <strong>Rating: </strong>
-                      </p>
-                      <figure
-                        className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
-                        {Array.from({ length: review.rating }, (_, i) => (
-                          <IoStar key={i} />
-                        ))}
-                      </figure>
-                    </div>
-                    <p>
-                      <strong>Comment:</strong> {review.comment}
-                    </p>
-                    <p>
-                      <strong>Reviewer:</strong> {review.reviewerName}
-                    </p>
-                  </div>
-                ))}
-              </Tab>
-            </Tabs>
+          <section className={styles.thirdSection}>
+            <Accordion
+              defaultActiveKey='0'
+              alwaysOpen
+              className={styles.accordion}>
+              <Accordion.Item eventKey='0'>
+                <Accordion.Header>Description</Accordion.Header>
+                <Accordion.Body>
+                  {' '}
+                  <p className={styles.description}>{product.description}</p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey='1'>
+                <Accordion.Header>Specifications</Accordion.Header>
+                <Accordion.Body>
+                  <p>
+                    <strong>Width: </strong>
+                    {product.dimensions.width} cm
+                  </p>
+                  <p>
+                    <strong>Height: </strong>
+                    {product.dimensions.height} cm
+                  </p>
+                  <p>
+                    <strong>Depth: </strong>
+                    {product.dimensions.depth} cm
+                  </p>
+                  <p>
+                    <strong>Weight: </strong>
+                    {product.weight} g
+                  </p>
+                  <p>
+                    <strong>Warranty: </strong>
+                    {product.warrantyInformation}
+                  </p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey='2'>
+                <Accordion.Header>Reviews</Accordion.Header>
+                <Accordion.Body>
+                  {product.reviews.map((review) => {
+                    const emptyStars: number = 5 - review.rating;
+                    const reviewDate = review.date.split('T');
+                    return (
+                      <div
+                        key={`${review.date}-${review.reviewerName}-${review.comment}`}
+                        className={styles.review}>
+                        <p>
+                          <strong>Date:</strong> {reviewDate[0]}
+                        </p>
+                        <p>
+                          <strong>Reviewer:</strong> {review.reviewerName}
+                        </p>
+                        <div className={styles.reviewRating}>
+                          <p>
+                            <strong>Rating: </strong>
+                          </p>
+                          <figure
+                            className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
+                            {Array.from({ length: review.rating }, (_, i) => (
+                              <IoStar key={i} />
+                            ))}
+                            {Array.from({ length: emptyStars }, (_, i) => (
+                              <IoStarOutline key={i} />
+                            ))}
+                          </figure>
+                        </div>
+                        <p>
+                          <strong>Comment:</strong> {review.comment}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
           </section>
         </article>
       )}
