@@ -57,29 +57,32 @@ export default function ProductList() {
   return (
     <div className={styles.container}>
       <Form
-        className={`{styles.search} m-3`}
+        className={`{styles.searchForm} m-2`}
         onSubmit={(e) => {
           e.preventDefault();
           hasSearched.current = true;
           setSearchQuery(searchInput);
         }}>
-        <InputGroup>
+        <InputGroup className='mx-auto w-100'>
           <Form.Control
+            className={styles.searchFormControl}
             type='text'
             placeholder='Search...'
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <InputGroup.Text as='button' type='submit' className='bg-dark'>
-            <GoSearch className='text-light' />
+            {loading ? (
+              <Spinner
+                className={`${styles.loadingIcon} text-light`}
+                animation='border'
+                role='status'></Spinner>
+            ) : (
+              <GoSearch className={`${styles.searchIcon} text-light`} />
+            )}
           </InputGroup.Text>
         </InputGroup>
       </Form>
-      {loading ? (
-        <Spinner
-          className={styles.loading}
-          animation='border'
-          role='status'></Spinner>
-      ) : null}
+
       <div className={styles.list}>
         {products.length > 0
           ? products.map((product) => (
@@ -90,7 +93,6 @@ export default function ProductList() {
               />
             ))
           : null}
-
         {products.length > 0 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev

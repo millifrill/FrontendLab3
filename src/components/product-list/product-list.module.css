@@ -17,16 +17,20 @@
   flex: 1;
 }
 
-.searchButton {
+.searchFormControl {
 }
 
-.search {
-}
-
-.loading {
+.loadingIcon,
+.searchIcon {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .container {
   display: flex;
   flex-direction: column;
+}
+
+.searchFormControl:focus {
+  box-shadow: none;
 }
