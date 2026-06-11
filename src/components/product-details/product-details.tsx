@@ -130,7 +130,7 @@ export default function ProductDetails({ id }) {
                   {product.weight} g
                 </p>
                 <p>
-                  <strong>WarrantyInformation: </strong>
+                  <strong>Warranty: </strong>
                   {product.warrantyInformation}
                 </p>
               </Tab>
