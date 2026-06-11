@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Card from 'react-bootstrap/Card';
 import ProductInfo from '../product-info/product-info';
-import MediaCarousel from '../media-carousel';
+import MediaCarousel from '../media-carousel/media-carousel';
 import styles from './product-card.module.css';
 
 export default function ProductCard({ product, smallestPossibleDiscount }) {

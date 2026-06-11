@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { IoHeartOutline, IoStar, IoStarOutline } from 'react-icons/io5';
+import { IoStar, IoStarOutline } from 'react-icons/io5';
 import styles from './product-details.module.css';
-import { Alert, Button, Tab, Tabs } from 'react-bootstrap';
+import { Accordion, Alert, Button } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
 import ProductInfo from '../product-info/product-info';
-import MediaCarousel from '../media-carousel';
+import MediaCarousel from '../media-carousel/media-carousel';
 
 interface Product {
   id: number;
@@ -85,75 +85,79 @@ export default function ProductDetails({ id }) {
               </div>
             </section>
           </section>
-          <section>
-            <Tabs defaultActiveKey='description' className='my-3 text-dark'>
-              <Tab
-                eventKey='description'
-                title='Description'
-                className='text-dark m-4'>
-                <p className={styles.description}>{product.description}</p>
-              </Tab>
-              <Tab
-                eventKey='specifications'
-                title='Specifications'
-                className='text-dark m-4'>
-                <p>
-                  <strong>Width: </strong>
-                  {product.dimensions.width} cm
-                </p>
-                <p>
-                  <strong>Height: </strong>
-                  {product.dimensions.height} cm
-                </p>
-                <p>
-                  <strong>Depth: </strong>
-                  {product.dimensions.depth} cm
-                </p>
-                <p>
-                  <strong>Weight: </strong>
-                  {product.weight} g
-                </p>
-                <p>
-                  <strong>Warranty: </strong>
-                  {product.warrantyInformation}
-                </p>
-              </Tab>
-              <Tab eventKey='contact' title='Reviews' className='text-dark m-4'>
-                {product.reviews.map((review) => {
-                  const emptyStars: number = 5 - review.rating;
-                  const reviewDate = review.date.split('T');
-                  return (
-                    <div
-                      key={`${review.date}-${review.reviewerName}-${review.comment}`}
-                      className={styles.review}>
-                      <p>
-                        <strong>Date:</strong> {reviewDate[0]}
-                      </p>
-                      <p>
-                        <strong>Reviewer:</strong> {review.reviewerName}
-                      </p>
-                      <div className={styles.reviewRating}>
+          <section className={styles.thirdSection}>
+            <Accordion alwaysOpen className={styles.accordion}>
+              <Accordion.Item eventKey='0'>
+                <Accordion.Header>Description</Accordion.Header>
+                <Accordion.Body>
+                  {' '}
+                  <p className={styles.description}>{product.description}</p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey='1'>
+                <Accordion.Header>Specifications</Accordion.Header>
+                <Accordion.Body>
+                  <p>
+                    <strong>Width: </strong>
+                    {product.dimensions.width} cm
+                  </p>
+                  <p>
+                    <strong>Height: </strong>
+                    {product.dimensions.height} cm
+                  </p>
+                  <p>
+                    <strong>Depth: </strong>
+                    {product.dimensions.depth} cm
+                  </p>
+                  <p>
+                    <strong>Weight: </strong>
+                    {product.weight} g
+                  </p>
+                  <p>
+                    <strong>Warranty: </strong>
+                    {product.warrantyInformation}
+                  </p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey='2'>
+                <Accordion.Header>Reviews</Accordion.Header>
+                <Accordion.Body>
+                  {product.reviews.map((review) => {
+                    const emptyStars: number = 5 - review.rating;
+                    const reviewDate = review.date.split('T');
+                    return (
+                      <div
+                        key={`${review.date}-${review.reviewerName}-${review.comment}`}
+                        className={styles.review}>
                         <p>
-                          <strong>Rating: </strong>
+                          <strong>Date:</strong> {reviewDate[0]}
                         </p>
-                        <figure
-                          className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
-                          {Array.from({ length: review.rating }, (_, i) => (
-                            <IoStar key={i} />
-                          ))}
-                          {Array.from({ length: emptyStars }, (_, i) => (
-                            <IoStarOutline key={i} />
-                          ))}
-                        </figure>
+                        <p>
+                          <strong>Reviewer:</strong> {review.reviewerName}
+                        </p>
+                        <div className={styles.reviewRating}>
+                          <p>
+                            <strong>Rating: </strong>
+                          </p>
+                          <figure
+                            className={`${styles.rating} d-flex gap-1 m-1 fs-5`}>
+                            {Array.from({ length: review.rating }, (_, i) => (
+                              <IoStar key={i} />
+                            ))}
+                            {Array.from({ length: emptyStars }, (_, i) => (
+                              <IoStarOutline key={i} />
+                            ))}
+                          </figure>
+                        </div>
+                        <p>
+                          <strong>Comment:</strong> {review.comment}
+                        </p>
                       </div>
-                      <p>
-                        <strong>Comment:</strong> {review.comment}
-                      </p>
-                    </div>
-                  );
-                })}
-              </Tab>
-            </Tabs>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
           </section>
         </article>
       )}

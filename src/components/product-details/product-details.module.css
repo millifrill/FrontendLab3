@@ -70,7 +70,7 @@
 
 .review {
   margin-top: 12px;
-  border-bottom: 1px solid var(--light);
+  border-bottom: 1px solid var(--border);
 }
 
 .nav-link {
@@ -102,4 +102,8 @@
   @media (min-width: 768px) {
     width: 450px;
   }
+}
+
+.thirdSection {
+  margin-top: 20px !important;
 }
