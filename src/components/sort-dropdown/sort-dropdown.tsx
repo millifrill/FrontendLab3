@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import styles from './sort-dropdown.module.css';
@@ -36,7 +36,13 @@ const CustomMenu = React.forwardRef<any, any>(
   },
 );
 
-export default function SortDropdown() {
+export default function SortDropdown({
+  setSortBy,
+  setOrder,
+}: {
+  setSortBy: React.Dispatch<React.SetStateAction<string>>;
+  setOrder: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle} id='dropdown-custom-components'>
@@ -45,12 +51,60 @@ export default function SortDropdown() {
 
       <Dropdown.Menu>
         <Form className='px-3 py-2'>
-          <Form.Check type='radio' label='Mest relevant' name='sort' />
-          <Form.Check type='radio' label='Mest sålda' name='sort' />
-          <Form.Check type='radio' label='Från den biligaste' name='sort' />
-          <Form.Check type='radio' label='Från den dyraste' name='sort' />
-          <Form.Check type='radio' label='Högsta betyg' name='sort' />
-          <Form.Check type='radio' label='Nyaste' name='sort' />
+          <Form.Check
+            type='radio'
+            label='Mest relevant'
+            name='sort'
+            onChange={() => {
+              setSortBy('');
+              setOrder('');
+            }}
+          />
+          <Form.Check
+            type='radio'
+            label='Mest sålda'
+            name='sort'
+            onChange={() => {
+              setSortBy('stock');
+              setOrder('asc');
+            }}
+          />
+          <Form.Check
+            type='radio'
+            label='Från den biligaste'
+            name='sort'
+            onChange={() => {
+              setSortBy('price');
+              setOrder('asc');
+            }}
+          />
+          <Form.Check
+            type='radio'
+            label='Från den dyraste'
+            name='sort'
+            onChange={() => {
+              setSortBy('price');
+              setOrder('desc');
+            }}
+          />
+          <Form.Check
+            type='radio'
+            label='Högsta betyg'
+            name='sort'
+            onChange={() => {
+              setSortBy('rating');
+              setOrder('desc');
+            }}
+          />
+          <Form.Check
+            type='radio'
+            label='Nyaste'
+            name='sort'
+            onChange={() => {
+              setSortBy('id');
+              setOrder('desc');
+            }}
+          />
         </Form>
       </Dropdown.Menu>
     </Dropdown>

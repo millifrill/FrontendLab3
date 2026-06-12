@@ -5,23 +5,26 @@ import axios from 'axios';
 import ProductCard from '../product-card/product-card';
 import { Product, ProductRes } from '../../app/types/product';
 import Pagination from 'react-bootstrap/Pagination';
+import SortDropdown from '../sort-dropdown/sort-dropdown';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
   const limit = 30;
+  const [sortBy, setSortBy] = useState('');
+  const [order, setOrder] = useState('');
 
   useEffect(() => {
     async function getProducts(): Promise<void> {
       const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
+        `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}&sortBy=${sortBy}&order=${order}`,
       );
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
     }
     getProducts();
-  }, [active]);
+  }, [active, sortBy, order]);
 
   return (
     <div className={styles.list}>
