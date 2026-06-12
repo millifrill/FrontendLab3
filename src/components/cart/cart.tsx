@@ -1,11 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState } from 'react';
-import Link from 'next/link';
-=======
 import { useEffect, useState } from 'react';
->>>>>>> 0533de61c33ab0331e8d5cf675d055ba6f436b5c
 import { FaTrash } from 'react-icons/fa';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useCart } from '../../context/cart.context';
