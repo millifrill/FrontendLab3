@@ -23,6 +23,10 @@
   margin-top: 3px;
 }
 
+.accordionHeader {
+  color:;
+}
+
 .rating {
   color: var(--star);
 }

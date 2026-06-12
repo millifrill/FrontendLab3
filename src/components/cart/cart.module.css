@@ -1,16 +1,6 @@
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  color: var(--text-h);
-  margin-bottom: 2rem;
-  display: block;
-  width: 100%;
-}
-
 .empty {
   text-align: center;
-  color: var(--text);
+  color: var(--dark);
   margin-top: 4rem;
   font-size: 1rem;
 }
@@ -72,7 +62,7 @@
 
 .itemBrand {
   font-size: 0.8125rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
 }
 
@@ -85,7 +75,7 @@
 
 .itemMeta {
   font-size: 0.8125rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
 }
 
@@ -156,9 +146,6 @@
 }
 
 .summaryTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-h);
   margin: 0;
 }
 
@@ -198,7 +185,7 @@
 
 .summaryBrand {
   font-size: 0.75rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
 }
 
@@ -216,7 +203,7 @@
 
 .summaryQty {
   font-size: 0.75rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
 }
 
