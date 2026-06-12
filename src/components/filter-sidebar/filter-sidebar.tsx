@@ -7,9 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CategoryFiltration from '../category-filtration/category-filtration';
 import styles from './filter-sidebar.module.css';
-import { RiMenuFoldLine } from 'react-icons/ri';
+import Brand from '../brand/brand';
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ products }) {
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
@@ -60,13 +60,6 @@ export default function FilterSidebar() {
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Color</Accordion.Header>
-                  <Accordion.Body>
-                    <p>Filter by brand</p>
-                  </Accordion.Body>
-                </Accordion.Item>
-
-                <Accordion.Item eventKey='4'>
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Sort by rating</p>
@@ -78,6 +71,13 @@ export default function FilterSidebar() {
                       <IoStar />
                       <IoStar />
                     </figure>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey='4'>
+                  <Accordion.Header>Brand</Accordion.Header>
+                  <Accordion.Body>
+                    <p>Sort by brand</p>
+                    <Brand products={products} />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>

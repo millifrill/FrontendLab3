@@ -56,7 +56,8 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.searchFilterContainer}>
+      <FilterSidebar products={products} />
+      <div className={styles.list}>
         <Form
           className={styles.searchForm}
           onSubmit={(e) => {
