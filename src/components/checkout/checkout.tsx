@@ -134,12 +134,12 @@ export default function Checkout() {
             {items.map((item) => (
               <li key={item.id} className={styles.item}>
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={item.images[0]}
+                  alt={item.title}
                   className={styles.itemImage}
                 />
                 <div className={styles.itemInfo}>
-                  <p className={styles.itemName}>{item.name}</p>
+                  <p className={styles.itemName}>{item.title}</p>
                   <p className={styles.itemVariant}>{item.color}</p>
                 </div>
                 <div className={styles.itemRight}>
