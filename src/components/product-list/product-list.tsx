@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { GoSearch } from 'react-icons/go';
 import { InputGroup } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
+import FilterSidebar from '../filter-sidebar/filter-sidebar';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -55,6 +56,7 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
+      <FilterSidebar products={products} />
       <div className={styles.list}>
         <Form
           className={`${styles.searchForm}`}
