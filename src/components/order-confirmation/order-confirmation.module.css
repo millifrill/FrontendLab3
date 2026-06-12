@@ -1,0 +1,307 @@
+.page {
+  padding: 2rem 1rem;
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 1100px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 0.6fr;
+    align-items: start;
+  }
+}
+
+/* ── Header ── */
+.backArrow {
+  font-size: 1.2rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.backArrow:hover {
+  color: var(--primary);
+}
+
+.orderTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.orderDate {
+  font-size: 0.85rem;
+  color: var(--border);
+  margin: 0;
+}
+
+/* ── Cards ── */
+.card {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.deliveryTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 0.25rem 0;
+}
+
+.trackingText {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0 0 1rem 0;
+}
+
+.trackingNumber {
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ── Timeline ── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timelineIconWrapper {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.truckIcon {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--text-h);
+}
+
+.checkIcon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--border);
+  flex-shrink: 0;
+  margin-left: 0.1rem;
+}
+
+.submitIcon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--border);
+  flex-shrink: 0;
+  margin-left: 0.1rem;
+}
+
+.timelineLine {
+  height: 1.5rem;
+  border-left: 2px dashed var(--border);
+  margin-left: 0.65rem;
+}
+
+.timelineLabelActive {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.timelineLabel {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--border);
+  margin: 0;
+}
+
+.timelineDate {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+/* ── Details grid ── */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.detailTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 0.25rem 0;
+}
+
+.detailText {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Footer links ── */
+.footerLinks {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.footerLink {
+  font-size: 0.85rem;
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Aside ── */
+.aside {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  position: sticky;
+  top: 5rem;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.imageWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.itemImage {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.itemQtyBadge {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  background-color: var(--border);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.itemVariant {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+.itemPrice {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.priceBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.totalRow {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 1rem;
+}
+
+/* ── Empty state ── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+  color: var(--text);
+}
+
+.backLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

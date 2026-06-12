@@ -13,6 +13,27 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface PlacedOrder {
+  id: string;
+  date: string;
+  expectedDelivery: string;
+  tracking: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  shippingMethod: string;
+  shippingCost: number;
+  paymentMethod: string;
+  cardLast4: string;
+  items: CartItem[];
+  subtotal: number;
+  taxes: number;
+  total: number;
+}
+
 interface CartContextValue {
   items: CartItem[];
   addItem: (product: Omit<CartItem, 'quantity'>) => void;
@@ -21,6 +42,8 @@ interface CartContextValue {
   totalCount: number;
   recentlyAdded: string | null;
   clearRecentlyAdded: () => void;
+  lastOrder: PlacedOrder | null;
+  placeOrder: (order: PlacedOrder) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -51,6 +74,7 @@ const initialItems: CartItem[] = [
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(initialItems);
   const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
+  const [lastOrder, setLastOrder] = useState<PlacedOrder | null>(null);
 
   function addItem(product: Omit<CartItem, 'quantity'>) {
     setItems((prev) => {
@@ -77,6 +101,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  function placeOrder(order: PlacedOrder) {
+    setLastOrder(order);
+    setItems([]);
+  }
+
   const totalCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
@@ -89,6 +118,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         totalCount,
         recentlyAdded,
         clearRecentlyAdded: () => setRecentlyAdded(null),
+        lastOrder,
+        placeOrder,
       }}>
       {children}
     </CartContext.Provider>

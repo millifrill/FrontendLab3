@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { FaTrash } from 'react-icons/fa';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useCart } from '../../context/cart.context';
@@ -149,7 +150,9 @@ export default function Cart() {
               <strong>Total sum</strong>
               <strong>${total.toFixed(2)}</strong>
             </div>
-            <button className={styles.checkoutBtn}>Go to checkout</button>
+            <Link href='/checkout' className={styles.checkoutBtn}>
+              Go to checkout
+            </Link>
           </div>
         </div>
       )}
