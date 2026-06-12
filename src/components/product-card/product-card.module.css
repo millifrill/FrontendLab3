@@ -1,25 +1,9 @@
-.image {
-  display: block;
-  background-color: var(--bg);
-  height: 264px;
-  object-fit: contain;
-}
-.heart {
-  color: var(--light);
-  position: absolute;
-  top: 10px;
-  left: 270px;
-  opacity: 80%;
+.card:hover {
+  transform: scale(1.02);
+  transition: 0.5s;
 }
 
-.media {
-  position: relative;
-  border-bottom: solid 1px var(--border);
-}
-
-.deal {
-  position: absolute;
-  top: 235px;
-  font-size: 0.8em;
-  left: 3px;
+.link {
+  color: var(--text);
+  text-decoration: none;
 }
