@@ -54,6 +54,13 @@ export default function ProductList() {
     getSearchedProducts();
   }, [searchQuery, active]);
 
+  async function getProductsByCategory(category): Promise<void> {
+    const res = await axios.get<ProductRes>(
+      `https://dummyjson.com/products/category/${category}`,
+    );
+    setProducts(res.data.products);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.searchFilterContainer}>
@@ -84,7 +91,10 @@ export default function ProductList() {
             </InputGroup.Text>
           </InputGroup>
         </Form>
-        <FilterSidebar products={products} />
+        <FilterSidebar
+          products={products}
+          getProductsByCategory={getProductsByCategory}
+        />
       </div>
       <div className={styles.list}>
         {hasSearched && !loading && products.length === 0 ? (
