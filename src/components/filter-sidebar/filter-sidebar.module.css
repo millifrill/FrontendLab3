@@ -1,5 +1,4 @@
 .filterContainer {
-  padding-left: 0;
   padding-right: 0;
 }
 
@@ -13,10 +12,15 @@
 }
 
 .filterBtn {
+  display: flex;
+  gap: 5px;
   color: var(--light);
-  justify-self: center;
-  align-self: center;
-  padding-left: 12px;
+  justify-items: center;
+  align-items: center;
+}
+
+.filterIcon {
+  margin-top: 3px;
 }
 
 .rating {

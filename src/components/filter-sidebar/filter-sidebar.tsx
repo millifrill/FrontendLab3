@@ -1,5 +1,5 @@
 'use client';
-import { Accordion, Form } from 'react-bootstrap';
+import { Accordion, Form, Image } from 'react-bootstrap';
 import { IoStar } from 'react-icons/io5';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CategoryFiltration from '../category-filtration/category-filtration';
 import styles from './filter-sidebar.module.css';
+import { RiMenuFoldLine } from 'react-icons/ri';
 
 export default function FilterSidebar() {
   return (
@@ -14,9 +15,10 @@ export default function FilterSidebar() {
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
         <Container fluid className={styles.filterContainer}>
           <Navbar.Toggle className={styles.filterToggle}>
-            <Navbar.Brand href='#' className={styles.filterBtn}>
+            <div className={styles.filterBtn}>
               Filter
-            </Navbar.Brand>
+              <RiMenuFoldLine className={styles.filterIcon} />
+            </div>
           </Navbar.Toggle>
           <Navbar.Offcanvas aria-labelledby='Filter' placement='end'>
             <Offcanvas.Header closeButton>
