@@ -61,23 +61,6 @@ export default function FilterSidebar() {
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Color</Accordion.Header>
-                  <Accordion.Body>
-                    <p>Sort by color</p>
-                    <div className='mb-3'>
-                      <button className='black'></button>
-                      <button className='white'></button>
-                      <button className='yellow'></button>
-                      <button className='green'></button>
-                      <button className='blue'></button>
-                      <button className='purple'></button>
-                      <button className='pink'></button>
-                      <button className='brown'></button>
-                      <button className='beige'></button>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey='4'>
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Sort by rating</p>
