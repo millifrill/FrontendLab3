@@ -21,7 +21,7 @@ export default function CategoryFiltration() {
     <>
       {categories && (
         <>
-          <p>Sort by category</p>
+          <p>Filter by category</p>
           <Form>
             <div className='mb-3'>
               {categories.map((category) => {

@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { GoSearch } from 'react-icons/go';
 import { InputGroup } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
+import FilterSidebar from '../filter-sidebar/filter-sidebar';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -55,9 +56,9 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.list}>
+      <div className={styles.searchFilterContainer}>
         <Form
-          className={`${styles.searchForm}`}
+          className={styles.searchForm}
           onSubmit={(e) => {
             e.preventDefault();
             hasSearched.current = true;
@@ -83,6 +84,9 @@ export default function ProductList() {
             </InputGroup.Text>
           </InputGroup>
         </Form>
+        <FilterSidebar />
+      </div>
+      <div className={styles.list}>
         {hasSearched && !loading && products.length === 0 ? (
           <p>No results...</p>
         ) : null}

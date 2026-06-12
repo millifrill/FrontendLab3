@@ -12,9 +12,11 @@ export default function FilterSidebar() {
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
-        <Container fluid>
-          <Navbar.Toggle>
-            <Navbar.Brand href='#'>Filter</Navbar.Brand>
+        <Container fluid className={styles.filterContainer}>
+          <Navbar.Toggle className={styles.filterToggle}>
+            <Navbar.Brand href='#' className={styles.filterBtn}>
+              Filter
+            </Navbar.Brand>
           </Navbar.Toggle>
           <Navbar.Offcanvas aria-labelledby='Filter' placement='end'>
             <Offcanvas.Header closeButton>
@@ -58,18 +60,7 @@ export default function FilterSidebar() {
                 <Accordion.Item eventKey='3'>
                   <Accordion.Header>Color</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by color</p>
-                    <div className='mb-3'>
-                      <button className='black'></button>
-                      <button className='white'></button>
-                      <button className='yellow'></button>
-                      <button className='green'></button>
-                      <button className='blue'></button>
-                      <button className='purple'></button>
-                      <button className='pink'></button>
-                      <button className='brown'></button>
-                      <button className='beige'></button>
-                    </div>
+                    <p>Filter by brand</p>
                   </Accordion.Body>
                 </Accordion.Item>
 
