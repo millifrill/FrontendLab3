@@ -39,6 +39,7 @@ export default function Checkout() {
   const [cvv, setCvv] = useState('');
   const [saveCard, setSaveCard] = useState(false);
   const [discount, setDiscount] = useState('');
+  const [discountError, setDiscountError] = useState(false);
   const [swishNumber, setSwishNumber] = useState('');
 
   const subtotal = items.reduce(
@@ -155,13 +156,20 @@ export default function Checkout() {
               type='text'
               placeholder='Get your discount'
               value={discount}
-              onChange={(e) => setDiscount(e.target.value)}
+              onChange={(e) => { setDiscount(e.target.value); setDiscountError(false); }}
               className={styles.discountInput}
             />
-            <Button variant='secondary' className={styles.applyBtn}>
+            <Button
+              variant='secondary'
+              className={styles.applyBtn}
+              onClick={() => { if (discount.trim()) setDiscountError(true); }}
+            >
               Apply
             </Button>
           </div>
+          {discountError && (
+            <p className={styles.discountError}>No discount code matches "{discount}"</p>
+          )}
 
           <div className={styles.priceBreakdown}>
             <div className={styles.priceRow}>
