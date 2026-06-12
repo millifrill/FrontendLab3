@@ -2,4 +2,6 @@
   text-decoration: none;
   color: var(--text-h);
 }
-
+:global(.form-check-input) {
+  border-color: #000;
+}

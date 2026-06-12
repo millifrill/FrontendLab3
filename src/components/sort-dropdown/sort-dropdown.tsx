@@ -48,7 +48,6 @@ export default function SortDropdown({
       <Dropdown.Toggle as={CustomToggle} id='dropdown-custom-components'>
         Sort
       </Dropdown.Toggle>
-
       <Dropdown.Menu>
         <Form className='px-3 py-2'>
           <Form.Check
