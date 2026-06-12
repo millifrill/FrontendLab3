@@ -1,15 +1,15 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
-import styles from './product-list.module.css';
 import axios from 'axios';
-import ProductCard from '../product-card/product-card';
-import { Product, ProductRes } from '../../app/types/product';
-import Pagination from 'react-bootstrap/Pagination';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
+import { Product, ProductRes } from '../../app/types/product';
 import { GoSearch } from 'react-icons/go';
 import { InputGroup } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
+import ProductCard from '../product-card/product-card';
 import FilterSidebar from '../filter-sidebar/filter-sidebar';
+import Pagination from 'react-bootstrap/Pagination';
+import styles from './product-list.module.css';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -84,7 +84,7 @@ export default function ProductList() {
             </InputGroup.Text>
           </InputGroup>
         </Form>
-        <FilterSidebar />
+        <FilterSidebar products={products} />
       </div>
       <div className={styles.list}>
         {hasSearched && !loading && products.length === 0 ? (

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { FaTrash } from 'react-icons/fa';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useCart } from '../../context/cart.context';
@@ -93,9 +94,11 @@ export default function Cart() {
                   <p className={styles.itemName}>{item.title}</p>
                   <p className={styles.itemBrand}>{item.brand}</p>
                   <p className={styles.itemPrice}>${item.price.toFixed(2)}</p>
-                  <p className={styles.itemMeta}>
-                    {item.size} · {item.color}
-                  </p>
+                  {(item.size || item.color) && (
+                    <p className={styles.itemMeta}>
+                      {[item.size, item.color].filter(Boolean).join(' · ')}
+                    </p>
+                  )}
                   <div className={styles.stepper}>
                     <button
                       onClick={() => changeQty(item.id, -1)}
@@ -153,7 +156,9 @@ export default function Cart() {
               <strong>Total sum</strong>
               <strong>${total.toFixed(2)}</strong>
             </div>
-            <button className={styles.checkoutBtn}>Go to checkout</button>
+            <Link href='/checkout' className={styles.checkoutBtn}>
+              Go to Checkout
+            </Link>
           </div>
         </div>
       )}

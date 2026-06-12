@@ -239,16 +239,18 @@
   background: var(--primary);
   color: #fff;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 }
 
 .checkoutBtn:hover {
   opacity: 0.9;
+  text-decoration: underline;
 }
 
 .stepperDisabled {

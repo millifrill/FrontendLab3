@@ -1,0 +1,394 @@
+.page {
+  padding: 2rem 1rem;
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* ── Order Summary ── */
+.summary {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.itemImage {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.itemVariant {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+.itemRight {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.itemPrice {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.itemQty {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+.discountRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.discountInput {
+  flex: 1;
+  font-size: 0.9rem;
+  border-color: var(--border);
+  border-radius: 0.25rem;
+}
+
+.applyBtn {
+  background-color: var(--border);
+  border: none;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.discountError {
+  font-size: 0.8rem;
+  color: var(--danger, #dc3545);
+  margin-top: 4px;
+}
+
+.priceBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.totalRow {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 1.05rem;
+}
+
+.taxNote {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+/* ── Right side ── */
+.formSection {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.stepActive {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stepDone {
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.stepInactive {
+  color: var(--border);
+}
+
+.stepDivider {
+  color: var(--border);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.shippingTitle {
+  margin-top: 0.5rem;
+}
+
+.shippingOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.shippingOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.shippingOption:hover {
+  border-color: var(--primary);
+}
+
+.shippingSelected {
+  border-color: var(--primary);
+  background-color: #f0f6f9;
+}
+
+.shippingName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.shippingDesc {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+.shippingPrice {
+  margin-left: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input {
+  font-size: 0.9rem;
+  border-color: var(--border);
+  border-radius: 0.25rem;
+}
+
+.paymentOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.paymentOption:hover {
+  border-color: var(--primary);
+}
+
+.paymentSelected {
+  border-color: var(--primary);
+  background-color: #f0f6f9;
+}
+
+.paymentName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.paymentDesc {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0;
+}
+
+.cardForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.saveCard {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.payLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.infoBox {
+  background-color: #f0f6f9;
+  border: 1px solid var(--primary);
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.infoText {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.continueBtn {
+  background-color: var(--primary);
+  border: none;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
+  color: white;
+}
+
+.continueBtn:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.continueBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnRow {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.backBtn {
+  border-color: var(--border);
+  color: var(--text);
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+}
+
+.payBtn {
+  flex: 1;
+  background-color: var(--primary);
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  color: white;
+}
+
+.payBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.privacyNote {
+  font-size: 0.8rem;
+  color: var(--border);
+  margin: 0.5rem 0 0 0;
+}
+
+.spinner {
+  margin-right: 0.5rem;
+}
