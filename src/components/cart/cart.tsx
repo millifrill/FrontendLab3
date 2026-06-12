@@ -33,7 +33,7 @@ export default function Cart() {
 
   return (
     <>
-      <h1 className={styles.title}>Shopping cart</h1>
+      <h1>Shopping cart</h1>
 
       {recentlyAdded && (
         <Alert

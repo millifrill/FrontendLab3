@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
-import styles from './product-details.module.css';
 import { Accordion, Alert, Button } from 'react-bootstrap';
 import { useCart } from '@/context/cart.context';
 import ProductInfo from '../product-info/product-info';
 import MediaCarousel from '../media-carousel/media-carousel';
+import styles from './product-details.module.css';
 
 interface Product {
   id: number;
@@ -86,14 +86,10 @@ export default function ProductDetails({ id }) {
             </section>
           </section>
           <section className={styles.thirdSection}>
-            <Accordion
-              defaultActiveKey='0'
-              alwaysOpen
-              className={styles.accordion}>
+            <Accordion defaultActiveKey='0' alwaysOpen>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>Description</Accordion.Header>
                 <Accordion.Body>
-                  {' '}
                   <p className={styles.description}>{product.description}</p>
                 </Accordion.Body>
               </Accordion.Item>

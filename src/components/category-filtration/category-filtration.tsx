@@ -1,18 +1,18 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
-type Categories = string[];
-
-export default function CategoryFiltration() {
-  const [categories, setCategories] = useState<Categories>([]);
-
+export default function CategoryFiltration({
+  categories,
+  setCategory,
+  setSelectedCategory,
+}) {
   useEffect(() => {
     async function getCategoryList(): Promise<void> {
-      const res = await axios.get<Categories>(
+      const res = await axios.get<string[]>(
         'https://dummyjson.com/products/category-list',
       );
-      setCategories(res.data);
+      setCategory(res.data);
     }
     getCategoryList();
   }, []);
@@ -30,9 +30,12 @@ export default function CategoryFiltration() {
                 return (
                   <Form.Check
                     key={category}
-                    type='checkbox'
-                    id='category'
+                    value={category}
+                    type='radio'
+                    id={category}
+                    name='category'
                     label={categoryToUpperCase}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
                   />
                 );
               })}

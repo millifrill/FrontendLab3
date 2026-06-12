@@ -1,15 +1,32 @@
 'use client';
-import { Accordion, Form, Image } from 'react-bootstrap';
-import { IoStar } from 'react-icons/io5';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Accordion, Form } from 'react-bootstrap';
+import { IoStar, IoStarOutline } from 'react-icons/io5';
+import { RiMenuFoldLine } from 'react-icons/ri';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CategoryFiltration from '../category-filtration/category-filtration';
-import styles from './filter-sidebar.module.css';
 import Brand from '../brand/brand';
+import styles from './filter-sidebar.module.css';
 
-export default function FilterSidebar({ products }) {
+export default function FilterSidebar({ products, getProductsByCategory }) {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  useEffect(() => {
+    async function getCategoryList(): Promise<void> {
+      const res = await axios.get<string[]>(
+        'https://dummyjson.com/products/category-list',
+      );
+      setCategories(res.data);
+    }
+    getCategoryList();
+  }, []);
+
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
@@ -27,19 +44,35 @@ export default function FilterSidebar({ products }) {
             <Offcanvas.Body>
               <Accordion alwaysOpen>
                 <Accordion.Item eventKey='0'>
-                  <Accordion.Header>Size</Accordion.Header>
+                  <Accordion.Header>Sort</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by size</p>
                     <Form>
-                      <div className='mb-3'>
-                        <Form.Check type='checkbox' id='XXS' label='XXS' />
-                        <Form.Check type='checkbox' id='XS' label='XS' />
-                        <Form.Check type='checkbox' id='S' label='S' />
-                        <Form.Check type='checkbox' id='M' label='M' />
-                        <Form.Check type='checkbox' id='L' label='L' />
-                        <Form.Check type='checkbox' id='XL' label='XL' />
-                        <Form.Check type='checkbox' id='XXL' label='XXL' />
-                      </div>
+                      <Form.Check
+                        type='radio'
+                        id='most-relevant'
+                        label='Most relevant'
+                      />
+                      <Form.Check
+                        type='radio'
+                        id='best-selling'
+                        label='Best selling'
+                      />
+                      <Form.Check
+                        type='radio'
+                        id='from-cheepest'
+                        label='Price: Low to High'
+                      />
+                      <Form.Check
+                        type='radio'
+                        id='high-to-Low'
+                        label='Price: High to Low'
+                      />
+                      <Form.Check
+                        type='radio'
+                        id='highest-rated'
+                        label='Highest rated'
+                      />
+                      <Form.Check type='radio' id='newest' label='Newest' />
                     </Form>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -55,7 +88,11 @@ export default function FilterSidebar({ products }) {
                 <Accordion.Item eventKey='2'>
                   <Accordion.Header>Category</Accordion.Header>
                   <Accordion.Body>
-                    <CategoryFiltration />
+                    <CategoryFiltration
+                      categories={categories}
+                      setCategory={setCategories}
+                      setSelectedCategory={setSelectedCategory}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
 
@@ -63,6 +100,38 @@ export default function FilterSidebar({ products }) {
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Sort by rating</p>
+                    <figure
+                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                      <IoStar />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                    </figure>
+                    <figure
+                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                      <IoStar />
+                      <IoStar />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                    </figure>
+                    <figure
+                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                      <IoStar />
+                      <IoStar />
+                      <IoStar />
+                      <IoStarOutline />
+                      <IoStarOutline />
+                    </figure>
+                    <figure
+                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
+                      <IoStar />
+                      <IoStar />
+                      <IoStar />
+                      <IoStar />
+                      <IoStarOutline />
+                    </figure>
                     <figure
                       className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
                       <IoStar />
@@ -83,7 +152,8 @@ export default function FilterSidebar({ products }) {
               </Accordion>
               <Button
                 className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
-                variant='primary'>
+                variant='primary'
+                onClick={() => getProductsByCategory(selectedCategory)}>
                 Apply Filter
               </Button>
             </Offcanvas.Body>

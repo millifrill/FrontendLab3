@@ -30,7 +30,7 @@
 /* ── Header ── */
 .backArrow {
   font-size: 1.2rem;
-  color: var(--text);
+  color: var(--dark);
   text-decoration: none;
 }
 
@@ -39,9 +39,6 @@
 }
 
 .orderTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-h);
   margin: 0;
 }
 
@@ -69,7 +66,7 @@
 
 .trackingText {
   font-size: 0.85rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0 0 1rem 0;
 }
 
@@ -166,7 +163,7 @@
 
 .detailText {
   font-size: 0.85rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
   line-height: 1.6;
 }
@@ -276,7 +273,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: var(--text);
+  color: var(--dark);
 }
 
 .totalRow {
@@ -293,7 +290,7 @@
   justify-content: center;
   min-height: 50vh;
   gap: 1rem;
-  color: var(--text);
+  color: var(--dark);
 }
 
 .backLink {
