@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { FaTrash } from 'react-icons/fa';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useCart } from '../../context/cart.context';
