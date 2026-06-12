@@ -58,6 +58,10 @@ export default function ProductList() {
 
   return (
     <div className={styles.container}>
+      <div style={{ marginBottom: '20px' }}>
+        <SortDropdown setSortBy={setSortBy} setOrder={setOrder} />
+      </div>
+
       <div className={styles.list}>
         <Form
           className={`${styles.searchForm}`}

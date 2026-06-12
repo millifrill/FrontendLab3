@@ -38,6 +38,7 @@ const CustomMenu = React.forwardRef<any, any>(
 
 export default function SortDropdown({
   setSortBy,
+  
   setOrder,
 }: {
   setSortBy: React.Dispatch<React.SetStateAction<string>>;
