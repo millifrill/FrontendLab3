@@ -94,9 +94,11 @@ export default function Cart() {
                   <p className={styles.itemName}>{item.title}</p>
                   <p className={styles.itemBrand}>{item.brand}</p>
                   <p className={styles.itemPrice}>${item.price.toFixed(2)}</p>
-                  <p className={styles.itemMeta}>
-                    {item.size} · {item.color}
-                  </p>
+                  {(item.size || item.color) && (
+                    <p className={styles.itemMeta}>
+                      {[item.size, item.color].filter(Boolean).join(' · ')}
+                    </p>
+                  )}
                   <div className={styles.stepper}>
                     <button
                       onClick={() => changeQty(item.id, -1)}
