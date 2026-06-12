@@ -7,8 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import styles from './filter-sidebar.module.css';
 import Brand from '../brand/brand';
+import SortDropdown from '@/components/sort-dropdown/sort-dropdown';
 
-export default function FilterSidebar({ products }) {
+export default function FilterSidebar({ products, setSortBy, setOrder }) {
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
@@ -39,6 +40,12 @@ export default function FilterSidebar({ products }) {
                     </Form>
                   </Accordion.Body>
                 </Accordion.Item>
+                <Accordion.Item eventKey='3'>
+                  <Accordion.Header>Sort</Accordion.Header>
+                  <Accordion.Body>
+                    <SortDropdown setSortBy={setSortBy} setOrder={setOrder} />
+                  </Accordion.Body>
+                </Accordion.Item>
                 <Accordion.Item eventKey='1'>
                   <Accordion.Header>Price</Accordion.Header>
                   <Accordion.Body>
@@ -46,6 +53,7 @@ export default function FilterSidebar({ products }) {
                     <Form.Range />
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='2'>
                   <Accordion.Header>Category</Accordion.Header>
                   <Accordion.Body>

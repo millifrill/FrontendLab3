@@ -12,7 +12,13 @@ import { InputGroup } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import FilterSidebar from '../filter-sidebar/filter-sidebar';
 
-export default function ProductList() {
+export default function ProductList( {
+  sortBy,
+  order,
+}:{
+  sortBy: string;
+  order: string;
+}){
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
@@ -60,10 +66,14 @@ export default function ProductList() {
   return (
     <div className={styles.container}>
       <div style={{ marginBottom: '20px' }}>
-        <SortDropdown setSortBy={setSortBy} setOrder={setOrder} />
+   
       </div>
 
-      <FilterSidebar products={products} />
+      <FilterSidebar
+        products={products}
+        setSortBy={setSortBy}
+        setOrder={setOrder}
+      />
       <div className={styles.list}>
         <Form
           className={`${styles.searchForm}`}
