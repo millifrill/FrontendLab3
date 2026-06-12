@@ -172,14 +172,14 @@ export default function OrderConfirmation() {
               <li key={item.id} className={styles.item}>
                 <div className={styles.imageWrapper}>
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.images[0]}
+                    alt={item.title}
                     className={styles.itemImage}
                   />
                   <span className={styles.itemQtyBadge}>{item.quantity}</span>
                 </div>
                 <div className={styles.itemInfo}>
-                  <p className={styles.itemName}>{item.name}</p>
+                  <p className={styles.itemName}>{item.title}</p>
                   <p className={styles.itemVariant}>{item.color}</p>
                 </div>
                 <p className={styles.itemPrice}>${item.price.toFixed(2)}</p>
