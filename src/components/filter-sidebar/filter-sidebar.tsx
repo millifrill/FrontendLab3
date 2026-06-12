@@ -6,8 +6,9 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import styles from './filter-sidebar.module.css';
+import Brand from '../brand/brand';
 
-export default function FilterSidebar() {
+export default function FilterSidebar({ products }) {
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
@@ -61,23 +62,6 @@ export default function FilterSidebar() {
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Color</Accordion.Header>
-                  <Accordion.Body>
-                    <p>Sort by color</p>
-                    <div className='mb-3'>
-                      <button className='black'></button>
-                      <button className='white'></button>
-                      <button className='yellow'></button>
-                      <button className='green'></button>
-                      <button className='blue'></button>
-                      <button className='purple'></button>
-                      <button className='pink'></button>
-                      <button className='brown'></button>
-                      <button className='beige'></button>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey='4'>
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Sort by rating</p>
@@ -89,6 +73,13 @@ export default function FilterSidebar() {
                       <IoStar />
                       <IoStar />
                     </figure>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey='4'>
+                  <Accordion.Header>Brand</Accordion.Header>
+                  <Accordion.Body>
+                    <p>Sort by brand</p>
+                    <Brand products={products} />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
