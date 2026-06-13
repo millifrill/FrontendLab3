@@ -47,7 +47,7 @@ export default function Footer() {
             <img
               className={styles.linkedinLogo}
               alt='LinkedIn'
-              src='/images/linkedIn.png'
+              src='/images/linkedin.png'
             />
           </a>
         </div>
