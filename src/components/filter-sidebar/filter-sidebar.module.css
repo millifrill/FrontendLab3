@@ -1,3 +1,28 @@
+.filterContainer {
+  padding-right: 0;
+}
+
+.filterToggle {
+  display: flex;
+  background-color: var(--primary);
+  height: 52px;
+  align-content: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.filterBtn {
+  display: flex;
+  gap: 5px;
+  color: var(--light);
+  justify-items: center;
+  align-items: center;
+}
+
+.filterIcon {
+  margin-top: 3px;
+}
+
 .rating {
   color: var(--star);
 }
