@@ -28,11 +28,6 @@
 }
 
 .sectionTitle {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text-h);
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -131,7 +126,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
-  color: var(--text);
+  color: var(--dark);
 }
 
 .totalRow {
@@ -251,7 +246,7 @@
 .label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--dark);
 }
 
 .input {
@@ -307,13 +302,13 @@
 
 .saveCard {
   font-size: 0.9rem;
-  color: var(--text);
+  color: var(--dark);
 }
 
 .payLabel {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
 }
 
@@ -326,7 +321,7 @@
 
 .infoText {
   font-size: 0.85rem;
-  color: var(--text);
+  color: var(--dark);
   margin: 0;
   line-height: 1.5;
 }
@@ -361,7 +356,7 @@
 
 .backBtn {
   border-color: var(--border);
-  color: var(--text);
+  color: var(--dark);
   padding: 0.75rem 1.25rem;
   font-size: 1rem;
   border-radius: 0.25rem;

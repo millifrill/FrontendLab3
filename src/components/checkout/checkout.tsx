@@ -156,19 +156,25 @@ export default function Checkout() {
               type='text'
               placeholder='Get your discount'
               value={discount}
-              onChange={(e) => { setDiscount(e.target.value); setDiscountError(false); }}
+              onChange={(e) => {
+                setDiscount(e.target.value);
+                setDiscountError(false);
+              }}
               className={styles.discountInput}
             />
             <Button
               variant='secondary'
               className={styles.applyBtn}
-              onClick={() => { if (discount.trim()) setDiscountError(true); }}
-            >
+              onClick={() => {
+                if (discount.trim()) setDiscountError(true);
+              }}>
               Apply
             </Button>
           </div>
           {discountError && (
-            <p className={styles.discountError}>No discount code matches "{discount}"</p>
+            <p className={styles.discountError}>
+              No discount code matches "{discount}"
+            </p>
           )}
 
           <div className={styles.priceBreakdown}>
@@ -210,7 +216,7 @@ export default function Checkout() {
               noValidate
               validated={validated}
               className={styles.stepContent}>
-              <h2 className={styles.sectionTitle}>Shipping Address</h2>
+              <h2>Shipping Address</h2>
 
               <div className={styles.nameRow}>
                 <Form.Group className={styles.formGroup}>
@@ -306,9 +312,7 @@ export default function Checkout() {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <h2 className={`${styles.sectionTitle} ${styles.shippingTitle}`}>
-                Shipping Method
-              </h2>
+              <h2 className={styles.shippingTitle}>Shipping Method</h2>
 
               <div className={styles.shippingOptions}>
                 <label
@@ -357,7 +361,7 @@ export default function Checkout() {
           {/* ── Step 2: Payment ── */}
           {step === 2 && (
             <div className={styles.stepContent}>
-              <h2 className={styles.sectionTitle}>Payment</h2>
+              <h2>Payment</h2>
 
               <p className={styles.payLabel}>Pay With:</p>
 

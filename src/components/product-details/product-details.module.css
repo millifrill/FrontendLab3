@@ -84,15 +84,15 @@
   color: var(--dark);
 }
 
-.description {
-  max-width: 500px;
-}
-
 .btns {
   display: flex;
   flex-direction: column;
   width: 120px;
   gap: 10px;
+}
+
+.description {
+  max-width: 500px;
 }
 
 .reviewRating {
