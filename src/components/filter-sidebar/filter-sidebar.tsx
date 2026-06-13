@@ -80,7 +80,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                 <Accordion.Item eventKey='1'>
                   <Accordion.Header>Price</Accordion.Header>
                   <Accordion.Body>
-                    <Form.Label>Sort by price range</Form.Label>
+                    <Form.Label>Filter by price range</Form.Label>
                     <Form.Range />
                   </Accordion.Body>
                 </Accordion.Item>
@@ -99,7 +99,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                 <Accordion.Item eventKey='3'>
                   <Accordion.Header>Rating</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by rating</p>
+                    <p>Filter by rating</p>
                     <figure
                       className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
                       <IoStar />
@@ -145,7 +145,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                 <Accordion.Item eventKey='4'>
                   <Accordion.Header>Brand</Accordion.Header>
                   <Accordion.Body>
-                    <p>Sort by brand</p>
+                    <p>Filter by brand</p>
                     <Brand products={products} />
                   </Accordion.Body>
                 </Accordion.Item>
