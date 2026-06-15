@@ -1,3 +1,4 @@
+'use client';
 import ProductList from '../components/product-list/product-list';
 import { useState } from 'react';
 
@@ -6,7 +7,12 @@ export default function Page() {
   const [order, setOrder] = useState('');
   return (
     <>
-      <ProductList />
+      <ProductList
+        sortBy={sortBy}
+        order={order}
+        setSortBy={setSortBy}
+        setOrder={setOrder}
+      />
     </>
   );
 }

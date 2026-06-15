@@ -13,9 +13,16 @@ import CategoryFiltration from '../category-filtration/category-filtration';
 import Brand from '../brand/brand';
 import styles from './filter-sidebar.module.css';
 
-export default function FilterSidebar({ products, getProductsByCategory }) {
+export default function FilterSidebar({
+  products,
+  getProductsByCategory,
+  setSortBy,
+  setOrder,
+}) {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [tempSortBy, setTempSortBy] = useState('');
+  const [tempOrder, setTempOrder] = useState('');
 
   useEffect(() => {
     async function getCategoryList(): Promise<void> {
@@ -49,30 +56,64 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                     <Form>
                       <Form.Check
                         type='radio'
+                        name='sort'
                         id='most-relevant'
                         label='Most relevant'
+                        onChange={() => {
+                          setTempSortBy('');
+                          setTempOrder('');
+                        }}
                       />
                       <Form.Check
                         type='radio'
+                        name='sort'
                         id='best-selling'
                         label='Best selling'
+                        onChange={() => {
+                          setTempSortBy('stock');
+                          setTempOrder('asc');
+                        }}
                       />
                       <Form.Check
                         type='radio'
+                        name='sort'
                         id='from-cheepest'
                         label='Price: Low to High'
+                        onChange={() => {
+                          setTempSortBy('price');
+                          setTempOrder('asc');
+                        }}
                       />
                       <Form.Check
                         type='radio'
+                        name='sort'
                         id='high-to-Low'
                         label='Price: High to Low'
+                        onChange={() => {
+                          setTempSortBy('price');
+                          setTempOrder('desc');
+                        }}
                       />
                       <Form.Check
                         type='radio'
+                        name='sort'
                         id='highest-rated'
                         label='Highest rated'
+                        onChange={() => {
+                          setTempSortBy('rating');
+                          setTempOrder('desc');
+                        }}
                       />
-                      <Form.Check type='radio' id='newest' label='Newest' />
+                      <Form.Check
+                        type='radio'
+                        name='sort'
+                        id='newest'
+                        label='Newest'
+                        onChange={() => {
+                          setTempSortBy('id');
+                          setTempOrder('desc');
+                        }}
+                      />
                     </Form>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -152,7 +193,15 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
               <Button
                 className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
                 variant='primary'
-                onClick={() => getProductsByCategory(selectedCategory)}>
+                onClick={() => {
+                  if (selectedCategory) {
+                    getProductsByCategory(selectedCategory);
+                  }
+                  if (tempSortBy) {
+                    setSortBy(tempSortBy);
+                    setOrder(tempOrder);
+                  }
+                }}>
                 Apply Filter
               </Button>
             </Offcanvas.Body>

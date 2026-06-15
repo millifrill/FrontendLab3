@@ -11,13 +11,17 @@ import FilterSidebar from '../filter-sidebar/filter-sidebar';
 import Pagination from 'react-bootstrap/Pagination';
 import styles from './product-list.module.css';
 
-export default function ProductList( {
+export default function ProductList({
   sortBy,
   order,
-}:{
+  setSortBy,
+  setOrder,
+}: {
   sortBy: string;
   order: string;
-}){
+  setSortBy: React.Dispatch<React.SetStateAction<string>>;
+  setOrder: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
@@ -26,8 +30,6 @@ export default function ProductList( {
   const [active, setActive] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const limit = 30;
-  const [sortBy, setSortBy] = useState('');
-  const [order, setOrder] = useState('');
 
   useEffect(() => {
     if (hasSearched.current) {
@@ -102,6 +104,8 @@ export default function ProductList( {
         <FilterSidebar
           products={products}
           getProductsByCategory={getProductsByCategory}
+          setSortBy={setSortBy}
+          setOrder={setOrder}
         />
       </div>
       <div className={styles.list}>
