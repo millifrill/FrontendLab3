@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
 export default function CategoryFiltration({
@@ -18,11 +16,11 @@ export default function CategoryFiltration({
                   category.charAt(0).toUpperCase() + category.slice(1);
                 return (
                   <Form.Check
-                    key={category}
-                    value={category}
                     type='radio'
-                    id={category}
+                    key={category}
                     name='category'
+                    value={category}
+                    id={category}
                     label={categoryToUpperCase}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                   />

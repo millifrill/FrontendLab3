@@ -9,13 +9,17 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import SortProducts from '../sort-products/sort-products';
 import CategoryFiltration from '../category-filtration/category-filtration';
 import Brand from '../brand/brand';
 import styles from './filter-sidebar.module.css';
 
 export default function FilterSidebar({ products, getProductsByCategory }) {
+  const [selectedSortOption, setSelectedSortOption] = useState<string>('');
+  console.log('selectedSortOption', selectedSortOption);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  console.log('selectedCategory', selectedCategory);
 
   useEffect(() => {
     async function getCategoryList(): Promise<void> {
@@ -39,46 +43,23 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
           </Navbar.Toggle>
           <Navbar.Offcanvas aria-labelledby='Filter' placement='end'>
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Filter & Sort</Offcanvas.Title>
+              <Offcanvas.Title>
+                <h2>Filter & Sort</h2>
+              </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Accordion alwaysOpen>
                 <Accordion.Item eventKey='0'>
-                  <Accordion.Header>Sort</Accordion.Header>
+                  <Accordion.Header as='h3'>Sort</Accordion.Header>
                   <Accordion.Body>
-                    <Form>
-                      <Form.Check
-                        type='radio'
-                        id='most-relevant'
-                        label='Most relevant'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='best-selling'
-                        label='Best selling'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='from-cheepest'
-                        label='Price: Low to High'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='high-to-Low'
-                        label='Price: High to Low'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='highest-rated'
-                        label='Highest rated'
-                      />
-                      <Form.Check type='radio' id='newest' label='Newest' />
-                    </Form>
+                    <SortProducts
+                      setSelectedSortOption={setSelectedSortOption}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='1'>
-                  <Accordion.Header>Price</Accordion.Header>
+                  <Accordion.Header as='h3'>Price</Accordion.Header>
                   <Accordion.Body>
                     <Form.Label>Filter by price range</Form.Label>
                     <Form.Range />
@@ -86,18 +67,17 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='2'>
-                  <Accordion.Header>Category</Accordion.Header>
+                  <Accordion.Header as='h3'>Category</Accordion.Header>
                   <Accordion.Body>
                     <CategoryFiltration
                       categories={categories}
-                      setCategory={setCategories}
                       setSelectedCategory={setSelectedCategory}
                     />
                   </Accordion.Body>
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Rating</Accordion.Header>
+                  <Accordion.Header as='h3'>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Filter by rating</p>
                     <figure
@@ -143,7 +123,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='4'>
-                  <Accordion.Header>Brand</Accordion.Header>
+                  <Accordion.Header as='h3'>Brand</Accordion.Header>
                   <Accordion.Body>
                     <p>Filter by brand</p>
                     <Brand products={products} />

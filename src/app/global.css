@@ -65,3 +65,11 @@ h2 {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
 }
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-h);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
