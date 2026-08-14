@@ -14,7 +14,12 @@ import CategoryFiltration from '../category-filtration/category-filtration';
 import Brand from '../brand/brand';
 import styles from './filter-sidebar.module.css';
 
-export default function FilterSidebar({ products, getProductsByCategory }) {
+export default function FilterSidebar({
+  products,
+  // getSearchedProducts,
+  getProductsByCategory,
+  getProductsBySortOption,
+}) {
   const [selectedSortOption, setSelectedSortOption] = useState<string>('');
   console.log('selectedSortOption', selectedSortOption);
   const [categories, setCategories] = useState<string[]>([]);
@@ -35,7 +40,9 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
         <Container fluid className={styles.filterContainer}>
-          <Navbar.Toggle className={styles.filterToggle}>
+          <Navbar.Toggle
+            aria-label='Open filter'
+            className={styles.filterToggle}>
             <div className={styles.filterBtn}>
               Filter
               <RiMenuFoldLine className={styles.filterIcon} />
@@ -49,7 +56,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Accordion alwaysOpen>
-                <Accordion.Item eventKey='0'>
+                <Accordion.Item eventKey='0' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Sort</Accordion.Header>
                   <Accordion.Body>
                     <SortProducts
@@ -58,7 +65,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='1'>
+                <Accordion.Item eventKey='1' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Price</Accordion.Header>
                   <Accordion.Body>
                     <Form.Label>Filter by price range</Form.Label>
@@ -66,8 +73,10 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='2'>
-                  <Accordion.Header as='h3'>Category</Accordion.Header>
+                <Accordion.Item eventKey='2' className={styles.accordionItem}>
+                  <Accordion.Header as='h3' color='#562189'>
+                    Category
+                  </Accordion.Header>
                   <Accordion.Body>
                     <CategoryFiltration
                       categories={categories}
@@ -76,7 +85,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='3'>
+                <Accordion.Item eventKey='3' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Rating</Accordion.Header>
                   <Accordion.Body>
                     <p>Filter by rating</p>
@@ -122,7 +131,7 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                     </figure>
                   </Accordion.Body>
                 </Accordion.Item>
-                <Accordion.Item eventKey='4'>
+                <Accordion.Item eventKey='4' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Brand</Accordion.Header>
                   <Accordion.Body>
                     <p>Filter by brand</p>
@@ -130,12 +139,25 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              <Button
-                className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
-                variant='primary'
-                onClick={() => getProductsByCategory(selectedCategory)}>
-                Apply Filter
-              </Button>
+              <div className={styles.buttons}>
+                <Button
+                  className={`mt-3 mx-auto d-block ${styles.resetFilterBtn}`}
+                  variant='primary'
+                  // onClick={() => getSearchedProducts()}
+                >
+                  Reset Filter
+                </Button>
+                <Button
+                  className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
+                  variant='primary'
+                  // onClick={() => getProductsByCategory(selectedCategory)}>
+                  onClick={() => {
+                    (getProductsBySortOption(),
+                      getProductsByCategory(selectedCategory));
+                  }}>
+                  Apply Filter
+                </Button>
+              </div>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
