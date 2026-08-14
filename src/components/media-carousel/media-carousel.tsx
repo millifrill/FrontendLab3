@@ -1,8 +1,12 @@
 import { Card, Carousel } from 'react-bootstrap';
 import styles from './media-carousel.module.css';
-import { IoHeartOutline } from 'react-icons/io5';
+import { IoHeart, IoHeartOutline } from 'react-icons/io5';
+import { useWishlist } from '../../context/wishlist.context';
 
 export default function MediaCarousel({ product, smallestPossibleDiscount }) {
+  const { isFavorite, toggleFavorite } = useWishlist();
+  const favorited = isFavorite(product.id);
+
   return (
     <>
       <section className={`${styles.media}`}>
@@ -25,9 +29,25 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
             alt={`${product.title}`}
           />
         )}
-        <IoHeartOutline
-          className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
-        />
+        <button
+          type='button'
+          className={`${styles.heartBtn} bg-dark rounded-circle p-1`}
+          aria-label={
+            favorited
+              ? `Remove ${product.title} from wishlist`
+              : `Add ${product.title} to wishlist`
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite(product);
+          }}>
+          {favorited ? (
+            <IoHeart className='fs-1' />
+          ) : (
+            <IoHeartOutline className='fs-1' />
+          )}
+        </button>
         <figure className='position-absolute bottom-0 w-100 d-flex justify-content-center gap-1 mb-1'></figure>
         {product.discountPercentage > smallestPossibleDiscount ? (
           <span

@@ -1,6 +1,7 @@
 import Navigationbar from '../components/navbar/navbar';
 import Footer from '../components/footer/footer';
 import { CartProvider } from '../context/cart.context';
+import { WishlistProvider } from '../context/wishlist.context';
 import './bootstrap.scss';
 import './global.css';
 
@@ -15,9 +16,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang='en'>
       <body>
         <CartProvider>
-          <Navigationbar />
-          <main>{children}</main>
-          <Footer />
+          <WishlistProvider>
+            <Navigationbar />
+            <main>{children}</main>
+            <Footer />
+          </WishlistProvider>
         </CartProvider>
       </body>
     </html>
