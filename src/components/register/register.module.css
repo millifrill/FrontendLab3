@@ -1,3 +1,13 @@
 .heading {
   font-size: 2rem;
 }
+
+.form {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.errorMessage {
+  color: var(--danger);
+  height: 28px;
+}
