@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

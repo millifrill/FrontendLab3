@@ -18,10 +18,6 @@ export default function Navigationbar() {
   const { totalCount } = useCart();
   const { currentUser, setCurrentUser } = useAuth();
 
-  useEffect(() => {
-    setCurrentUser(JSON.parse(localStorage.getItem('currentUser') || 'null'));
-  }, []);
-
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
       <Container>
@@ -66,7 +62,7 @@ export default function Navigationbar() {
                   className={styles.navLink}
                   onClick={() => {
                     setCurrentUser('');
-                    localStorage.removeItem(currentUser);
+                    localStorage.removeItem('currentUser');
                   }}>
                   <SlLogout className={styles.icon} />
                   Logout
