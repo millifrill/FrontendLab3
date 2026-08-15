@@ -1,4 +1,5 @@
-import { Card, Carousel } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Card, Carousel, Modal } from 'react-bootstrap';
 import styles from './media-carousel.module.css';
 import { IoHeart, IoHeartOutline } from 'react-icons/io5';
 import { useWishlist } from '../../context/wishlist.context';
@@ -6,6 +7,22 @@ import { useWishlist } from '../../context/wishlist.context';
 export default function MediaCarousel({ product, smallestPossibleDiscount }) {
   const { isFavorite, toggleFavorite } = useWishlist();
   const favorited = isFavorite(product.id);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  function handleHeartClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (favorited) {
+      setShowConfirm(true);
+    } else {
+      toggleFavorite(product);
+    }
+  }
+
+  function handleConfirmRemove() {
+    toggleFavorite(product);
+    setShowConfirm(false);
+  }
 
   return (
     <>
@@ -31,17 +48,13 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
         )}
         <button
           type='button'
-          className={`${styles.heartBtn} bg-dark rounded-circle p-1`}
+          className={`${styles.heartBtn} ${favorited ? styles.heartBtnActive : ''} bg-dark rounded-circle p-1`}
           aria-label={
             favorited
               ? `Remove ${product.title} from wishlist`
               : `Add ${product.title} to wishlist`
           }
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFavorite(product);
-          }}>
+          onClick={handleHeartClick}>
           {favorited ? (
             <IoHeart className='fs-1' />
           ) : (
@@ -56,6 +69,26 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
           </span>
         ) : null}
       </section>
+
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)} centered>
+        <Modal.Body className={styles.modalBody}>
+          Are you sure you want to remove this item from your wishlist?
+        </Modal.Body>
+        <Modal.Footer className={styles.modalFooter}>
+          <Button
+            variant='primary'
+            className={styles.btnPrimary}
+            onClick={() => setShowConfirm(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant='outline-primary'
+            className={styles.btnOutline}
+            onClick={handleConfirmRemove}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
