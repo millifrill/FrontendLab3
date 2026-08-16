@@ -12,53 +12,94 @@ import Pagination from 'react-bootstrap/Pagination';
 import styles from './product-list.module.css';
 
 export default function ProductList() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedSortOption, setSelectedSortOption] = useState<string>('');
+  console.log('selectedSortOption', selectedSortOption);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  console.log('selectedCategory', selectedCategory);
+  const [brands, setSelectedBrands] = useState<string[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const limit = 30;
 
+  async function getProducts(): Promise<void> {
+    setLoading(true);
+    const res = await axios.get<ProductRes>(
+      `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
+    );
+    setProducts(res.data.products);
+    setPages(Math.floor(res.data.total / limit) + 1);
+    setLoading(false);
+  }
+
   useEffect(() => {
     if (hasSearched.current) {
       return;
     }
-    async function getProducts(): Promise<void> {
-      setLoading(true);
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
-      );
-      setProducts(res.data.products);
-      setPages(Math.floor(res.data.total / limit) + 1);
-      setLoading(false);
-    }
     getProducts();
   }, [active]);
+
+  async function getSearchedProducts(): Promise<void> {
+    setLoading(true);
+    const res = await axios.get<ProductRes>(
+      `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
+    );
+    setProducts(res.data.products);
+    setPages(Math.floor(res.data.total / limit) + 1);
+    setLoading(false);
+  }
 
   useEffect(() => {
     if (!hasSearched.current) {
       return;
     }
-
-    async function getSearchedProducts(): Promise<void> {
-      setLoading(true);
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-      );
-      setProducts(res.data.products);
-      setPages(Math.floor(res.data.total / limit) + 1);
-      setLoading(false);
-    }
     getSearchedProducts();
   }, [searchQuery, active]);
 
   async function getProductsByCategory(category): Promise<void> {
+    setLoading(true);
     const res = await axios.get<ProductRes>(
-      `https://dummyjson.com/products/category/${category}`,
+      `https://dummyjson.com/products/category/${category}&skip=${(active - 1) * limit}`,
     );
     setProducts(res.data.products);
+    setPages(Math.floor(res.data.total / limit) + 1);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (!selectedCategory) {
+      return;
+    }
+    getProductsByCategory(selectedCategory);
+  }, [active]);
+
+  async function getProductsBySortOption(selectedSortOption): Promise<void> {
+    setLoading(true);
+    console.log('selectedSortOption', selectedSortOption);
+
+    let sortValue;
+
+    if (selectedSortOption === 'most-relevant') {
+      sortValue = '';
+    }
+    if (selectedSortOption === 'low-to-high') {
+      sortValue = 'asc';
+    }
+    if (selectedSortOption === 'high-to-low') {
+      sortValue = 'desc';
+    }
+    console.log('sortValue', sortValue);
+
+    const res = await axios.get<ProductRes>(
+      `https://dummyjson.com/products?sortBy=price&order=${sortValue}`,
+    );
+    setProducts(res.data.products);
+    setPages(Math.floor(res.data.total / limit) + 1);
+    setLoading(false);
   }
 
   return (
@@ -93,7 +134,14 @@ export default function ProductList() {
         </Form>
         <FilterSidebar
           products={products}
+          getProducts={getProducts}
+          selectedSortOption={selectedSortOption}
+          setSelectedSortOption={setSelectedSortOption}
+          getProductsBySortOption={getProductsBySortOption}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           getProductsByCategory={getProductsByCategory}
+          setSelectedBrands={setSelectedBrands}
         />
       </div>
       <div className={styles.list}>

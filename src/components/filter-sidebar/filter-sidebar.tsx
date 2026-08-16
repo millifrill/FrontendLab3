@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Accordion, Form } from 'react-bootstrap';
 import { IoStar, IoStarOutline } from 'react-icons/io5';
 import { RiMenuFoldLine } from 'react-icons/ri';
@@ -16,26 +14,15 @@ import styles from './filter-sidebar.module.css';
 
 export default function FilterSidebar({
   products,
-  // getSearchedProducts,
-  getProductsByCategory,
+  getProducts,
+  selectedSortOption,
+  setSelectedSortOption,
   getProductsBySortOption,
+  selectedCategory,
+  getProductsByCategory,
+  setSelectedBrands,
+  setSelectedCategory,
 }) {
-  const [selectedSortOption, setSelectedSortOption] = useState<string>('');
-  console.log('selectedSortOption', selectedSortOption);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  console.log('selectedCategory', selectedCategory);
-
-  useEffect(() => {
-    async function getCategoryList(): Promise<void> {
-      const res = await axios.get<string[]>(
-        'https://dummyjson.com/products/category-list',
-      );
-      setCategories(res.data);
-    }
-    getCategoryList();
-  }, []);
-
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
@@ -79,7 +66,6 @@ export default function FilterSidebar({
                   </Accordion.Header>
                   <Accordion.Body>
                     <CategoryFiltration
-                      categories={categories}
                       setSelectedCategory={setSelectedCategory}
                     />
                   </Accordion.Body>
@@ -131,11 +117,15 @@ export default function FilterSidebar({
                     </figure>
                   </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey='4' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Brand</Accordion.Header>
                   <Accordion.Body>
                     <p>Filter by brand</p>
-                    <Brand products={products} />
+                    <Brand
+                      products={products}
+                      setSelectedBrands={setSelectedBrands}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -143,8 +133,7 @@ export default function FilterSidebar({
                 <Button
                   className={`mt-3 mx-auto d-block ${styles.resetFilterBtn}`}
                   variant='primary'
-                  // onClick={() => getSearchedProducts()}
-                >
+                  onClick={() => getProducts()}>
                   Reset Filter
                 </Button>
                 <Button
@@ -152,8 +141,8 @@ export default function FilterSidebar({
                   variant='primary'
                   // onClick={() => getProductsByCategory(selectedCategory)}>
                   onClick={() => {
-                    (getProductsBySortOption(),
-                      getProductsByCategory(selectedCategory));
+                    (getProductsByCategory(selectedCategory),
+                      getProductsBySortOption(selectedSortOption));
                   }}>
                   Apply Filter
                 </Button>

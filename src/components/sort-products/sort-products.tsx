@@ -7,12 +7,13 @@ export default function SortProducts({ setSelectedSortOption }) {
     'high-to-low',
     'highest-rated',
   ];
+
   return (
     <>
       <p>Sort products by</p>
       <Form>
         <div className='mb-3'>
-          {sortOptions.map((sortOption) => {
+          {sortOptions.map((sortOption: string) => {
             const sortOptionToUpperCase =
               sortOption.charAt(0).toUpperCase() + sortOption.slice(1);
             return (
