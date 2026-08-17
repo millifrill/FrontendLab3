@@ -31,7 +31,7 @@
 }
 
 .heartBtnActive {
-  color: #9e9e9e;
+  color: var(--danger);
   opacity: 1;
 }
 

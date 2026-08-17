@@ -17,6 +17,8 @@ interface WishlistContextValue {
   toggleFavorite: (product: Product) => void;
   removeItem: (id: number) => void;
   totalCount: number;
+  removeAlert: string | null;
+  clearRemoveAlert: () => void;
 }
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
@@ -24,6 +26,7 @@ const WishlistContext = createContext<WishlistContextValue | null>(null);
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<Product[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [removeAlert, setRemoveAlert] = useState<string | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -41,11 +44,13 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   }
 
   function toggleFavorite(product: Product) {
-    setItems((prev) =>
-      prev.some((i) => i.id === product.id)
-        ? prev.filter((i) => i.id !== product.id)
-        : [...prev, product],
-    );
+    setItems((prev) => {
+      if (prev.some((i) => i.id === product.id)) {
+        setRemoveAlert(product.title);
+        return prev.filter((i) => i.id !== product.id);
+      }
+      return [...prev, product];
+    });
   }
 
   function removeItem(id: number) {
@@ -60,6 +65,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         toggleFavorite,
         removeItem,
         totalCount: items.length,
+        removeAlert,
+        clearRemoveAlert: () => setRemoveAlert(null),
       }}>
       {children}
     </WishlistContext.Provider>
