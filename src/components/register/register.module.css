@@ -5,5 +5,5 @@
 
 .errorMessage {
   color: var(--danger);
-  height: 28px;
+  height: 20px;
 }
