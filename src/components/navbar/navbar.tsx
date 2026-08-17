@@ -11,7 +11,6 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
 import { useCart } from '../../context/cart.context';
-import { useCart } from '../../context/cart.context';
 import { useAuth } from '../../context/auth.context';
 import { useWishlist } from '../../context/wishlist.context';
 
