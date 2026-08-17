@@ -5,6 +5,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ export default function Register() {
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setPasswordError('');
     setEmailError('');
@@ -45,9 +46,11 @@ export default function Register() {
 
     if (anyError) return;
 
+    const passwordHash = await bcrypt.hash(password, 10);
+
     const newUser = {
       email,
-      password,
+      passwordHash,
     };
     localStorage.setItem('users', JSON.stringify([...allUsers, newUser]));
     localStorage.setItem('currentUser', JSON.stringify(newUser));

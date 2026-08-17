@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,23 +14,27 @@ export default function Login() {
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-
     const user = allUsers.find(
-      (user: { email: string; password: string }) =>
-        user.email === email && user.password === password,
+      (user: { email: string; passwordHash: string }) => user.email === email,
     );
 
-    if (user) {
-      setCurrentUser(user);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      router.push('/');
-    } else {
+    if (!user) {
       setErrorMessage('Incorrect email address or password');
+      return;
     }
+
+    const correctPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!correctPassword) {
+      setErrorMessage('Incorrect email address or password');
+      return;
+    }
+    setCurrentUser(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    router.push('/');
   };
 
   return (
