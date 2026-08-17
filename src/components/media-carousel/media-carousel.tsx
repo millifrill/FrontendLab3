@@ -48,7 +48,7 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
         )}
         <button
           type='button'
-          className={`${styles.heartBtn} ${favorited ? styles.heartBtnActive : ''} bg-dark rounded-circle p-1`}
+          className={`${styles.heartBtn} ${favorited ? styles.heartBtnActive : ''} rounded-circle p-1`}
           aria-label={
             favorited
               ? `Remove ${product.title} from wishlist`
