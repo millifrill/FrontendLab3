@@ -81,7 +81,7 @@ export default function Login() {
           </Form>
         </div>
       ) : (
-        <h1>You are already logged in</h1>
+        <h1>You are logged in</h1>
       )}
     </>
   );

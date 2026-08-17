@@ -1,7 +1,7 @@
 'use client';
 import styles from './register.module.css';
 import { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
@@ -30,6 +30,14 @@ export default function Register() {
 
     if (password.length < 8) {
       setPasswordError('Password must include 8 or more characters');
+      anyError = true;
+    }
+
+    if (
+      (password !== passwordAgain && password.length < 8) ||
+      (password !== passwordAgain && passwordAgain.length < 8)
+    ) {
+      setPasswordError('Passwords must include 8 or more characters and match');
       anyError = true;
     }
 
@@ -110,7 +118,7 @@ export default function Register() {
           </Form>
         </div>
       ) : (
-        <h1>You are already logged in</h1>
+        <h1>You are logged in</h1>
       )}
     </>
   );
