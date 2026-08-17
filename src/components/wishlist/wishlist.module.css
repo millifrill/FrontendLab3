@@ -1,0 +1,24 @@
+.empty {
+  text-align: center;
+  color: var(--dark);
+  margin-top: 4rem;
+  font-size: 1rem;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 320px);
+  justify-content: center;
+  gap: 2em;
+}
+
+.alert {
+  position: absolute;
+  top: 68px;
+  right: 10px;
+  width: 320px;
+  font-size: 0.8rem;
+  @media (min-width: 768px) {
+    width: 450px;
+  }
+}

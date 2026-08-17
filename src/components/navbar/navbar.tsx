@@ -11,12 +11,15 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
 import { useCart } from '../../context/cart.context';
+import { useCart } from '../../context/cart.context';
 import { useAuth } from '../../context/auth.context';
-import { useEffect, useState } from 'react';
+import { useWishlist } from '../../context/wishlist.context';
 
 export default function Navigationbar() {
   const { totalCount } = useCart();
   const { currentUser, setCurrentUser } = useAuth();
+  const { totalCount: wishlistCount } = useWishlist();
+
 
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
@@ -40,7 +43,7 @@ export default function Navigationbar() {
             <Link href='/wishlist' className={styles.navLink}>
               <IoHeartSharp className={styles.icon} />
               <Badge bg='dark' className={styles.wishlistBadge}>
-                8
+                {wishlistCount}
               </Badge>
               Wishlist
             </Link>

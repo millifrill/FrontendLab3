@@ -1,8 +1,29 @@
-import { Card, Carousel } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Card, Carousel, Modal } from 'react-bootstrap';
 import styles from './media-carousel.module.css';
-import { IoHeartOutline } from 'react-icons/io5';
+import { IoHeart, IoHeartOutline } from 'react-icons/io5';
+import { useWishlist } from '../../context/wishlist.context';
 
 export default function MediaCarousel({ product, smallestPossibleDiscount }) {
+  const { isFavorite, toggleFavorite } = useWishlist();
+  const favorited = isFavorite(product.id);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  function handleHeartClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (favorited) {
+      setShowConfirm(true);
+    } else {
+      toggleFavorite(product);
+    }
+  }
+
+  function handleConfirmRemove() {
+    toggleFavorite(product);
+    setShowConfirm(false);
+  }
+
   return (
     <>
       <section className={`${styles.media}`}>
@@ -25,9 +46,21 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
             alt={`${product.title}`}
           />
         )}
-        <IoHeartOutline
-          className={`${styles.heart} fs-1 p-1 bg-dark rounded-circle`}
-        />
+        <button
+          type='button'
+          className={`${styles.heartBtn} ${favorited ? styles.heartBtnActive : ''} rounded-circle p-1`}
+          aria-label={
+            favorited
+              ? `Remove ${product.title} from wishlist`
+              : `Add ${product.title} to wishlist`
+          }
+          onClick={handleHeartClick}>
+          {favorited ? (
+            <IoHeart className='fs-1' />
+          ) : (
+            <IoHeartOutline className='fs-1' />
+          )}
+        </button>
         <figure className='position-absolute bottom-0 w-100 d-flex justify-content-center gap-1 mb-1'></figure>
         {product.discountPercentage > smallestPossibleDiscount ? (
           <span
@@ -36,6 +69,26 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
           </span>
         ) : null}
       </section>
+
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)} centered>
+        <Modal.Body className={styles.modalBody}>
+          Are you sure you want to remove this item from your wishlist?
+        </Modal.Body>
+        <Modal.Footer className={styles.modalFooter}>
+          <Button
+            variant='outline-primary'
+            className={styles.btnOutline}
+            onClick={() => setShowConfirm(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant='primary'
+            className={styles.btnPrimary}
+            onClick={handleConfirmRemove}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
