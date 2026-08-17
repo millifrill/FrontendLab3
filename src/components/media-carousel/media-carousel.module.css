@@ -36,6 +36,10 @@
   opacity: 1;
 }
 
+.heartBtnActive:hover {
+  background-color: #949494 !important;
+}
+
 .deal {
   position: absolute;
   bottom: -40px;
