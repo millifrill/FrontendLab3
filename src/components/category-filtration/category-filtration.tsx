@@ -9,10 +9,14 @@ export default function CategoryFiltration({
 }) {
   useEffect(() => {
     async function getCategoryList(): Promise<void> {
-      const res = await axios.get<string[]>(
-        'https://dummyjson.com/products/category-list',
-      );
-      setCategory(res.data);
+      try {
+        const res = await axios.get<string[]>(
+          'https://dummyjson.com/products/category-list',
+        );
+        setCategory(res.data);
+      } catch (error) {
+        console.error('Failed to fetch category list:', error);
+      }
     }
     getCategoryList();
   }, []);

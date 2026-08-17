@@ -18,7 +18,8 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const limit = 30;
 
   useEffect(() => {
@@ -27,12 +28,18 @@ export default function ProductList() {
     }
     async function getProducts(): Promise<void> {
       setLoading(true);
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
-      );
-      setProducts(res.data.products);
-      setPages(Math.floor(res.data.total / limit) + 1);
-      setLoading(false);
+      try {
+        const res = await axios.get<ProductRes>(
+          `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
+        );
+        setProducts(res.data.products);
+        setPages(Math.floor(res.data.total / limit) + 1);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        setError('Failed to load products.');
+      } finally {
+        setLoading(false);
+      }
     }
     getProducts();
   }, [active]);
@@ -44,21 +51,35 @@ export default function ProductList() {
 
     async function getSearchedProducts(): Promise<void> {
       setLoading(true);
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-      );
-      setProducts(res.data.products);
-      setPages(Math.floor(res.data.total / limit) + 1);
-      setLoading(false);
+      try {
+        const res = await axios.get<ProductRes>(
+          `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
+        );
+        setProducts(res.data.products);
+        setPages(Math.floor(res.data.total / limit) + 1);
+      } catch (error) {
+        console.error('Failed to fetch products by search:', error);
+        setError('Failed to load products by search. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
     getSearchedProducts();
   }, [searchQuery, active]);
 
   async function getProductsByCategory(category): Promise<void> {
-    const res = await axios.get<ProductRes>(
-      `https://dummyjson.com/products/category/${category}`,
-    );
-    setProducts(res.data.products);
+    try {
+      const res = await axios.get<ProductRes>(
+        `https://dummyjson.com/products/category/${category}`,
+      );
+      setProducts(res.data.products);
+    } catch (error) {
+      console.error(
+        'Failed to fetch products by category:',
+        error,
+        setError('Failed to load products by category. Please try again.'),
+      );
+    }
   }
 
   return (
@@ -100,15 +121,17 @@ export default function ProductList() {
         {hasSearched && !loading && products.length === 0 ? (
           <p>No results...</p>
         ) : null}
-        {products.length > 0
-          ? products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                smallestPossibleDiscount={5}
-              />
-            ))
-          : null}
+        {error ? (
+          <p>{error}</p>
+        ) : products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              smallestPossibleDiscount={5}
+            />
+          ))
+        ) : null}
         {products.length > 0 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev

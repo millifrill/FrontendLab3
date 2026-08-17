@@ -39,10 +39,14 @@ export default function ProductDetails({ id }) {
 
   useEffect(() => {
     async function getProductById(): Promise<void> {
-      const res = await axios.get<Product>(
-        `https://dummyjson.com/products/${id}`,
-      );
-      setProduct(res.data);
+      try {
+        const res = await axios.get<Product>(
+          `https://dummyjson.com/products/${id}`,
+        );
+        setProduct(res.data);
+      } catch (error) {
+        console.error('Failed to fetch product by id:', error);
+      }
     }
     getProductById();
   }, [id]);
