@@ -6,13 +6,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Badge, Container, Nav } from 'react-bootstrap';
 import { IoMdMoon } from 'react-icons/io';
 import { IoCartSharp, IoHeartSharp, IoPersonSharp } from 'react-icons/io5';
+import { SlLogout } from 'react-icons/sl';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
 import { useCart } from '../../context/cart.context';
+import { useAuth } from '../../context/auth.context';
+import { useEffect, useState } from 'react';
 
 export default function Navigationbar() {
   const { totalCount } = useCart();
+  const { currentUser, setCurrentUser } = useAuth();
 
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
@@ -47,10 +51,30 @@ export default function Navigationbar() {
               </Badge>
               Cart
             </Link>
-            <Link href='/account' className={styles.navLink}>
-              <IoPersonSharp className={styles.icon} />
-              Account
-            </Link>
+            {currentUser ? (
+              <>
+                <Link href='/account' className={styles.navLink}>
+                  <IoPersonSharp className={styles.icon} />
+                  Account
+                </Link>
+                <Link
+                  href='/'
+                  className={styles.navLink}
+                  onClick={() => {
+                    setCurrentUser('');
+                    localStorage.removeItem('currentUser');
+                  }}>
+                  <SlLogout className={styles.icon} />
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <Link href='/login' className={styles.navLink}>
+                <IoPersonSharp className={styles.icon} />
+                Log in
+              </Link>
+            )}
+
             <Link href='' className={styles.navLink}>
               <button className={styles.btn}>
                 <IoMdMoon className={styles.icon} />
