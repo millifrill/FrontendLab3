@@ -37,14 +37,14 @@ export default function Register() {
       anyError = true;
     }
 
+    const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    if (allUsers.some((user: { email: string }) => user.email === email)) {
+      setEmailError('Email address already in use');
+      anyError = true;
+    }
+
     if (anyError) return;
 
-    const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-
-    if (allUsers.some((user: { email: string }) => user.email === email)) {
-      setPasswordError('Email address already in use');
-      return;
-    }
     const newUser = {
       email,
       password,
