@@ -1,41 +1,64 @@
 'use client';
 import styles from './register.module.css';
 import { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordAgain, setPasswordAgain] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
+    setPasswordError('');
+    setEmailError('');
+    let anyError = false;
+
     if (password !== passwordAgain) {
-      setErrorMessage('Passwords are not matching');
-      return;
+      setPasswordError('Passwords are not matching');
+      anyError = true;
     }
 
     if (password.length < 8) {
-      setErrorMessage('Password must include 8 or more characters');
-      return;
+      setPasswordError('Password must include 8 or more characters');
+      anyError = true;
+    }
+
+    if (
+      (password !== passwordAgain && password.length < 8) ||
+      (password !== passwordAgain && passwordAgain.length < 8)
+    ) {
+      setPasswordError('Passwords must include 8 or more characters and match');
+      anyError = true;
+    }
+
+    if (!emailRegex.test(email)) {
+      setEmailError('Invalid email address');
+      anyError = true;
     }
 
     const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-
     if (allUsers.some((user: { email: string }) => user.email === email)) {
-      setErrorMessage('Email address already in use');
-      return;
+      setEmailError('Email address already in use');
+      anyError = true;
     }
+
+    if (anyError) return;
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
     const newUser = {
       email,
-      password,
+      passwordHash,
     };
     localStorage.setItem('users', JSON.stringify([...allUsers, newUser]));
     localStorage.setItem('currentUser', JSON.stringify(newUser));
@@ -47,9 +70,9 @@ export default function Register() {
     <>
       {!currentUser ? (
         <div>
-          <h1 className='fs-2 mb-5 mt-5'>Register</h1>
-          <Form className={styles.form} onSubmit={handleSubmit}>
-            <Form.Group className='mb-4' controlId='email'>
+          <h1 className='fs-2 mb-5 mt-2'>Register</h1>
+          <Form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <Form.Group className='mb-2' controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
@@ -58,8 +81,8 @@ export default function Register() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
-
-            <Form.Group className='mb-4' controlId='password'>
+            {<p className={styles.errorMessage}>{emailError}</p>}
+            <Form.Group className='mb-3' controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'
@@ -68,8 +91,8 @@ export default function Register() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Form.Group className='mb-4' controlId='passwordAgain'>
-              <Form.Label>Password</Form.Label>
+            <Form.Group className='mb-2' controlId='passwordAgain'>
+              <Form.Label>Password again</Form.Label>
               <Form.Control
                 type='password'
                 placeholder='Enter password again'
@@ -77,7 +100,7 @@ export default function Register() {
                 onChange={(e) => setPasswordAgain(e.target.value)}
               />
             </Form.Group>
-            {<p className={styles.errorMessage}>{errorMessage}</p>}
+            {<p className={styles.errorMessage}>{passwordError}</p>}
             <div className='d-flex justify-content-center'>
               <Button
                 variant='primary'
@@ -95,7 +118,7 @@ export default function Register() {
           </Form>
         </div>
       ) : (
-        <h1>You are already logged in</h1>
+        <h1>You are logged in</h1>
       )}
     </>
   );
