@@ -33,6 +33,7 @@
 .heartBtnActive {
   color: var(--danger);
   opacity: 1;
+  background-color: var(--light) !important;
 }
 
 .deal {
