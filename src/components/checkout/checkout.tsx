@@ -351,7 +351,6 @@ export default function Checkout() {
                   <span className={styles.shippingPrice}>$14.99</span>
                 </label>
               </div>
-
               <Button className={styles.continueBtn} onClick={handleContinue}>
                 Continue to Payment
               </Button>

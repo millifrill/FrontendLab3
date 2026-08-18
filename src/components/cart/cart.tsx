@@ -156,9 +156,11 @@ export default function Cart() {
               <strong>Total sum</strong>
               <strong>${total.toFixed(2)}</strong>
             </div>
-            <Link href='/checkout' className={styles.checkoutBtn}>
-              Go to Checkout
-            </Link>
+            <Button variant='primary'>
+              <Link href='/checkout' className={styles.checkoutBtn}>
+                Go to Checkout
+              </Link>
+            </Button>
           </div>
         </div>
       )}
