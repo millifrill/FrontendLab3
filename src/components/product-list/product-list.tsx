@@ -84,7 +84,7 @@ export default function ProductList() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.list}>
       <div className={styles.searchFilterContainer}>
         <Form
           className={styles.searchForm}
@@ -118,57 +118,55 @@ export default function ProductList() {
           getProductsByCategory={getProductsByCategory}
         />
       </div>
-      <div className={styles.list}>
-        {hasSearched && !loading && products.length === 0 ? (
-          <p>No results...</p>
-        ) : null}
-        {error ? (
-          <p>{error}</p>
-        ) : products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              smallestPossibleDiscount={5}
-            />
-          ))
-        ) : null}
-        {products.length > 0 ? (
-          <Pagination className={`${styles.pagination} flex-fill`}>
-            <Pagination.Prev
-              className={styles.paginationItem}
-              onClick={() => {
-                setActive(active - 1);
-                window.scrollTo({ top: 0 });
-              }}
-              disabled={active === 1}
-            />
-            {Array.from({ length: pages }, (_, i) => {
-              const num = i + 1;
-              return (
-                <Pagination.Item
-                  className={styles.paginationItem}
-                  key={num}
-                  active={num === active}
-                  onClick={() => {
-                    setActive(num);
-                    window.scrollTo({ top: 0 });
-                  }}>
-                  {num}
-                </Pagination.Item>
-              );
-            })}
-            <Pagination.Next
-              className={styles.paginationItem}
-              onClick={() => {
-                setActive(active + 1);
-                window.scrollTo({ top: 0 });
-              }}
-              disabled={active === pages}
-            />
-          </Pagination>
-        ) : null}
-      </div>
+      {hasSearched && !loading && products.length === 0 ? (
+        <p>No results...</p>
+      ) : null}
+      {error ? (
+        <p>{error}</p>
+      ) : products.length > 0 ? (
+        products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            smallestPossibleDiscount={5}
+          />
+        ))
+      ) : null}
+      {products.length > 0 ? (
+        <Pagination className={`${styles.pagination} flex-fill`}>
+          <Pagination.Prev
+            className={styles.paginationItem}
+            onClick={() => {
+              setActive(active - 1);
+              window.scrollTo({ top: 0 });
+            }}
+            disabled={active === 1}
+          />
+          {Array.from({ length: pages }, (_, i) => {
+            const num = i + 1;
+            return (
+              <Pagination.Item
+                className={styles.paginationItem}
+                key={num}
+                active={num === active}
+                onClick={() => {
+                  setActive(num);
+                  window.scrollTo({ top: 0 });
+                }}>
+                {num}
+              </Pagination.Item>
+            );
+          })}
+          <Pagination.Next
+            className={styles.paginationItem}
+            onClick={() => {
+              setActive(active + 1);
+              window.scrollTo({ top: 0 });
+            }}
+            disabled={active === pages}
+          />
+        </Pagination>
+      ) : null}
     </div>
   );
 }
