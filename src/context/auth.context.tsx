@@ -8,11 +8,24 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+interface User {
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  password: string;
+  cardNumber?: string;
+  expirationDate?: string;
+  swish?: string;
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [users, setUsers] = useState<string[] | null>(null);
+  const [users, setUsers] = useState<User[] | null>(null);
   const [currentUser, setCurrentUser] = useState<string | null>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [passwordAgain, setPasswordAgain] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
