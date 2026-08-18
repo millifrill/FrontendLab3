@@ -17,6 +17,8 @@ interface WishlistContextValue {
   toggleFavorite: (product: Product) => void;
   removeItem: (id: number) => void;
   totalCount: number;
+  recentlyAdded: string | null;
+  clearRecentlyAdded: () => void;
   removeAlert: string | null;
   clearRemoveAlert: () => void;
 }
@@ -26,6 +28,7 @@ const WishlistContext = createContext<WishlistContextValue | null>(null);
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<Product[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
   const [removeAlert, setRemoveAlert] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,6 +52,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         setRemoveAlert(product.title);
         return prev.filter((i) => i.id !== product.id);
       }
+      setRecentlyAdded(product.title);
       return [...prev, product];
     });
   }
@@ -65,6 +69,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         toggleFavorite,
         removeItem,
         totalCount: items.length,
+        recentlyAdded,
+        clearRecentlyAdded: () => setRecentlyAdded(null),
         removeAlert,
         clearRemoveAlert: () => setRemoveAlert(null),
       }}>
