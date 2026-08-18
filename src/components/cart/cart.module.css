@@ -220,14 +220,7 @@
 
 .checkoutBtn {
   color: #fff;
-  font-size: 1rem;
-  font-family: inherit;
-  cursor: pointer;
   text-decoration: none;
-}
-
-.checkoutBtn:hover {
-  background-color: var(--btn-hover);
 }
 
 .stepperDisabled {
