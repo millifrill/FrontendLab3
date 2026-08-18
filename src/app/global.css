@@ -68,11 +68,18 @@ h2 {
 
 h3 {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 0;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-h);
   margin-bottom: 0;
 }
 
 .btn {
-  max-width: 200px;
+  width: fit-content;
 }
