@@ -1,6 +1,5 @@
 'use client';
 import styles from './register.module.css';
-import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
@@ -8,14 +7,14 @@ import { useRouter } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-  const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
+  const { currentUser, setCurrentUser } = useAuth();
+  const { email, setEmail } = useAuth();
+  const { password, setPassword } = useAuth();
+  const { passwordAgain, setPasswordAgain } = useAuth();
+  const { passwordError, setPasswordError } = useAuth();
+  const { emailError, setEmailError } = useAuth();
+  const { emailRegex } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
