@@ -28,6 +28,7 @@ export default function ProductList() {
     }
     async function getProducts(): Promise<void> {
       setLoading(true);
+      setError(null);
       try {
         const res = await axios.get<ProductRes>(
           `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`,
@@ -51,6 +52,7 @@ export default function ProductList() {
 
     async function getSearchedProducts(): Promise<void> {
       setLoading(true);
+      setError(null);
       try {
         const res = await axios.get<ProductRes>(
           `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
@@ -68,17 +70,16 @@ export default function ProductList() {
   }, [searchQuery, active]);
 
   async function getProductsByCategory(category): Promise<void> {
+    setLoading(true);
+    setError(null);
     try {
       const res = await axios.get<ProductRes>(
         `https://dummyjson.com/products/category/${category}`,
       );
       setProducts(res.data.products);
     } catch (error) {
-      console.error(
-        'Failed to fetch products by category:',
-        error,
-        setError('Failed to load products by category. Please try again.'),
-      );
+      console.error('Failed to fetch products by category:', error);
+      setError('Failed to load products by category. Please try again.');
     }
   }
 
