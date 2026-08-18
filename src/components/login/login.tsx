@@ -43,7 +43,7 @@ export default function Login() {
         <div>
           <h1 className='fs-2 mb-5 mt-2'>Log in</h1>
           <Form className={styles.form} onSubmit={handleSubmit} noValidate>
-            <Form.Group className='mb-4' controlId='email'>
+            <Form.Group className='mb-3' controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
@@ -53,7 +53,7 @@ export default function Login() {
               />
             </Form.Group>
 
-            <Form.Group className='mb-2' controlId='password'>
+            <Form.Group className='mb-3' controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'

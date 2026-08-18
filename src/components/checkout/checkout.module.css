@@ -237,22 +237,9 @@
   color: var(--text-h);
 }
 
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--dark);
-}
-
-.input {
-  font-size: 0.9rem;
-  border-color: var(--border);
-  border-radius: 0.25rem;
+.errorMessage {
+  color: var(--danger);
+  height: 20px;
 }
 
 .paymentOptions {
