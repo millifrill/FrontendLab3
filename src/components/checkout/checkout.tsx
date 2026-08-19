@@ -16,8 +16,13 @@ const SHIPPING_RATES: Record<ShippingOption, number> = {
 };
 
 const nameRegex = /^[A-Za-z\s'-]+$/;
-const postalCodeRegex = /^\d+$/;
+const addressRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*\s\d+[A-Za-z]?$/;
 const swishRegex = /^07\d{8}$/;
+
+const DISCOUNT_CODES: Record<string, number> = {
+  SAVE10: 0.1,
+  WELCOME5: 0.05,
+};
 
 function sanitizeName(value: string): string {
   return value.replace(/[^A-Za-z\s'-]/g, '');
@@ -54,7 +59,11 @@ export default function Checkout() {
   const [cvv, setCvv] = useState('');
   const [saveCard, setSaveCard] = useState(false);
   const [discount, setDiscount] = useState('');
-  const [discountError, setDiscountError] = useState(false);
+  const [discountError, setDiscountError] = useState<string | null>(null);
+  const [appliedDiscount, setAppliedDiscount] = useState<{
+    code: string;
+    percent: number;
+  } | null>(null);
   const [swishNumber, setSwishNumber] = useState('');
   const [paymentErrors, setPaymentErrors] = useState<Record<string, string>>(
     {},
@@ -68,32 +77,50 @@ export default function Checkout() {
   const shippingCost = SHIPPING_RATES[shipping];
   const taxRate = 0.04;
   const taxes = subtotal * taxRate;
-  const total = subtotal + shippingCost + taxes;
+  const discountAmount = appliedDiscount
+    ? subtotal * appliedDiscount.percent
+    : 0;
+  const total = subtotal + shippingCost + taxes - discountAmount;
+
+  function handleApplyDiscount() {
+    const code = discount.trim().toUpperCase();
+    if (!code) return;
+    const percent = DISCOUNT_CODES[code];
+    if (percent) {
+      setAppliedDiscount({ code, percent });
+      setDiscountError(null);
+    } else {
+      setDiscountError(code);
+      setAppliedDiscount(null);
+    }
+    setDiscount('');
+  }
 
   function validateShipping(): Record<string, string> {
     const next: Record<string, string> = {};
 
-    if (!firstName.trim()) next.firstName = 'Please enter your first name.';
+    if (!firstName.trim()) next.firstName = 'First name is required';
     else if (!nameRegex.test(firstName))
-      next.firstName = 'First name can only contain letters.';
+      next.firstName = 'First name can only contain letters';
 
-    if (!lastName.trim()) next.lastName = 'Please enter your last name.';
+    if (!lastName.trim()) next.lastName = 'Last name is required';
     else if (!nameRegex.test(lastName))
-      next.lastName = 'Last name can only contain letters.';
+      next.lastName = 'Last name can only contain letters';
 
-    if (!address.trim()) next.address = 'Please enter your address.';
+    if (!address.trim()) next.address = 'Address is required';
+    else if (!addressRegex.test(address))
+      next.address = 'Address must include a street name and number';
 
-    if (!city.trim()) next.city = 'Please enter your city.';
-    else if (!nameRegex.test(city))
-      next.city = 'City can only contain letters.';
+    if (!city.trim()) next.city = 'City is required';
+    else if (!nameRegex.test(city)) next.city = 'City can only contain letters';
 
-    if (!postalCode.trim()) next.postalCode = 'Please enter your postal code.';
-    else if (!postalCodeRegex.test(postalCode))
-      next.postalCode = 'Postal code can only contain numbers.';
+    if (!postalCode.trim()) next.postalCode = 'Postal code is required';
+    else if (postalCode.length !== 5)
+      next.postalCode = 'Postal code must be 5 digits';
 
-    if (!country.trim()) next.country = 'Please enter your country.';
+    if (!country.trim()) next.country = 'Country is required';
     else if (!nameRegex.test(country))
-      next.country = 'Country can only contain letters.';
+      next.country = 'Country can only contain letters';
 
     return next;
   }
@@ -103,28 +130,27 @@ export default function Checkout() {
 
     if (paymentMethod === 'card') {
       const digits = cardNumber.replace(/\s/g, '');
-      if (!digits) next.cardNumber = 'Please enter your card number.';
+      if (!digits) next.cardNumber = 'Card number is required';
       else if (digits.length !== 16)
-        next.cardNumber = 'Card number must be 16 digits.';
+        next.cardNumber = 'Card number must be 16 digits';
 
-      if (!expDate) next.expDate = 'Please enter the expiration date.';
-      else if (expDate.length !== 5) next.expDate = 'Use MM/YY format.';
+      if (!expDate) next.expDate = 'Expiration date is required';
+      else if (expDate.length !== 5) next.expDate = 'Use MM/YY format';
       else {
         const [month, year] = expDate.split('/').map(Number);
         if (month < 1 || month > 12) {
-          next.expDate = 'Enter a valid month.';
+          next.expDate = 'Enter a valid month';
         } else if (new Date(2000 + year, month) < new Date()) {
-          next.expDate = 'This card has expired.';
+          next.expDate = 'This card has expired';
         }
       }
 
-      if (!cvv) next.cvv = 'Please enter the CVV.';
-      else if (cvv.length !== 3) next.cvv = 'CVV must be 3 digits.';
+      if (!cvv) next.cvv = 'CVV is required';
+      else if (cvv.length !== 3) next.cvv = 'CVV must be 3 digits';
     } else if (paymentMethod === 'transfer') {
-      if (!swishNumber.trim())
-        next.swishNumber = 'Please enter your Swish number.';
+      if (!swishNumber.trim()) next.swishNumber = 'Swish number is required';
       else if (!swishRegex.test(swishNumber))
-        next.swishNumber = 'Enter a valid Swedish mobile number.';
+        next.swishNumber = 'Enter a valid Swedish mobile number';
     }
 
     return next;
@@ -236,22 +262,25 @@ export default function Checkout() {
               value={discount}
               onChange={(e) => {
                 setDiscount(e.target.value);
-                setDiscountError(false);
+                setDiscountError(null);
               }}
               className={styles.discountInput}
             />
             <Button
               variant='secondary'
               className={styles.applyBtn}
-              onClick={() => {
-                if (discount.trim()) setDiscountError(true);
-              }}>
+              onClick={handleApplyDiscount}>
               Apply
             </Button>
           </div>
           {discountError && (
             <p className={styles.discountError}>
-              No discount code matches "{discount}"
+              No discount code matches "{discountError}"
+            </p>
+          )}
+          {appliedDiscount && (
+            <p className={styles.discountSuccess}>
+              Discount code "{appliedDiscount.code}" applied
             </p>
           )}
 
@@ -264,6 +293,12 @@ export default function Checkout() {
               <span>Shipping</span>
               <span>${shippingCost.toFixed(2)}</span>
             </div>
+            {appliedDiscount && (
+              <div className={styles.priceRow}>
+                <span>Discount ({appliedDiscount.code})</span>
+                <span>-${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
             <div className={`${styles.priceRow} ${styles.totalRow}`}>
               <strong>Total</strong>
               <strong>${total.toFixed(2)}</strong>
@@ -351,7 +386,7 @@ export default function Checkout() {
                     placeholder='11120'
                     value={postalCode}
                     onChange={(e) =>
-                      setPostalCode(sanitizeDigits(e.target.value))
+                      setPostalCode(sanitizeDigits(e.target.value).slice(0, 5))
                     }
                   />
                   <p className={styles.errorMessage}>

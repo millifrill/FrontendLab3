@@ -116,6 +116,12 @@
   margin-top: 4px;
 }
 
+.discountSuccess {
+  font-size: 0.8rem;
+  color: var(--success);
+  margin-top: 4px;
+}
+
 .priceBreakdown {
   display: flex;
   flex-direction: column;
