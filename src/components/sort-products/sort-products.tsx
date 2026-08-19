@@ -10,7 +10,7 @@ export default function SortProducts({ setSelectedSortOption }) {
 
   return (
     <>
-      <p>Sort products by</p>
+      <Form.Label>Sort products by</Form.Label>
       <Form>
         <div className='mb-3'>
           {sortOptions.map((sortOption: string) => {

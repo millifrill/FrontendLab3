@@ -23,7 +23,7 @@ export default function CategoryFiltration({ setSelectedCategory }) {
     <>
       {categories && (
         <>
-          <p>Filter by category</p>
+          <Form.Label>Filter by category</Form.Label>
           <Form>
             <div className='mb-3'>
               {categories.map((category: string) => {

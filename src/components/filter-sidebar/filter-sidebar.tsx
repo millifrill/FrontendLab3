@@ -11,6 +11,8 @@ import SortProducts from '../sort-products/sort-products';
 import CategoryFiltration from '../category-filtration/category-filtration';
 import Brand from '../brand/brand';
 import styles from './filter-sidebar.module.css';
+import RatingFiltration from '../rating-filtration/rating-filtration';
+import PriceFiltration from '../price-filtration/price-filtration';
 
 export default function FilterSidebar({
   products,
@@ -18,10 +20,14 @@ export default function FilterSidebar({
   selectedSortOption,
   setSelectedSortOption,
   getProductsBySortOption,
+  selectedPriceRange,
+  setSelectedPriceRange,
   selectedCategory,
   getProductsByCategory,
-  setSelectedBrands,
   setSelectedCategory,
+  setSelectedBrands,
+  setSelectedRating,
+  getProductsByPriceFilter,
 }) {
   return (
     <>
@@ -55,8 +61,9 @@ export default function FilterSidebar({
                 <Accordion.Item eventKey='1' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Price</Accordion.Header>
                   <Accordion.Body>
-                    <Form.Label>Filter by price range</Form.Label>
-                    <Form.Range />
+                    <PriceFiltration
+                      setSelectedPriceRange={setSelectedPriceRange}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
 
@@ -74,54 +81,13 @@ export default function FilterSidebar({
                 <Accordion.Item eventKey='3' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Rating</Accordion.Header>
                   <Accordion.Body>
-                    <p>Filter by rating</p>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                    </figure>
+                    <RatingFiltration setSelectedRating={setSelectedRating} />
                   </Accordion.Body>
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='4' className={styles.accordionItem}>
                   <Accordion.Header as='h3'>Brand</Accordion.Header>
                   <Accordion.Body>
-                    <p>Filter by brand</p>
                     <Brand
                       products={products}
                       setSelectedBrands={setSelectedBrands}
@@ -142,7 +108,8 @@ export default function FilterSidebar({
                   // onClick={() => getProductsByCategory(selectedCategory)}>
                   onClick={() => {
                     (getProductsByCategory(selectedCategory),
-                      getProductsBySortOption(selectedSortOption));
+                      getProductsBySortOption(selectedSortOption),
+                      getProductsByPriceFilter(products));
                   }}>
                   Apply Filter
                 </Button>

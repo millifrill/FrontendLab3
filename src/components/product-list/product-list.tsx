@@ -20,7 +20,12 @@ export default function ProductList() {
   console.log('selectedSortOption', selectedSortOption);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   console.log('selectedCategory', selectedCategory);
-  const [brands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
+    null,
+  );
+  console.log('selectedPriceRange', selectedPriceRange);
+  const [selectedRating, setSelectedRating] = useState<string[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
   const [loading, setLoading] = useState(false);
@@ -51,48 +56,77 @@ export default function ProductList() {
     getProducts();
   }, [active]);
 
+  console.log('products', products);
+
+  function getProductsByPriceFilter(products) {
+    let productsFilteredByPrice;
+    if (!selectedPriceRange) return products;
+    if (selectedPriceRange === '1') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 10,
+      );
+    }
+    if (selectedPriceRange === '2') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 10 && product.price < 30,
+      );
+    }
+    if (selectedPriceRange === '3') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 30 && product.price < 50,
+      );
+    }
+    if (selectedPriceRange === '4') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 50 && product.price < 80,
+      );
+    }
+    if (selectedPriceRange === '5') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 80 && product.price < 100,
+      );
+    }
+    console.log('productsFilteredByPrice', productsFilteredByPrice);
+    console.log('productsFilteredByPrice', productsFilteredByPrice);
+    setProducts(productsFilteredByPrice);
+    return productsFilteredByPrice;
+  }
+
   useEffect(() => {
     if (!hasSearched.current) {
       return;
     }
+    getProductsByPriceFilter(products);
+  }, [active]);
 
-    async function getSearchedProducts(): Promise<void> {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await axios.get<ProductRes>(
-          `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-        );
-        setProducts(res.data.products);
-        setPages(Math.floor(res.data.total / limit) + 1);
-      } catch (error) {
-        console.error('Failed to fetch products by search:', error);
-        setError('Failed to load products by search. Please try again.');
-      } finally {
-        setLoading(false);
-      }
+  async function getSearchedProducts(): Promise<void> {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get<ProductRes>(
+        `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
+      );
+      setProducts(res.data.products);
+      setPages(Math.floor(res.data.total / limit) + 1);
+    } catch (error) {
+      console.error('Failed to fetch products by search:', error);
+      setError('Failed to load products by search. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!hasSearched.current) {
+      return;
     }
     getSearchedProducts();
   }, [searchQuery, active]);
 
-  async function getProductsByCategory(category): Promise<void> {
-    setLoading(true);
-    const res = await axios.get<ProductRes>(
-      `https://dummyjson.com/products/category/${category}&skip=${(active - 1) * limit}`,
-    );
-    setProducts(res.data.products);
-    setPages(Math.floor(res.data.total / limit) + 1);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    if (!selectedCategory) {
+  async function getProductsBySortOption(selectedSortOption): Promise<void> {
+    if (!selectedSortOption) {
       return;
     }
-    getProductsByCategory(selectedCategory);
-  }, [active]);
-
-  async function getProductsBySortOption(selectedSortOption): Promise<void> {
     setLoading(true);
     console.log('selectedSortOption', selectedSortOption);
 
@@ -126,6 +160,27 @@ export default function ProductList() {
       setError('Failed to load products by category. Please try again.');
     }
   }
+
+  useEffect(() => {
+    getProductsBySortOption(selectedSortOption);
+  }, [active]);
+
+  async function getProductsByCategory(selectedCategory): Promise<void> {
+    if (!selectedCategory) {
+      return;
+    }
+    setLoading(true);
+    const res = await axios.get<ProductRes>(
+      `https://dummyjson.com/products/category/${selectedCategory}?skip=${(active - 1) * limit}`,
+    );
+    setProducts(res.data.products);
+    setPages(Math.floor(res.data.total / limit) + 1);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getProductsByCategory(selectedCategory);
+  }, [active]);
 
   return (
     <div className={styles.container}>
@@ -163,10 +218,14 @@ export default function ProductList() {
           selectedSortOption={selectedSortOption}
           setSelectedSortOption={setSelectedSortOption}
           getProductsBySortOption={getProductsBySortOption}
+          selectedPriceRange={selectedPriceRange}
+          setSelectedPriceRange={setSelectedPriceRange}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          setSelectedRating={setSelectedRating}
           getProductsByCategory={getProductsByCategory}
           setSelectedBrands={setSelectedBrands}
+          getProductsByPriceFilter={getProductsByPriceFilter}
         />
       </div>
       <div className={styles.list}>

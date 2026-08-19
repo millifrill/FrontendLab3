@@ -1,19 +1,18 @@
 import { Form } from 'react-bootstrap';
-import { IoStar, IoStarOutline } from 'react-icons/io5';
 
-export default function PriceFiltration({ setSelectedriceRange }) {
+export default function PriceFiltration({ setSelectedPriceRange }) {
   return (
     <>
-      <p>Filter by rating</p>
+      <Form.Label>Filter by price range</Form.Label>
       <Form>
         <div className='mb-3'>
           <Form.Check
             type='radio'
-            name='rating'
+            name='price'
             value='1'
             id='price-1'
-            label='>10'
-            onChange={(e) => setSelectedriceRange(e.target.value)}
+            label='<10'
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
           <Form.Check
             type='radio'
@@ -21,16 +20,15 @@ export default function PriceFiltration({ setSelectedriceRange }) {
             value='2'
             id='rating-2'
             label='10-30$'
-            onChange={(e) => setSelectedriceRange(e.target.value)}
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
-          setSelectedriceRange
           <Form.Check
             type='radio'
             name='price'
             value='3'
             id='price-3'
             label='30-50$'
-            onChange={(e) => setSelectedriceRange(e.target.value)}
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
           <Form.Check
             type='radio'
@@ -38,15 +36,15 @@ export default function PriceFiltration({ setSelectedriceRange }) {
             value='4'
             id='price-4'
             label='50-80$'
-            onChange={(e) => setSelectedriceRange(e.target.value)}
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
           <Form.Check
             type='radio'
             name='price'
             value='5'
             id='price-5'
-            label='<100$'
-            onChange={(e) => setSelectedriceRange(e.target.value)}
+            label='>100$'
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
         </div>
       </Form>
