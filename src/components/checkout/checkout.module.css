@@ -333,7 +333,6 @@
 
 .continueBtn:hover {
   opacity: 0.9;
-  text-decoration: underline;
 }
 
 .continueBtn:disabled {

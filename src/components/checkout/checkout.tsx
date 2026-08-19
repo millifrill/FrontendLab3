@@ -58,6 +58,7 @@ export default function Checkout() {
   const [expDate, setExpDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [saveCard, setSaveCard] = useState(false);
+  const [saveSwish, setSaveSwish] = useState(false);
   const [discount, setDiscount] = useState('');
   const [discountError, setDiscountError] = useState<string | null>(null);
   const [appliedDiscount, setAppliedDiscount] = useState<{
@@ -82,6 +83,12 @@ export default function Checkout() {
     : 0;
   const total = subtotal + shippingCost + taxes - discountAmount;
 
+  function handlePaymentMethodChange(method: PaymentMethod) {
+    setPaymentMethod(method);
+    setAttemptedPayment(false);
+    setPaymentErrors({});
+  }
+
   function handleApplyDiscount() {
     const code = discount.trim().toUpperCase();
     if (!code) return;
@@ -100,10 +107,14 @@ export default function Checkout() {
     const next: Record<string, string> = {};
 
     if (!firstName.trim()) next.firstName = 'First name is required';
+    else if (firstName.trim().length < 2)
+      next.firstName = 'First name must be at least 2 characters';
     else if (!nameRegex.test(firstName))
       next.firstName = 'First name can only contain letters';
 
     if (!lastName.trim()) next.lastName = 'Last name is required';
+    else if (lastName.trim().length < 2)
+      next.lastName = 'Last name must be at least 2 characters';
     else if (!nameRegex.test(lastName))
       next.lastName = 'Last name can only contain letters';
 
@@ -112,6 +123,8 @@ export default function Checkout() {
       next.address = 'Address must include a street name and number';
 
     if (!city.trim()) next.city = 'City is required';
+    else if (city.trim().length < 2)
+      next.city = 'City must be at least 2 characters';
     else if (!nameRegex.test(city)) next.city = 'City can only contain letters';
 
     if (!postalCode.trim()) next.postalCode = 'Postal code is required';
@@ -119,6 +132,8 @@ export default function Checkout() {
       next.postalCode = 'Postal code must be 5 digits';
 
     if (!country.trim()) next.country = 'Country is required';
+    else if (country.trim().length < 2)
+      next.country = 'Country must be at least 2 characters';
     else if (!nameRegex.test(country))
       next.country = 'Country can only contain letters';
 
@@ -329,7 +344,7 @@ export default function Checkout() {
               <h2>Shipping Address</h2>
 
               <div className={styles.nameRow}>
-                <Form.Group className='mb-3'>
+                <Form.Group className='mb-2'>
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     type='text'
@@ -342,7 +357,7 @@ export default function Checkout() {
                   </p>
                 </Form.Group>
 
-                <Form.Group className='mb-3'>
+                <Form.Group className='mb-2'>
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     type='text'
@@ -356,7 +371,7 @@ export default function Checkout() {
                 </Form.Group>
               </div>
 
-              <Form.Group className='mb-3'>
+              <Form.Group className='mb-2'>
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                   type='text'
@@ -368,7 +383,7 @@ export default function Checkout() {
               </Form.Group>
 
               <div className={styles.nameRow}>
-                <Form.Group className='mb-3'>
+                <Form.Group className='mb-2'>
                   <Form.Label>City</Form.Label>
                   <Form.Control
                     type='text'
@@ -379,7 +394,7 @@ export default function Checkout() {
                   <p className={styles.errorMessage}>{shippingErrors.city}</p>
                 </Form.Group>
 
-                <Form.Group className='mb-3'>
+                <Form.Group className='mb-2'>
                   <Form.Label>Postal Code</Form.Label>
                   <Form.Control
                     type='text'
@@ -395,7 +410,7 @@ export default function Checkout() {
                 </Form.Group>
               </div>
 
-              <Form.Group className='mb-3'>
+              <Form.Group className='mb-2'>
                 <Form.Label>Country</Form.Label>
                 <Form.Control
                   type='text'
@@ -462,12 +477,12 @@ export default function Checkout() {
               <div className={styles.paymentOptions}>
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'card' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('card')}>
+                  onClick={() => handlePaymentMethodChange('card')}>
                   <Form.Check
                     type='radio'
                     id='card'
                     checked={paymentMethod === 'card'}
-                    onChange={() => setPaymentMethod('card')}
+                    onChange={() => handlePaymentMethodChange('card')}
                   />
                   <div>
                     <p className={styles.paymentName}>Credit / Debit Card</p>
@@ -477,12 +492,12 @@ export default function Checkout() {
 
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'bank' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('bank')}>
+                  onClick={() => handlePaymentMethodChange('bank')}>
                   <Form.Check
                     type='radio'
                     id='bank'
                     checked={paymentMethod === 'bank'}
-                    onChange={() => setPaymentMethod('bank')}
+                    onChange={() => handlePaymentMethodChange('bank')}
                   />
                   <div>
                     <p className={styles.paymentName}>Bank Transfer</p>
@@ -494,12 +509,12 @@ export default function Checkout() {
 
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'transfer' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('transfer')}>
+                  onClick={() => handlePaymentMethodChange('transfer')}>
                   <Form.Check
                     type='radio'
                     id='transfer'
                     checked={paymentMethod === 'transfer'}
-                    onChange={() => setPaymentMethod('transfer')}
+                    onChange={() => handlePaymentMethodChange('transfer')}
                   />
                   <div>
                     <p className={styles.paymentName}>Swish</p>
@@ -513,7 +528,7 @@ export default function Checkout() {
               {/* Card form */}
               {paymentMethod === 'card' && (
                 <div className={styles.cardForm}>
-                  <Form.Group className='mb-3'>
+                  <Form.Group className='mb-2'>
                     <Form.Label>Card Number</Form.Label>
                     <Form.Control
                       type='text'
@@ -529,7 +544,7 @@ export default function Checkout() {
                   </Form.Group>
 
                   <div className={styles.nameRow}>
-                    <Form.Group className='mb-3'>
+                    <Form.Group className='mb-2'>
                       <Form.Label>Expiration Date</Form.Label>
                       <Form.Control
                         type='text'
@@ -544,7 +559,7 @@ export default function Checkout() {
                       </p>
                     </Form.Group>
 
-                    <Form.Group className='mb-3'>
+                    <Form.Group className='mb-2'>
                       <Form.Label>CVV</Form.Label>
                       <Form.Control
                         type='text'
@@ -583,7 +598,7 @@ export default function Checkout() {
               {/* Swish form */}
               {paymentMethod === 'transfer' && (
                 <div className={styles.cardForm}>
-                  <Form.Group className='mb-3'>
+                  <Form.Group className='mb-2'>
                     <Form.Label>Swish Number</Form.Label>
                     <Form.Control
                       type='text'
@@ -599,6 +614,16 @@ export default function Checkout() {
                       {paymentErrors.swishNumber}
                     </p>
                   </Form.Group>
+
+                  <Form.Check
+                    type='checkbox'
+                    id='saveSwish'
+                    label='Save Swish number'
+                    checked={saveSwish}
+                    onChange={(e) => setSaveSwish(e.target.checked)}
+                    className={styles.saveCard}
+                  />
+
                   <p className={styles.infoText}>
                     You will receive a Swish payment request on your phone once
                     you confirm the order.
