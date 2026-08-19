@@ -1,15 +1,68 @@
 'use client';
-import { useState } from 'react';
-import { Button, Tabs, Tab, Card, Row, Col, ListGroup } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import {
+  // Form,
+  Button,
+  Tabs,
+  Tab,
+  Card,
+  Row,
+  Col,
+  ListGroup,
+  Modal,
+} from 'react-bootstrap';
+import { useAuth } from '../../context/auth.context';
+import { useRouter } from 'next/navigation';
+
+// import bcrypt from 'bcryptjs';
 import styles from './account.module.css';
 
 export default function Account() {
+  const router = useRouter();
   const [editInformation, setEditInformation] = useState<string | null>(null);
   console.log('editInformation', editInformation);
   const [changePassword, setChangePassword] = useState<string | null>(null);
   console.log('changePassword', changePassword);
   const [managePayment, setManagePayment] = useState<string | null>(null);
   console.log('managePayment', managePayment);
+
+  const { currentUser, setCurrentUser } = useAuth();
+  const { users, setUsers } = useAuth();
+  console.log('users', users);
+  const [storedUsers, setStoredUsers] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const currentStoredUser = JSON.parse(
+    localStorage.getItem('currentUser') || 'null',
+  );
+  console.log('currentStoredUser', currentStoredUser);
+  const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
+
+  let updatedUsers = allUsers.filter((u) => u.email !== currentUser.email);
+  console.log('updatedUsers', updatedUsers);
+
+  useEffect(() => {
+    let updatedUsers = allUsers.filter((u) => u.email !== currentUser.email);
+    setUsers(updatedUsers);
+  }, []);
+
+  function handleCancelDeleteAccount() {
+    setShowConfirm(false);
+  }
+
+  function handleDeleteAccount() {
+    setShowConfirm(true);
+  }
+
+  function handleConfirmDeleteAccount(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentUser('');
+    localStorage.removeItem('currentUser');
+    setUsers(updatedUsers);
+    localStorage.setItem('users', updatedUsers);
+    router.push('/');
+    setShowConfirm(false);
+  }
 
   return (
     <>
@@ -32,7 +85,7 @@ export default function Account() {
               <Card.Text as={'div'} className={styles.rowGap}>
                 <Row>
                   <Col>First Name</Col>
-                  <Col>Camilla</Col>
+                  <Col>{currentUser?.email}</Col>
                 </Row>
                 <Row>
                   <Col>Last Name</Col>
@@ -40,7 +93,7 @@ export default function Account() {
                 </Row>
                 <Row>
                   <Col>Email</Col>
-                  <Col>camilla@gmail.com</Col>
+                  <Col>{currentUser?.email}</Col>
                 </Row>
                 <Row>
                   <Col>Address</Col>
@@ -80,7 +133,11 @@ export default function Account() {
           <Card className={styles.card}>
             <Card.Header className={styles.cardHeader}>
               <h3>Payment</h3>
-              <Button variant='primary'>Manage Payment</Button>
+              <Button
+                variant='primary'
+                onClick={() => setManagePayment('edit-mode')}>
+                Manage Payment
+              </Button>
             </Card.Header>
             <Card.Body>
               <ListGroup>
@@ -96,10 +153,6 @@ export default function Account() {
                     <Row>
                       <Col>Expiration Date</Col>
                       <Col>********</Col>
-                    </Row>
-                    <Row>
-                      <Col>CVV</Col>
-                      <Col>***</Col>
                     </Row>
                   </Card.Text>
                 </ListGroup.Item>
@@ -124,7 +177,10 @@ export default function Account() {
             </Card.Header>
             <Card.Body>
               <Card.Text as={'div'} className={styles.rowGap}>
-                <Button variant='danger' style={{ margin: '0 auto' }}>
+                <Button
+                  variant='danger'
+                  style={{ margin: '0 auto' }}
+                  onClick={handleDeleteAccount}>
                   Delete Account
                 </Button>
               </Card.Text>
@@ -135,6 +191,68 @@ export default function Account() {
           Order History
         </Tab>
       </Tabs>
+
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)} centered>
+        <Modal.Body className={styles.modalBody}>
+          Are you sure you want to DELETE your account? <br />
+          This action is irreversible.
+        </Modal.Body>
+        <Modal.Footer className={styles.modalFooter}>
+          <Button
+            variant='outline-primary'
+            className={styles.btnOutline}
+            onClick={handleCancelDeleteAccount}>
+            Cancel
+          </Button>
+          <Button
+            variant='primary'
+            className={styles.btnPrimary}
+            onClick={handleConfirmDeleteAccount}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/*
+      <Form className={styles.form} onSubmit={handleSubmit} noValidate>
+        <Form.Group className='mb-2' controlId='email'>
+          <Form.Label>New email address</Form.Label>
+          <Form.Control
+            type='email'
+            placeholder='Enter new email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        {<p className={styles.errorMessage}>{emailError}</p>}
+        <Form.Group className='mb-3' controlId='password'>
+          <Form.Label>New password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Enter new password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className='mb-2' controlId='passwordAgain'>
+          <Form.Label>New password again</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Enter new password again'
+            value={passwordAgain}
+            onChange={(e) => setPasswordAgain(e.target.value)}
+          />
+        </Form.Group>
+        {<p className={styles.errorMessage}>{passwordError}</p>}
+        <div className='d-flex justify-content-center'>
+          <Button
+            variant='primary'
+            type='submit'
+            disabled={!email || !password || !passwordAgain}>
+            Save
+          </Button>
+        </div>
+      </Form> */}
     </>
   );
 }
