@@ -6,13 +6,19 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Badge, Container, Nav } from 'react-bootstrap';
 import { IoMdMoon } from 'react-icons/io';
 import { IoCartSharp, IoHeartSharp, IoPersonSharp } from 'react-icons/io5';
+import { RiLogoutBoxFill } from 'react-icons/ri';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
 import { useCart } from '../../context/cart.context';
+import { useAuth } from '../../context/auth.context';
+import { useWishlist } from '../../context/wishlist.context';
 
 export default function Navigationbar() {
   const { totalCount } = useCart();
+  const { currentUser, setCurrentUser } = useAuth();
+  const { totalCount: wishlistCount } = useWishlist();
+
 
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
@@ -36,7 +42,7 @@ export default function Navigationbar() {
             <Link href='/wishlist' className={styles.navLink}>
               <IoHeartSharp className={styles.icon} />
               <Badge bg='dark' className={styles.wishlistBadge}>
-                8
+                {wishlistCount}
               </Badge>
               Wishlist
             </Link>
@@ -47,10 +53,30 @@ export default function Navigationbar() {
               </Badge>
               Cart
             </Link>
-            <Link href='/account' className={styles.navLink}>
-              <IoPersonSharp className={styles.icon} />
-              Account
-            </Link>
+            {currentUser ? (
+              <>
+                <Link href='/account' className={styles.navLink}>
+                  <IoPersonSharp className={styles.icon} />
+                  Account
+                </Link>
+                <Link
+                  href='/'
+                  className={styles.navLink}
+                  onClick={() => {
+                    setCurrentUser('');
+                    localStorage.removeItem('currentUser');
+                  }}>
+                  <RiLogoutBoxFill className={styles.icon} />
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <Link href='/login' className={styles.navLink}>
+                <IoPersonSharp className={styles.icon} />
+                Log in
+              </Link>
+            )}
+
             <Link href='' className={styles.navLink}>
               <button className={styles.btn}>
                 <IoMdMoon className={styles.icon} />

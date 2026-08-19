@@ -1,7 +1,7 @@
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 
-export default function Brand({ products }) {
+export default function Brand({ products, setSelectedBrands }) {
   return (
     <Form>
       {[...new Set(products.map((product) => product.brand))]
