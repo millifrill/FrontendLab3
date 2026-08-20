@@ -92,16 +92,13 @@ export default function ProductList() {
     }
 
     async function getSearchedProducts(): Promise<void> {
-      if (!searchQuery.trim()) {
-        return;
-      }
-      setSearchQuery(searchQuery.trim());
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get<ProductRes>(
-          `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-        );
+        const url = searchQuery
+          ? `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`
+          : `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`;
+        const res = await axios.get<ProductRes>(url);
         setProducts(res.data.products);
         setPages(Math.floor(res.data.total / limit) + 1);
       } catch (error) {
@@ -131,6 +128,7 @@ export default function ProductList() {
   return (
     <div>
       <p className={styles.resultText}>{resultsText}</p>
+
       <div className={styles.searchFilterContainer}>
         <Form
           className={styles.searchForm}
@@ -138,11 +136,9 @@ export default function ProductList() {
             e.preventDefault();
             hasSearched.current = true;
             setActive(1);
-            setSearchQuery(searchInput);
+            setSearchQuery(searchInput.trim());
             setResultsText(
-              searchInput
-                ? `Search results for "${searchInput.trim()}"`
-                : resultsText,
+              searchInput ? `Search results for "${searchInput.trim()}"` : '',
             );
             setSearchInput('');
           }}>
@@ -155,7 +151,7 @@ export default function ProductList() {
               onChange={(e) => setSearchInput(e.target.value)}
               onFocus={() => setShowPreview(true)}
             />
-            {previewProducts.length >= 0 && showPreview && (
+            {previewProducts.length > 0 && showPreview && (
               <div className={styles.searchPreview}>
                 {previewProducts.map((product) => (
                   <Link
@@ -163,7 +159,12 @@ export default function ProductList() {
                     href={`/product-details/${product.id}`}
                     className={styles.link}>
                     <div className={styles.previewItem}>
-                      <img src={product.thumbnail} width={50} height={50} />
+                      <img
+                        src={product.thumbnail}
+                        alt={product.title}
+                        width={50}
+                        height={50}
+                      />
                       <strong>{product.title}</strong>
                     </div>
                   </Link>
@@ -198,9 +199,9 @@ export default function ProductList() {
               smallestPossibleDiscount={5}
             />
           ))
-        ) : (
+        ) : hasSearched.current ? (
           <p>No results</p>
-        )}
+        ) : null}
         {pages !== 1 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev
