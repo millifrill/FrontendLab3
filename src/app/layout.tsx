@@ -3,6 +3,7 @@ import Footer from '../components/footer/footer';
 import { CartProvider } from '../context/cart.context';
 import { AuthProvider } from '../context/auth.context';
 import { WishlistProvider } from '../context/wishlist.context';
+import { CompareProvider } from '../context/compare.context';
 import './bootstrap.scss';
 import './global.css';
 
@@ -19,9 +20,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
-              <Navigationbar />
-              <main>{children}</main>
-              <Footer />
+              <CompareProvider>
+                <Navigationbar />
+                <main>{children}</main>
+                <Footer />
+              </CompareProvider>
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>

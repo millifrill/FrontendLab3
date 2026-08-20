@@ -5,21 +5,26 @@ import Link from 'next/link';
 import Navbar from 'react-bootstrap/Navbar';
 import { Badge, Container, Nav } from 'react-bootstrap';
 import { IoMdMoon } from 'react-icons/io';
-import { IoCartSharp, IoHeartSharp, IoPersonSharp } from 'react-icons/io5';
+import {
+  IoCartSharp,
+  IoGitCompareSharp,
+  IoHeartSharp,
+  IoPersonSharp,
+} from 'react-icons/io5';
 import { SlLogout } from 'react-icons/sl';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './navbar.module.css';
 import logo from '../../assets/vesti-logo.svg';
 import { useCart } from '../../context/cart.context';
-import { useCart } from '../../context/cart.context';
 import { useAuth } from '../../context/auth.context';
 import { useWishlist } from '../../context/wishlist.context';
+import { useCompare } from '../../context/compare.context';
 
 export default function Navigationbar() {
   const { totalCount } = useCart();
   const { currentUser, setCurrentUser } = useAuth();
   const { totalCount: wishlistCount } = useWishlist();
-
+  const { totalCount: compareCount } = useCompare();
 
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
@@ -53,6 +58,13 @@ export default function Navigationbar() {
                 {totalCount}
               </Badge>
               Cart
+            </Link>
+            <Link href='/compare' className={styles.navLink}>
+              <IoGitCompareSharp className={styles.icon} />
+              <Badge bg='dark' className={styles.compareBadge}>
+                {compareCount}
+              </Badge>
+              Compare
             </Link>
             {currentUser ? (
               <>
