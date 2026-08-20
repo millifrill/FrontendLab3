@@ -18,7 +18,7 @@ export default function PriceFiltration({ setSelectedPriceRange }) {
             type='radio'
             name='price'
             value='2'
-            id='rating-2'
+            id='price-2'
             label='10-30$'
             onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
