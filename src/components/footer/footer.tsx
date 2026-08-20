@@ -1,4 +1,10 @@
 import Link from 'next/link';
+import {
+  IoLogoFacebook,
+  IoLogoTwitter,
+  IoLogoYoutube,
+  IoLogoLinkedin,
+} from 'react-icons/io5';
 import styles from './footer.module.css';
 export default function Footer() {
   return (
@@ -22,33 +28,19 @@ export default function Footer() {
         </div>
 
         <div className={styles.socialMedia}>
-          <a href='https://www.facebook.com/?locale=sv_SE'>
-            <img
-              className={styles.facebookLogo}
-              alt='Facebook'
-              src='/images/facebook.png'
-            />
+          <a
+            href='https://www.facebook.com/?locale=sv_SE'
+            aria-label='Facebook'>
+            <IoLogoFacebook className={styles.socialIcon} />
           </a>
-          <a href='https://x.com/?lang=sv'>
-            <img
-              className={styles.twitterLogo}
-              alt='Twitter'
-              src='/images/twitter.png'
-            />
+          <a href='https://x.com/?lang=sv' aria-label='Twitter'>
+            <IoLogoTwitter className={styles.socialIcon} />
           </a>
-          <a href='https://www.youtube.com/'>
-            <img
-              className={styles.youtubeLogo}
-              alt='YouTube'
-              src='/images/youtube.png'
-            />
+          <a href='https://www.youtube.com/' aria-label='YouTube'>
+            <IoLogoYoutube className={styles.socialIcon} />
           </a>
-          <a href='https://se.linkedin.com/'>
-            <img
-              className={styles.linkedinLogo}
-              alt='LinkedIn'
-              src='/images/linkedin.png'
-            />
+          <a href='https://se.linkedin.com/' aria-label='LinkedIn'>
+            <IoLogoLinkedin className={styles.socialIcon} />
           </a>
         </div>
         <p className={styles.copyright}>© 2026 Vesti. All rights reserved.</p>
