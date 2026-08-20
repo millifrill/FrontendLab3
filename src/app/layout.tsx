@@ -1,5 +1,6 @@
 import Navigationbar from '../components/navbar/navbar';
 import Footer from '../components/footer/footer';
+import WishlistAlert from '../components/wishlist-alert/wishlist-alert';
 import { CartProvider } from '../context/cart.context';
 import { AuthProvider } from '../context/auth.context';
 import { WishlistProvider } from '../context/wishlist.context';
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <CartProvider>
             <WishlistProvider>
               <Navigationbar />
+              <WishlistAlert />
               <main>{children}</main>
               <Footer />
             </WishlistProvider>
