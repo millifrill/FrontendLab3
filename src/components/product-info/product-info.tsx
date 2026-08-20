@@ -26,17 +26,17 @@ export default function ProductInfo({ product, smallestPossibleDiscount }) {
         {product.discountPercentage > smallestPossibleDiscount ? (
           <>
             <span className='text-danger'>
+              $
               {(product.price * (1 - product.discountPercentage / 100)).toFixed(
                 2,
               )}
-              $
             </span>
             <span className='text-decoration-line-through'>
-              {product.price}$
+              ${product.price}
             </span>
           </>
         ) : (
-          <span>{product.price}$</span>
+          <span>${product.price}</span>
         )}
       </section>
     </>

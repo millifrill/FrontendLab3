@@ -10,11 +10,16 @@ import ProductCard from '../product-card/product-card';
 import FilterSidebar from '../filter-sidebar/filter-sidebar';
 import Pagination from 'react-bootstrap/Pagination';
 import styles from './product-list.module.css';
+import Link from 'next/link';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
+  const [previewProducts, setPreviewProducts] = useState<Product[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
+  const searchAndPreview = useRef<HTMLDivElement>(null);
+  const [resultsText, setResultsText] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
@@ -46,6 +51,42 @@ export default function ProductList() {
   }, [active]);
 
   useEffect(() => {
+    if (!searchInput.trim()) {
+      setPreviewProducts([]);
+      return;
+    }
+
+    const previewTimer = setTimeout(async () => {
+      try {
+        const res = await axios.get<ProductRes>(
+          `https://dummyjson.com/products/search?q=${searchInput}&limit=5`,
+        );
+        setPreviewProducts(res.data.products);
+      } catch (error) {
+        console.error('Failed to fetch preview products:', error);
+        setPreviewProducts([]);
+      }
+    }, 500);
+    return () => clearTimeout(previewTimer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        searchAndPreview.current &&
+        !searchAndPreview.current.contains(e.target as Node)
+      ) {
+        setShowPreview(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!hasSearched.current) {
       return;
     }
@@ -54,9 +95,10 @@ export default function ProductList() {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get<ProductRes>(
-          `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-        );
+        const url = searchQuery
+          ? `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`
+          : `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`;
+        const res = await axios.get<ProductRes>(url);
         setProducts(res.data.products);
         setPages(Math.floor(res.data.total / limit) + 1);
       } catch (error) {
@@ -83,24 +125,51 @@ export default function ProductList() {
     }
   }
 
+  const handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    hasSearched.current = true;
+    setActive(1);
+    setSearchQuery(searchInput.trim());
+    setResultsText(
+      searchInput ? `Search results for "${searchInput.trim()}"` : '',
+    );
+    setSearchInput('');
+  };
+
   return (
-    <div className={styles.container}>
+    <div>
+      <p className={styles.resultText}>{resultsText}</p>
       <div className={styles.searchFilterContainer}>
-        <Form
-          className={styles.searchForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            hasSearched.current = true;
-            setActive(1);
-            setSearchQuery(searchInput);
-          }}>
-          <InputGroup className='mx-auto w-100'>
+        <Form className={styles.searchForm} onSubmit={handleSearchSubmit}>
+          <InputGroup className='mx-auto w-100' ref={searchAndPreview}>
             <Form.Control
               className={styles.searchFormControl}
               type='text'
               placeholder='Search...'
+              value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
+              onFocus={() => setShowPreview(true)}
             />
+            {previewProducts.length > 0 && showPreview && (
+              <div className={styles.searchPreview}>
+                {previewProducts.map((product) => (
+                  <Link
+                    key={product.id}
+                    href={`/product-details/${product.id}`}
+                    className={styles.link}>
+                    <div className={styles.previewItem}>
+                      <img
+                        src={product.thumbnail}
+                        alt={product.title}
+                        width={50}
+                        height={50}
+                      />
+                      <strong>{product.title}</strong>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
             <InputGroup.Text as='button' type='submit' className='bg-dark'>
               {loading ? (
                 <Spinner
@@ -118,10 +187,7 @@ export default function ProductList() {
           getProductsByCategory={getProductsByCategory}
         />
       </div>
-      <div className={styles.list}>
-        {hasSearched && !loading && products.length === 0 ? (
-          <p>No results...</p>
-        ) : null}
+      <div className={styles.grid}>
         {error ? (
           <p>{error}</p>
         ) : products.length > 0 ? (
@@ -132,8 +198,10 @@ export default function ProductList() {
               smallestPossibleDiscount={5}
             />
           ))
+        ) : hasSearched.current ? (
+          <p>No results</p>
         ) : null}
-        {products.length > 0 ? (
+        {pages !== 1 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev
               className={styles.paginationItem}
