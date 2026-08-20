@@ -13,25 +13,25 @@ export default function Manifest(): MetadataRoute.Manifest {
     icons: [
       {
         purpose: 'any',
-        src: '/images/venti-logo-192x192.png',
+        src: '/images/vesti-logo-192x192.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
         purpose: 'any',
-        src: '/images/venti-logo-512x512.png',
+        src: '/images/vesti-logo-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },
       {
         purpose: 'maskable',
-        src: '/images/venti-logo-192x192.png',
+        src: '/images/vesti-logo-192x192.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
         purpose: 'maskable',
-        src: '/images/venti-logo-512x512.png',
+        src: '/images/vesti-logo-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },
