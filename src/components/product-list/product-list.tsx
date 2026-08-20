@@ -198,7 +198,9 @@ export default function ProductList() {
               smallestPossibleDiscount={5}
             />
           ))
-        ) : null}
+        ) : (
+          <p>No results</p>
+        )}
         {pages !== 1 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev
