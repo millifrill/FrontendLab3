@@ -5,6 +5,7 @@ import WishlistAlert from '../components/wishlist-alert/wishlist-alert';
 import { CartProvider } from '../context/cart.context';
 import { AuthProvider } from '../context/auth.context';
 import { WishlistProvider } from '../context/wishlist.context';
+import { CompareProvider } from '../context/compare.context';
 import './bootstrap.scss';
 import './global.css';
 
@@ -33,10 +34,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
-              <Navigationbar />
-              <WishlistAlert />
-              <main>{children}</main>
-              <Footer />
+              <CompareProvider>
+                <Navigationbar />
+                <WishlistAlert />
+                <main>{children}</main>
+                <Footer />
+              </CompareProvider>
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>
