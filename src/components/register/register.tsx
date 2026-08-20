@@ -82,7 +82,7 @@ export default function Register() {
               />
             </Form.Group>
             {<p className={styles.errorMessage}>{emailError}</p>}
-            <Form.Group className='mb-3' controlId='password'>
+            <Form.Group className='mb-2' controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'
