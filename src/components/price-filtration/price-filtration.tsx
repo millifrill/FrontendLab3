@@ -43,7 +43,23 @@ export default function PriceFiltration({ setSelectedPriceRange }) {
             name='price'
             value='5'
             id='price-5'
-            label='>100$'
+            label='80-100$'
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
+          />
+          <Form.Check
+            type='radio'
+            name='price'
+            value='6'
+            id='price-6'
+            label='100$-1000$'
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
+          />
+          <Form.Check
+            type='radio'
+            name='price'
+            value='7'
+            id='price-7'
+            label='>1000$'
             onChange={(e) => setSelectedPriceRange(e.target.value)}
           />
         </div>
