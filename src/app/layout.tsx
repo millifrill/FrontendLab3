@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Vesti',
   },
   icons: {
-    apple: '/images/venti-logo-192x192.png',
+    apple: '/images/vesti-logo-192x192.png',
   },
 };
 
