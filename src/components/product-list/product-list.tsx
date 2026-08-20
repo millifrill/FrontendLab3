@@ -10,6 +10,7 @@ import ProductCard from '../product-card/product-card';
 import FilterSidebar from '../filter-sidebar/filter-sidebar';
 import Pagination from 'react-bootstrap/Pagination';
 import styles from './product-list.module.css';
+import Link from 'next/link';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -36,6 +37,10 @@ export default function ProductList() {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   console.log('selectedBrand', selectedBrand);
 
+  const [previewProducts, setPreviewProducts] = useState<Product[]>([]);
+  const [showPreview, setShowPreview] = useState(false);
+  const searchAndPreview = useRef<HTMLDivElement>(null);
+  const [resultsText, setResultsText] = useState('');
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
   const [loading, setLoading] = useState(true);
@@ -87,9 +92,10 @@ export default function ProductList() {
   async function getSearchedProducts(): Promise<void> {
     setError(null);
     try {
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`,
-      );
+      const url = searchQuery
+        ? `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`
+        : `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`;
+      const res = await axios.get<ProductRes>(url);
       setProducts(res.data.products);
       setPages(Math.floor(res.data.total / limit) + 1);
     } catch (error) {
@@ -106,6 +112,42 @@ export default function ProductList() {
     }
     getSearchedProducts();
   }, [searchQuery, active]);
+
+  useEffect(() => {
+    if (!searchInput.trim()) {
+      setPreviewProducts([]);
+      return;
+    }
+
+    const previewTimer = setTimeout(async () => {
+      try {
+        const res = await axios.get<ProductRes>(
+          `https://dummyjson.com/products/search?q=${searchInput}&limit=5`,
+        );
+        setPreviewProducts(res.data.products);
+      } catch (error) {
+        console.error('Failed to fetch preview products:', error);
+        setPreviewProducts([]);
+      }
+    }, 500);
+    return () => clearTimeout(previewTimer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        searchAndPreview.current &&
+        !searchAndPreview.current.contains(e.target as Node)
+      ) {
+        setShowPreview(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   async function getProductsBySortOption(selectedSortOption): Promise<void> {
     if (!selectedSortOption) {
@@ -330,24 +372,51 @@ export default function ProductList() {
     setFilteredProducts([]);
   }
 
+  const handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    hasSearched.current = true;
+    setActive(1);
+    setSearchQuery(searchInput.trim());
+    setResultsText(
+      searchInput ? `Search results for "${searchInput.trim()}"` : '',
+    );
+    setSearchInput('');
+  };
+
   return (
-    <div className={styles.container}>
+    <>
+      <p className={styles.resultText}>{resultsText}</p>
       <div className={styles.searchFilterContainer}>
-        <Form
-          className={styles.searchForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            hasSearched.current = true;
-            setActive(1);
-            setSearchQuery(searchInput);
-          }}>
-          <InputGroup className='mx-auto w-100'>
+        <Form className={styles.searchForm} onSubmit={handleSearchSubmit}>
+          <InputGroup className='mx-auto w-100' ref={searchAndPreview}>
             <Form.Control
               className={styles.searchFormControl}
               type='text'
               placeholder='Search...'
+              value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
+              onFocus={() => setShowPreview(true)}
             />
+            {previewProducts.length > 0 && showPreview && (
+              <div className={styles.searchPreview}>
+                {previewProducts.map((product) => (
+                  <Link
+                    key={product.id}
+                    href={`/product-details/${product.id}`}
+                    className={styles.link}>
+                    <div className={styles.previewItem}>
+                      <img
+                        src={product.thumbnail}
+                        alt={product.title}
+                        width={50}
+                        height={50}
+                      />
+                      <strong>{product.title}</strong>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
             <InputGroup.Text as='button' type='submit' className='bg-dark'>
               {loading ? (
                 <Spinner
@@ -382,68 +451,74 @@ export default function ProductList() {
         {hasSearched && !loading && products.length === 0 ? (
           <p>No results...</p>
         ) : null}
-        {error ? (
-          <p>{error}</p>
-        ) : products.length > 0 &&
-          !selectedSortOption &&
-          !selectedPriceRange &&
-          !selectedCategory &&
-          !selectedRating &&
-          !selectedBrand ? (
-          products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              smallestPossibleDiscount={5}
-            />
-          ))
-        ) : !loading && filteredProducts.length === 0 ? (
-          <p>No results...</p>
-        ) : (
-          filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              smallestPossibleDiscount={5}
-            />
-          ))
-        )}
-        {products.length > 0 || filteredProducts.length > 0 ? (
-          <Pagination className={`${styles.pagination} flex-fill`}>
-            <Pagination.Prev
-              className={styles.paginationItem}
-              onClick={() => {
-                setActive(active - 1);
-                window.scrollTo({ top: 0 });
-              }}
-              disabled={active === 1}
-            />
-            {Array.from({ length: pages }, (_, i) => {
-              const num = i + 1;
-              return (
-                <Pagination.Item
-                  className={styles.paginationItem}
-                  key={num}
-                  active={num === active}
-                  onClick={() => {
-                    setActive(num);
-                    window.scrollTo({ top: 0 });
-                  }}>
-                  {num}
-                </Pagination.Item>
-              );
-            })}
-            <Pagination.Next
-              className={styles.paginationItem}
-              onClick={() => {
-                setActive(active + 1);
-                window.scrollTo({ top: 0 });
-              }}
-              disabled={active === pages}
-            />
-          </Pagination>
-        ) : null}
+        <div className={styles.grid}>
+          {error ? (
+            <p>{error}</p>
+          ) : products.length > 0 &&
+            !selectedSortOption &&
+            !selectedPriceRange &&
+            !selectedCategory &&
+            !selectedRating &&
+            !selectedBrand ? (
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                smallestPossibleDiscount={5}
+              />
+            ))
+          ) : !loading && filteredProducts.length === 0 ? (
+            <p>No results...</p>
+          ) : (
+            filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                smallestPossibleDiscount={5}
+              />
+            ))
+          )}
+          {/* {products.length > 0 || filteredProducts.length > 0 ? (
+        ) : hasSearched.current ? (
+          <p>No results</p>
+        ) : null} */}
+          {pages !== 1 ? (
+            <Pagination className={`${styles.pagination} flex-fill`}>
+              <Pagination.Prev
+                className={styles.paginationItem}
+                onClick={() => {
+                  setActive(active - 1);
+                  window.scrollTo({ top: 0 });
+                }}
+                disabled={active === 1}
+              />
+              {Array.from({ length: pages }, (_, i) => {
+                const num = i + 1;
+                return (
+                  <Pagination.Item
+                    className={styles.paginationItem}
+                    key={num}
+                    active={num === active}
+                    onClick={() => {
+                      setActive(num);
+                      window.scrollTo({ top: 0 });
+                    }}>
+                    {num}
+                  </Pagination.Item>
+                );
+              })}
+              <Pagination.Next
+                className={styles.paginationItem}
+                onClick={() => {
+                  setActive(active + 1);
+                  window.scrollTo({ top: 0 });
+                }}
+                disabled={active === pages}
+              />
+            </Pagination>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
