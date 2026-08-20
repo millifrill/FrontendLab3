@@ -125,23 +125,22 @@ export default function ProductList() {
     }
   }
 
+  const handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    hasSearched.current = true;
+    setActive(1);
+    setSearchQuery(searchInput.trim());
+    setResultsText(
+      searchInput ? `Search results for "${searchInput.trim()}"` : '',
+    );
+    setSearchInput('');
+  };
+
   return (
     <div>
       <p className={styles.resultText}>{resultsText}</p>
-
       <div className={styles.searchFilterContainer}>
-        <Form
-          className={styles.searchForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            hasSearched.current = true;
-            setActive(1);
-            setSearchQuery(searchInput.trim());
-            setResultsText(
-              searchInput ? `Search results for "${searchInput.trim()}"` : '',
-            );
-            setSearchInput('');
-          }}>
+        <Form className={styles.searchForm} onSubmit={handleSearchSubmit}>
           <InputGroup className='mx-auto w-100' ref={searchAndPreview}>
             <Form.Control
               className={styles.searchFormControl}
