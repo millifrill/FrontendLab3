@@ -89,11 +89,6 @@ export default function Navigationbar() {
                 Log in
               </Link>
             )}
-
-            <button type='button' className={styles.btn}>
-              <IoMdMoon className={styles.icon} />
-              <span className={styles.navLink}>Dark</span>
-            </button>
           </Nav>
         </Navbar.Collapse>
       </Container>
