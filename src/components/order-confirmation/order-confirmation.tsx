@@ -44,7 +44,7 @@ export default function OrderConfirmation() {
     <div className={styles.page}>
       {/* ── Header — full width ── */}
       <div className={styles.headerWrapper}>
-        <Link href='/' className={styles.backArrow}>
+        <Link href='/' className={styles.backArrow} aria-label='Back to home'>
           ←
         </Link>
         <div>
