@@ -1,41 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Accordion, Form } from 'react-bootstrap';
-import { IoStar, IoStarOutline } from 'react-icons/io5';
 import { RiMenuFoldLine } from 'react-icons/ri';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import SortProducts from '../sort-products/sort-products';
 import CategoryFiltration from '../category-filtration/category-filtration';
 import Brand from '../brand/brand';
 import styles from './filter-sidebar.module.css';
+import RatingFiltration from '../rating-filtration/rating-filtration';
+import PriceFiltration from '../price-filtration/price-filtration';
 
-export default function FilterSidebar({ products, getProductsByCategory }) {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-
-  useEffect(() => {
-    async function getCategoryList(): Promise<void> {
-      try {
-        const res = await axios.get<string[]>(
-          'https://dummyjson.com/products/category-list',
-        );
-        setCategories(res.data);
-      } catch (error) {
-        console.error('Failed to fetch category list:', error);
-      }
-    }
-    getCategoryList();
-  }, []);
-
+export default function FilterSidebar({
+  products,
+  setSelectedSortOption,
+  setSelectedPriceRange,
+  setSelectedCategory,
+  setSelectedBrand,
+  setSelectedRating,
+  handleApplyFilters,
+  handleResetFilter,
+}) {
   return (
     <>
       <Navbar expand={false} className='bg-body-tertiary mb-3'>
         <Container fluid className={styles.filterContainer}>
-          <Navbar.Toggle className={styles.filterToggle}>
+          <Navbar.Toggle
+            aria-label='Open filter'
+            className={styles.filterToggle}>
             <div className={styles.filterBtn}>
               Filter
               <RiMenuFoldLine className={styles.filterIcon} />
@@ -43,123 +37,70 @@ export default function FilterSidebar({ products, getProductsByCategory }) {
           </Navbar.Toggle>
           <Navbar.Offcanvas aria-labelledby='Filter' placement='end'>
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Filter & Sort</Offcanvas.Title>
+              <Offcanvas.Title>
+                <h2>Filter & Sort</h2>
+              </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Accordion alwaysOpen>
-                <Accordion.Item eventKey='0'>
-                  <Accordion.Header>Sort</Accordion.Header>
+                <Accordion.Item eventKey='0' className={styles.accordionItem}>
+                  <Accordion.Header as='h3'>Sort</Accordion.Header>
                   <Accordion.Body>
-                    <Form>
-                      <Form.Check
-                        type='radio'
-                        id='most-relevant'
-                        label='Most relevant'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='best-selling'
-                        label='Best selling'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='from-cheepest'
-                        label='Price: Low to High'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='high-to-Low'
-                        label='Price: High to Low'
-                      />
-                      <Form.Check
-                        type='radio'
-                        id='highest-rated'
-                        label='Highest rated'
-                      />
-                      <Form.Check type='radio' id='newest' label='Newest' />
-                    </Form>
+                    <SortProducts
+                      setSelectedSortOption={setSelectedSortOption}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='1'>
-                  <Accordion.Header>Price</Accordion.Header>
+                <Accordion.Item eventKey='1' className={styles.accordionItem}>
+                  <Accordion.Header as='h3'>Price</Accordion.Header>
                   <Accordion.Body>
-                    <Form.Label>Filter by price range</Form.Label>
-                    <Form.Range />
+                    <PriceFiltration
+                      setSelectedPriceRange={setSelectedPriceRange}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='2'>
-                  <Accordion.Header>Category</Accordion.Header>
+                <Accordion.Item eventKey='2' className={styles.accordionItem}>
+                  <Accordion.Header as='h3'>Category</Accordion.Header>
                   <Accordion.Body>
                     <CategoryFiltration
-                      categories={categories}
-                      setCategory={setCategories}
                       setSelectedCategory={setSelectedCategory}
                     />
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Rating</Accordion.Header>
+                <Accordion.Item eventKey='3' className={styles.accordionItem}>
+                  <Accordion.Header as='h3'>Rating</Accordion.Header>
                   <Accordion.Body>
-                    <p>Filter by rating</p>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStarOutline />
-                    </figure>
-                    <figure
-                      className={`${styles.rating} d-flex gap-1 my-2 fs-5`}>
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                      <IoStar />
-                    </figure>
+                    <RatingFiltration setSelectedRating={setSelectedRating} />
                   </Accordion.Body>
                 </Accordion.Item>
-                <Accordion.Item eventKey='4'>
-                  <Accordion.Header>Brand</Accordion.Header>
+
+                <Accordion.Item eventKey='4' className={styles.accordionItem}>
+                  <Accordion.Header as='h3'>Brand</Accordion.Header>
                   <Accordion.Body>
-                    <p>Filter by brand</p>
-                    <Brand products={products} />
+                    <Brand
+                      products={products}
+                      setSelectedBrand={setSelectedBrand}
+                    />
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              <Button
-                className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
-                variant='primary'
-                onClick={() => getProductsByCategory(selectedCategory)}>
-                Apply Filter
-              </Button>
+              <div className={styles.buttons}>
+                <Button
+                  className={`mt-3 mx-auto d-block ${styles.resetFilterBtn}`}
+                  variant='primary'
+                  onClick={handleResetFilter}>
+                  Reset Filter
+                </Button>
+                <Button
+                  className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
+                  variant='primary'
+                  onClick={handleApplyFilters}>
+                  Apply Filter
+                </Button>
+              </div>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>

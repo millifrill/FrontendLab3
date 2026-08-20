@@ -33,11 +33,15 @@
   gap: 20px;
 }
 
-.facebookLogo,
-.twitterLogo,
-.youtubeLogo,
-.linkedinLogo {
-  width: 40px;
+.socialIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--bg);
+  transition: color 0.2s;
+}
+
+.socialMedia a:hover .socialIcon {
+  color: var(--secondary);
 }
 
 .copyright {

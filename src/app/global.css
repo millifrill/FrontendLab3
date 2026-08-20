@@ -12,7 +12,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   --primary: #083a4f;
-  --secondary: #a58d66;
+  --secondary: rgba(64, 126, 140, 0.2);
   --success: #19621e;
   --info: #407e8c;
   --warning: #ac5b2c;
@@ -82,4 +82,8 @@ h4 {
 
 .btn {
   width: fit-content;
+  font-weight: 500;
+  color: var(--text-h);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }

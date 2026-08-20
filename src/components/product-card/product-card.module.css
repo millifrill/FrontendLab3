@@ -1,3 +1,7 @@
+.card {
+  overflow: hidden;
+}
+
 .card:hover {
   transform: scale(1.02);
   transition: 0.5s;
@@ -6,4 +10,38 @@
 .link {
   color: var(--dark);
   text-decoration: none;
+}
+
+.compareBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--dark);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.compareBtn:hover {
+  background: var(--border);
+}
+
+.compareBtnActive {
+  background: var(--primary);
+  color: #fff;
+}
+
+.compareBtnActive:hover {
+  opacity: 0.9;
+  background: var(--primary);
+}
+
+.compareIcon {
+  width: 16px;
+  height: 16px;
 }
