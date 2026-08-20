@@ -29,6 +29,7 @@ export default function ProductList() {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [previewProducts, setPreviewProducts] = useState<Product[]>([]);
+  const [hasFiltered, setHasFiltered] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const searchAndPreview = useRef<HTMLDivElement>(null);
   const [resultsText, setResultsText] = useState('');
@@ -55,11 +56,11 @@ export default function ProductList() {
   }
 
   useEffect(() => {
-    if (hasSearched.current) {
+    if (hasSearched.current || hasFiltered) {
       return;
     }
     getProducts();
-  }, [active]);
+  }, [active, hasFiltered]);
 
   async function getAllProducts(): Promise<void> {
     setError(null);
@@ -314,6 +315,7 @@ export default function ProductList() {
     if (selectedBrand) {
       filterProducts = getProductsByBrandFilter(filterProducts);
     }
+    setHasFiltered(true);
     setFilteredProducts(filterProducts);
     setPages(Math.floor(filterProducts.length / limit) + 1);
   }
@@ -327,6 +329,7 @@ export default function ProductList() {
     setSelectedRating(null);
     setSelectedBrand(null);
     setFilteredProducts([]);
+    setHasFiltered(false);
   }
 
   const handleSearchSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -426,13 +429,15 @@ export default function ProductList() {
           ) : !loading && filteredProducts.length === 0 ? (
             <p>No results...</p>
           ) : (
-            filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                smallestPossibleDiscount={5}
-              />
-            ))
+            filteredProducts
+              .slice((active - 1) * limit, active * limit)
+              .map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  smallestPossibleDiscount={5}
+                />
+              ))
           )}
           {pages !== 1 ? (
             <Pagination className={`${styles.pagination} flex-fill`}>
