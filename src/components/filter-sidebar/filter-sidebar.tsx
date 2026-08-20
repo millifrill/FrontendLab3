@@ -15,17 +15,11 @@ import PriceFiltration from '../price-filtration/price-filtration';
 
 export default function FilterSidebar({
   products,
-  // selectedSortOption,
   setSelectedSortOption,
-  // getProductsBySortOption,
   setSelectedPriceRange,
-  // selectedCategory,
-  // getProductsByCategoryFilter,
   setSelectedCategory,
   setSelectedBrand,
   setSelectedRating,
-  // getProductsByPriceFilter,
-  // getProductsRatingFilter,
   handleApplyFilters,
   handleResetFilter,
 }) {

@@ -14,29 +14,20 @@ import Link from 'next/link';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
-  console.log('products', products);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  console.log('allProducts', allProducts);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  console.log('filteredProducts', filteredProducts);
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
   const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
     null,
   );
-  console.log('selectedSortOption', selectedSortOption);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
     null,
   );
-  console.log('selectedPriceRange', selectedPriceRange);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  console.log('selectedCategory', selectedCategory);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
-  console.log('selectedRating', selectedRating);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  console.log('selectedBrand', selectedBrand);
-
   const [previewProducts, setPreviewProducts] = useState<Product[]>([]);
   const [showPreview, setShowPreview] = useState(false);
   const searchAndPreview = useRef<HTMLDivElement>(null);
@@ -163,7 +154,6 @@ export default function ProductList() {
           'https://dummyjson.com/products?sortBy=price&order=asc&limit=0',
         );
         setFilteredProducts(res.data.products);
-        // setPages(Math.floor(res.data.total / limit) + 1);
         setLoading(false);
         setError(null);
       } catch (error) {
@@ -182,7 +172,6 @@ export default function ProductList() {
           'https://dummyjson.com/products?sortBy=price&order=desc&limit=0',
         );
         setFilteredProducts(res.data.products);
-        // setPages(Math.floor(res.data.total / limit) + 1);
         setLoading(false);
         setError(null);
       } catch (error) {
@@ -201,7 +190,6 @@ export default function ProductList() {
           'https://dummyjson.com/products?sortBy=rating&order=desc&limit=0',
         );
         setFilteredProducts(res.data.products);
-        // setPages(Math.floor(res.data.total / limit) + 1);
         setLoading(false);
         setError(null);
       } catch (error) {
@@ -258,31 +246,8 @@ export default function ProductList() {
         (product) => product.price > 1000,
       );
     }
-    console.log('productsFilteredByPrice', productsFilteredByPrice);
-    // setFilteredProducts(productsFilteredByPrice);
     return productsFilteredByPrice;
   }
-
-  // useEffect(() => {
-  //   getProductsByPriceFilter(products);
-  // }, [active]);
-
-  // async function getProductsByCategoryFilter(selectedCategory): Promise<void> {
-  //   if (!selectedCategory) {
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   const res = await axios.get<ProductRes>(
-  //     `https://dummyjson.com/products/category/${selectedCategory}?skip=${(active - 1) * limit}`,
-  //   );
-  //   setFilteredProducts(res.data.products);
-  //   setPages(Math.floor(res.data.total / limit) + 1);
-  //   setLoading(false);
-  // }
-
-  // useEffect(() => {
-  //   getProductsByCategoryFilter(selectedCategory);
-  // }, [active]);
 
   function getProductsByCategoryFilter(products) {
     if (!selectedCategory) return products;
@@ -321,14 +286,8 @@ export default function ProductList() {
         (product) => product.rating > 4 && product.rating <= 5,
       );
     }
-    console.log('productsFilteredByRating', productsFilteredByRating);
-    // setFilteredProducts(productsFilteredByRating);
     return productsFilteredByRating;
   }
-
-  // useEffect(() => {
-  //   getProductsRatingFilter(products);
-  // }, [active]);
 
   function getProductsByBrandFilter(products) {
     if (!selectedBrand) return products;
@@ -438,23 +397,16 @@ export default function ProductList() {
         </Form>
         <FilterSidebar
           products={products}
-          // selectedSortOption={selectedSortOption}
           setSelectedSortOption={setSelectedSortOption}
-          // getProductsBySortOption={getProductsBySortOption}
           setSelectedPriceRange={setSelectedPriceRange}
-          // selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           setSelectedRating={setSelectedRating}
-          // getProductsByCategoryFilter={getProductsByCategoryFilter}
           setSelectedBrand={setSelectedBrand}
-          // getProductsByPriceFilter={getProductsByPriceFilter}
-          // getProductsRatingFilter={getProductsRatingFilter}
           handleApplyFilters={handleApplyFilters}
           handleResetFilter={handleResetFilter}
         />
       </div>
       <div className={styles.list}>
-        {loading && <p>Loading...</p>}
         {hasSearched && !loading && products.length === 0 ? (
           <p>No results...</p>
         ) : null}
@@ -485,10 +437,6 @@ export default function ProductList() {
               />
             ))
           )}
-          {/* {products.length > 0 || filteredProducts.length > 0 ? (
-        ) : hasSearched.current ? (
-          <p>No results</p>
-        ) : null} */}
           {pages !== 1 ? (
             <Pagination className={`${styles.pagination} flex-fill`}>
               <Pagination.Prev
