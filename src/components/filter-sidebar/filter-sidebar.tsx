@@ -35,9 +35,9 @@ export default function FilterSidebar({
               <RiMenuFoldLine className={styles.filterIcon} />
             </div>
           </Navbar.Toggle>
-          <Navbar.Offcanvas aria-labelledby='Filter' placement='end'>
+          <Navbar.Offcanvas aria-labelledby='filter' placement='end'>
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title>
+              <Offcanvas.Title id='filter'>
                 <h2>Filter & Sort</h2>
               </Offcanvas.Title>
             </Offcanvas.Header>

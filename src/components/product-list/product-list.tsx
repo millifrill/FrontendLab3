@@ -182,7 +182,7 @@ export default function ProductList() {
         );
       }
     }
-    if (selectedSortOption === 'highest-rated') {
+    if (selectedSortOption === 'highest rated') {
       try {
         const res = await axios.get<ProductRes>(
           'https://dummyjson.com/products?sortBy=rating&order=desc&limit=0',
@@ -211,32 +211,32 @@ export default function ProductList() {
     if (!selectedPriceRange) return products;
     if (selectedPriceRange === '1') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price < 10,
+        (product) => product.price <= 10,
       );
     }
     if (selectedPriceRange === '2') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price > 10 && product.price < 30,
+        (product) => product.price > 10 && product.price <= 30,
       );
     }
     if (selectedPriceRange === '3') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price > 30 && product.price < 50,
+        (product) => product.price > 30 && product.price <= 50,
       );
     }
     if (selectedPriceRange === '4') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price > 50 && product.price < 80,
+        (product) => product.price > 50 && product.price <= 80,
       );
     }
     if (selectedPriceRange === '5') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price > 80 && product.price < 100,
+        (product) => product.price > 80 && product.price <= 100,
       );
     }
     if (selectedPriceRange === '6') {
       productsFilteredByPrice = products?.filter(
-        (product) => product.price > 100 && product.price < 1000,
+        (product) => product.price > 100 && product.price <= 1000,
       );
     }
     if (selectedPriceRange === '7') {
