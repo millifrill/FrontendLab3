@@ -145,9 +145,6 @@ export default function ProductList() {
       return;
     }
     setLoading(true);
-    if (selectedSortOption === 'most-relevant') {
-      return;
-    }
     if (selectedSortOption === 'price low-to-high') {
       try {
         const res = await axios.get<ProductRes>(
