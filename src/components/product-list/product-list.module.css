@@ -1,4 +1,4 @@
-.list {
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 320px);
   justify-content: center;
@@ -37,4 +37,39 @@
 .paginationItem {
   text-align: center;
   flex: 1;
+}
+
+.searchPreview {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  z-index: 3;
+  top: 100%;
+}
+
+.link {
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.previewItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: solid 1px var(--border);
+  padding: 5px;
+}
+
+.previewItem:hover {
+  background-color: var(--secondary);
+}
+
+.resultText {
+  position: absolute;
+  top: 180px;
+  left: 50%;
+  transform: translateX(-50%);
 }
