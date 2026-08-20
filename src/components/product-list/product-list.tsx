@@ -131,63 +131,63 @@ export default function ProductList() {
   return (
     <div>
       <p className={styles.resultText}>{resultsText}</p>
-      <div className={styles.grid}>
-        <div className={styles.searchFilterContainer}>
-          <Form
-            className={styles.searchForm}
-            onSubmit={(e) => {
-              e.preventDefault();
-              hasSearched.current = true;
-              setActive(1);
-              setSearchQuery(searchInput);
-              setResultsText(
-                searchInput
-                  ? `Search results for "${searchInput.trim()}"`
-                  : resultsText,
-              );
-              setSearchInput('');
-            }}>
-            <InputGroup className='mx-auto w-100' ref={searchAndPreview}>
-              <Form.Control
-                className={styles.searchFormControl}
-                type='text'
-                placeholder='Search...'
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                onFocus={() => setShowPreview(true)}
-              />
-              {previewProducts.length >= 0 && showPreview && (
-                <div className={styles.searchPreview}>
-                  {previewProducts.map((product) => (
-                    <Link
-                      key={product.id}
-                      href={`/product-details/${product.id}`}
-                      className={styles.link}>
-                      <div className={styles.previewItem}>
-                        <img src={product.thumbnail} width={50} height={50} />
-                        <strong>{product.title}</strong>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+      <div className={styles.searchFilterContainer}>
+        <Form
+          className={styles.searchForm}
+          onSubmit={(e) => {
+            e.preventDefault();
+            hasSearched.current = true;
+            setActive(1);
+            setSearchQuery(searchInput);
+            setResultsText(
+              searchInput
+                ? `Search results for "${searchInput.trim()}"`
+                : resultsText,
+            );
+            setSearchInput('');
+          }}>
+          <InputGroup className='mx-auto w-100' ref={searchAndPreview}>
+            <Form.Control
+              className={styles.searchFormControl}
+              type='text'
+              placeholder='Search...'
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onFocus={() => setShowPreview(true)}
+            />
+            {previewProducts.length >= 0 && showPreview && (
+              <div className={styles.searchPreview}>
+                {previewProducts.map((product) => (
+                  <Link
+                    key={product.id}
+                    href={`/product-details/${product.id}`}
+                    className={styles.link}>
+                    <div className={styles.previewItem}>
+                      <img src={product.thumbnail} width={50} height={50} />
+                      <strong>{product.title}</strong>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+            <InputGroup.Text as='button' type='submit' className='bg-dark'>
+              {loading ? (
+                <Spinner
+                  className={`${styles.loadingIcon} text-light`}
+                  animation='border'
+                  role='status'></Spinner>
+              ) : (
+                <GoSearch className={`${styles.searchIcon} text-light`} />
               )}
-              <InputGroup.Text as='button' type='submit' className='bg-dark'>
-                {loading ? (
-                  <Spinner
-                    className={`${styles.loadingIcon} text-light`}
-                    animation='border'
-                    role='status'></Spinner>
-                ) : (
-                  <GoSearch className={`${styles.searchIcon} text-light`} />
-                )}
-              </InputGroup.Text>
-            </InputGroup>
-          </Form>
-          <FilterSidebar
-            products={products}
-            getProductsByCategory={getProductsByCategory}
-          />
-        </div>
+            </InputGroup.Text>
+          </InputGroup>
+        </Form>
+        <FilterSidebar
+          products={products}
+          getProductsByCategory={getProductsByCategory}
+        />
+      </div>
+      <div className={styles.grid}>
         {error ? (
           <p>{error}</p>
         ) : products.length > 0 ? (

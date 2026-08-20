@@ -9,7 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  grid-column: 1 / -1;
 }
 
 .loadingIcon,
@@ -19,7 +18,7 @@
 }
 
 .searchForm {
-  width: 100%;
+  width: 86%;
 }
 
 .searchFormControl:focus {
@@ -69,7 +68,7 @@
 
 .resultText {
   position: absolute;
-  top: 180px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
 }
