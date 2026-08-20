@@ -93,7 +93,7 @@ export default function ProductList() {
     setError(null);
     try {
       const url = searchQuery
-        ? `https://dummyjson.com/products/search?q=${searchQuery}&skip=${(active - 1) * limit}`
+        ? `https://dummyjson.com/products/search?q=${searchQuery}&limit=${limit}&skip=${(active - 1) * limit}`
         : `https://dummyjson.com/products?limit=${limit}&skip=${(active - 1) * limit}`;
       const res = await axios.get<ProductRes>(url);
       setProducts(res.data.products);
@@ -340,6 +340,7 @@ export default function ProductList() {
   }
 
   function handleApplyFilters() {
+    setResultsText('');
     let filterProducts = [...allProducts];
 
     if (selectedSortOption) {
@@ -376,6 +377,12 @@ export default function ProductList() {
     e.preventDefault();
     hasSearched.current = true;
     setActive(1);
+    setSelectedSortOption(null);
+    setSelectedPriceRange(null);
+    setSelectedCategory(null);
+    setSelectedRating(null);
+    setSelectedBrand(null);
+    setFilteredProducts([]);
     setSearchQuery(searchInput.trim());
     setResultsText(
       searchInput ? `Search results for "${searchInput.trim()}"` : '',
