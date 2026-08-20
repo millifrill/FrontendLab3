@@ -13,27 +13,36 @@ import styles from './product-list.module.css';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
+  console.log('products', products);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  console.log('allProducts', allProducts);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  console.log('filteredProducts', filteredProducts);
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const hasSearched = useRef(false);
-  const [selectedSortOption, setSelectedSortOption] = useState<string>('');
+  const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
+    null,
+  );
   console.log('selectedSortOption', selectedSortOption);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  console.log('selectedCategory', selectedCategory);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
     null,
   );
   console.log('selectedPriceRange', selectedPriceRange);
-  const [selectedRating, setSelectedRating] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  console.log('selectedCategory', selectedCategory);
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  console.log('selectedRating', selectedRating);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  console.log('selectedBrand', selectedBrand);
+
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const limit = 30;
 
   async function getProducts(): Promise<void> {
-    setLoading(true);
     setError(null);
     try {
       const res = await axios.get<ProductRes>(
@@ -56,51 +65,26 @@ export default function ProductList() {
     getProducts();
   }, [active]);
 
-  console.log('products', products);
-
-  function getProductsByPriceFilter(products) {
-    let productsFilteredByPrice;
-    if (!selectedPriceRange) return products;
-    if (selectedPriceRange === '1') {
-      productsFilteredByPrice = products?.filter(
-        (product) => product.price > 10,
+  async function getAllProducts(): Promise<void> {
+    setError(null);
+    try {
+      const res = await axios.get<ProductRes>(
+        `https://dummyjson.com/products?limit=0`,
       );
+      setAllProducts(res.data.products);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+      setError('Failed to load products.');
+    } finally {
+      setLoading(false);
     }
-    if (selectedPriceRange === '2') {
-      productsFilteredByPrice = products?.filter(
-        (product) => product.price > 10 && product.price < 30,
-      );
-    }
-    if (selectedPriceRange === '3') {
-      productsFilteredByPrice = products?.filter(
-        (product) => product.price > 30 && product.price < 50,
-      );
-    }
-    if (selectedPriceRange === '4') {
-      productsFilteredByPrice = products?.filter(
-        (product) => product.price > 50 && product.price < 80,
-      );
-    }
-    if (selectedPriceRange === '5') {
-      productsFilteredByPrice = products?.filter(
-        (product) => product.price > 80 && product.price < 100,
-      );
-    }
-    console.log('productsFilteredByPrice', productsFilteredByPrice);
-    console.log('productsFilteredByPrice', productsFilteredByPrice);
-    setProducts(productsFilteredByPrice);
-    return productsFilteredByPrice;
   }
 
   useEffect(() => {
-    if (!hasSearched.current) {
-      return;
-    }
-    getProductsByPriceFilter(products);
-  }, [active]);
+    getAllProducts();
+  }, []);
 
   async function getSearchedProducts(): Promise<void> {
-    setLoading(true);
     setError(null);
     try {
       const res = await axios.get<ProductRes>(
@@ -128,59 +112,223 @@ export default function ProductList() {
       return;
     }
     setLoading(true);
-    console.log('selectedSortOption', selectedSortOption);
-
-    let sortValue;
-
     if (selectedSortOption === 'most-relevant') {
-      sortValue = '';
+      return;
     }
-    if (selectedSortOption === 'low-to-high') {
-      sortValue = 'asc';
+    if (selectedSortOption === 'price low-to-high') {
+      try {
+        const res = await axios.get<ProductRes>(
+          'https://dummyjson.com/products?sortBy=price&order=asc&limit=0',
+        );
+        setFilteredProducts(res.data.products);
+        // setPages(Math.floor(res.data.total / limit) + 1);
+        setLoading(false);
+        setError(null);
+      } catch (error) {
+        console.error(
+          'Failed to fetch products by sort option price low-to-high:',
+          error,
+        );
+        setError(
+          'Failed to load products by sort option price low-to-high. Please try again.',
+        );
+      }
     }
-    if (selectedSortOption === 'high-to-low') {
-      sortValue = 'desc';
+    if (selectedSortOption === 'price high-to-low') {
+      try {
+        const res = await axios.get<ProductRes>(
+          'https://dummyjson.com/products?sortBy=price&order=desc&limit=0',
+        );
+        setFilteredProducts(res.data.products);
+        // setPages(Math.floor(res.data.total / limit) + 1);
+        setLoading(false);
+        setError(null);
+      } catch (error) {
+        console.error(
+          'Failed to fetch products by sort option price high-to-low:',
+          error,
+        );
+        setError(
+          'Failed to load products by sort option price high-to-low. Please try again.',
+        );
+      }
     }
-    console.log('sortValue', sortValue);
-
-    const res = await axios.get<ProductRes>(
-      `https://dummyjson.com/products?sortBy=price&order=${sortValue}`,
-    );
-    setProducts(res.data.products);
-    setPages(Math.floor(res.data.total / limit) + 1);
-    setLoading(false);
-    setError(null);
-    try {
-      const res = await axios.get<ProductRes>(
-        `https://dummyjson.com/products/category/${selectedCategory}`,
-      );
-      setProducts(res.data.products);
-    } catch (error) {
-      console.error('Failed to fetch products by category:', error);
-      setError('Failed to load products by category. Please try again.');
+    if (selectedSortOption === 'highest-rated') {
+      try {
+        const res = await axios.get<ProductRes>(
+          'https://dummyjson.com/products?sortBy=rating&order=desc&limit=0',
+        );
+        setFilteredProducts(res.data.products);
+        // setPages(Math.floor(res.data.total / limit) + 1);
+        setLoading(false);
+        setError(null);
+      } catch (error) {
+        console.error(
+          'Failed to fetch products by sort option highest rated:',
+          error,
+        );
+        setError(
+          'Failed to load products by sort option highest rated. Please try again.',
+        );
+      }
     }
   }
 
   useEffect(() => {
     getProductsBySortOption(selectedSortOption);
-  }, [active]);
+  }, [selectedSortOption]);
 
-  async function getProductsByCategory(selectedCategory): Promise<void> {
-    if (!selectedCategory) {
-      return;
+  function getProductsByPriceFilter(products) {
+    let productsFilteredByPrice = [];
+    if (!selectedPriceRange) return products;
+    if (selectedPriceRange === '1') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price < 10,
+      );
     }
-    setLoading(true);
-    const res = await axios.get<ProductRes>(
-      `https://dummyjson.com/products/category/${selectedCategory}?skip=${(active - 1) * limit}`,
-    );
-    setProducts(res.data.products);
-    setPages(Math.floor(res.data.total / limit) + 1);
-    setLoading(false);
+    if (selectedPriceRange === '2') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 10 && product.price < 30,
+      );
+    }
+    if (selectedPriceRange === '3') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 30 && product.price < 50,
+      );
+    }
+    if (selectedPriceRange === '4') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 50 && product.price < 80,
+      );
+    }
+    if (selectedPriceRange === '5') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 80 && product.price < 100,
+      );
+    }
+    if (selectedPriceRange === '6') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 100 && product.price < 1000,
+      );
+    }
+    if (selectedPriceRange === '7') {
+      productsFilteredByPrice = products?.filter(
+        (product) => product.price > 1000,
+      );
+    }
+    console.log('productsFilteredByPrice', productsFilteredByPrice);
+    // setFilteredProducts(productsFilteredByPrice);
+    return productsFilteredByPrice;
   }
 
-  useEffect(() => {
-    getProductsByCategory(selectedCategory);
-  }, [active]);
+  // useEffect(() => {
+  //   getProductsByPriceFilter(products);
+  // }, [active]);
+
+  // async function getProductsByCategoryFilter(selectedCategory): Promise<void> {
+  //   if (!selectedCategory) {
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   const res = await axios.get<ProductRes>(
+  //     `https://dummyjson.com/products/category/${selectedCategory}?skip=${(active - 1) * limit}`,
+  //   );
+  //   setFilteredProducts(res.data.products);
+  //   setPages(Math.floor(res.data.total / limit) + 1);
+  //   setLoading(false);
+  // }
+
+  // useEffect(() => {
+  //   getProductsByCategoryFilter(selectedCategory);
+  // }, [active]);
+
+  function getProductsByCategoryFilter(products) {
+    if (!selectedCategory) return products;
+
+    const productsFilteredByCategory = products?.filter(
+      (product) => product.category === selectedCategory,
+    );
+    return productsFilteredByCategory;
+  }
+
+  function getProductsRatingFilter(products) {
+    let productsFilteredByRating = [];
+    if (!selectedRating) return products;
+    if (selectedRating === 1) {
+      productsFilteredByRating = products?.filter(
+        (product) => product.rating <= 1,
+      );
+    }
+    if (selectedRating === 2) {
+      productsFilteredByRating = products?.filter(
+        (product) => product.rating > 1 && product.rating <= 2,
+      );
+    }
+    if (selectedRating === 3) {
+      productsFilteredByRating = products?.filter(
+        (product) => product.rating > 2 && product.rating <= 3,
+      );
+    }
+    if (selectedRating === 4) {
+      productsFilteredByRating = products?.filter(
+        (product) => product.rating > 3 && product.rating <= 4,
+      );
+    }
+    if (selectedRating === 5) {
+      productsFilteredByRating = products?.filter(
+        (product) => product.rating > 4 && product.rating <= 5,
+      );
+    }
+    console.log('productsFilteredByRating', productsFilteredByRating);
+    // setFilteredProducts(productsFilteredByRating);
+    return productsFilteredByRating;
+  }
+
+  // useEffect(() => {
+  //   getProductsRatingFilter(products);
+  // }, [active]);
+
+  function getProductsByBrandFilter(products) {
+    if (!selectedBrand) return products;
+
+    const productsFilteredByBrand = products?.filter(
+      (product) => product.brand === selectedBrand,
+    );
+    return productsFilteredByBrand;
+  }
+
+  function handleApplyFilters() {
+    let filterProducts = [...allProducts];
+
+    if (selectedSortOption) {
+      filterProducts = [...filteredProducts];
+    }
+    if (selectedPriceRange) {
+      filterProducts = getProductsByPriceFilter(filterProducts);
+    }
+    if (selectedCategory) {
+      filterProducts = getProductsByCategoryFilter(filterProducts);
+    }
+    if (selectedRating) {
+      filterProducts = getProductsRatingFilter(filterProducts);
+    }
+    if (selectedBrand) {
+      filterProducts = getProductsByBrandFilter(filterProducts);
+    }
+    setFilteredProducts(filterProducts);
+    setPages(Math.floor(filterProducts.length / limit) + 1);
+  }
+
+  function handleResetFilter() {
+    getProducts();
+    setSearchInput('');
+    setSelectedSortOption(null);
+    setSelectedPriceRange(null);
+    setSelectedCategory(null);
+    setSelectedRating(null);
+    setSelectedBrand(null);
+    setFilteredProducts([]);
+  }
 
   return (
     <div className={styles.container}>
@@ -214,27 +362,34 @@ export default function ProductList() {
         </Form>
         <FilterSidebar
           products={products}
-          getProducts={getProducts}
-          selectedSortOption={selectedSortOption}
+          // selectedSortOption={selectedSortOption}
           setSelectedSortOption={setSelectedSortOption}
-          getProductsBySortOption={getProductsBySortOption}
-          selectedPriceRange={selectedPriceRange}
+          // getProductsBySortOption={getProductsBySortOption}
           setSelectedPriceRange={setSelectedPriceRange}
-          selectedCategory={selectedCategory}
+          // selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           setSelectedRating={setSelectedRating}
-          getProductsByCategory={getProductsByCategory}
-          setSelectedBrands={setSelectedBrands}
-          getProductsByPriceFilter={getProductsByPriceFilter}
+          // getProductsByCategoryFilter={getProductsByCategoryFilter}
+          setSelectedBrand={setSelectedBrand}
+          // getProductsByPriceFilter={getProductsByPriceFilter}
+          // getProductsRatingFilter={getProductsRatingFilter}
+          handleApplyFilters={handleApplyFilters}
+          handleResetFilter={handleResetFilter}
         />
       </div>
       <div className={styles.list}>
+        {loading && <p>Loading...</p>}
         {hasSearched && !loading && products.length === 0 ? (
           <p>No results...</p>
         ) : null}
         {error ? (
           <p>{error}</p>
-        ) : products.length > 0 ? (
+        ) : products.length > 0 &&
+          !selectedSortOption &&
+          !selectedPriceRange &&
+          !selectedCategory &&
+          !selectedRating &&
+          !selectedBrand ? (
           products.map((product) => (
             <ProductCard
               key={product.id}
@@ -242,8 +397,18 @@ export default function ProductList() {
               smallestPossibleDiscount={5}
             />
           ))
-        ) : null}
-        {products.length > 0 ? (
+        ) : !loading && filteredProducts.length === 0 ? (
+          <p>No results...</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              smallestPossibleDiscount={5}
+            />
+          ))
+        )}
+        {products.length > 0 || filteredProducts.length > 0 ? (
           <Pagination className={`${styles.pagination} flex-fill`}>
             <Pagination.Prev
               className={styles.paginationItem}

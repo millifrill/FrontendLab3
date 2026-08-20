@@ -22,7 +22,7 @@ export default function RatingFiltration({ setSelectedRating }) {
                 <IoStarOutline />
               </figure>
             }
-            onChange={(e) => setSelectedRating(e.target.value)}
+            onChange={(e) => setSelectedRating(Number(e.target.value))}
           />
           <Form.Check
             type='radio'
@@ -38,7 +38,7 @@ export default function RatingFiltration({ setSelectedRating }) {
                 <IoStarOutline />
               </figure>
             }
-            onChange={(e) => setSelectedRating(e.target.value)}
+            onChange={(e) => setSelectedRating(Number(e.target.value))}
           />
           <Form.Check
             type='radio'
@@ -54,7 +54,7 @@ export default function RatingFiltration({ setSelectedRating }) {
                 <IoStarOutline />
               </figure>
             }
-            onChange={(e) => setSelectedRating(e.target.value)}
+            onChange={(e) => setSelectedRating(Number(e.target.value))}
           />
           <Form.Check
             type='radio'
@@ -70,7 +70,7 @@ export default function RatingFiltration({ setSelectedRating }) {
                 <IoStarOutline />
               </figure>
             }
-            onChange={(e) => setSelectedRating(e.target.value)}
+            onChange={(e) => setSelectedRating(Number(e.target.value))}
           />
           <Form.Check
             type='radio'
@@ -86,7 +86,7 @@ export default function RatingFiltration({ setSelectedRating }) {
                 <IoStar />
               </figure>
             }
-            onChange={(e) => setSelectedRating(e.target.value)}
+            onChange={(e) => setSelectedRating(Number(e.target.value))}
           />
         </div>
       </Form>

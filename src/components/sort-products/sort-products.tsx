@@ -3,8 +3,8 @@ import { Form } from 'react-bootstrap';
 export default function SortProducts({ setSelectedSortOption }) {
   const sortOptions = [
     'most-relevant',
-    'low-to-high',
-    'high-to-low',
+    'price low-to-high',
+    'price high-to-low',
     'highest-rated',
   ];
 

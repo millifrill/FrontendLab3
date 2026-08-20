@@ -1,7 +1,6 @@
 'use client';
 
 import { Accordion, Form } from 'react-bootstrap';
-import { IoStar, IoStarOutline } from 'react-icons/io5';
 import { RiMenuFoldLine } from 'react-icons/ri';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -16,18 +15,19 @@ import PriceFiltration from '../price-filtration/price-filtration';
 
 export default function FilterSidebar({
   products,
-  getProducts,
-  selectedSortOption,
+  // selectedSortOption,
   setSelectedSortOption,
-  getProductsBySortOption,
-  selectedPriceRange,
+  // getProductsBySortOption,
   setSelectedPriceRange,
-  selectedCategory,
-  getProductsByCategory,
+  // selectedCategory,
+  // getProductsByCategoryFilter,
   setSelectedCategory,
-  setSelectedBrands,
+  setSelectedBrand,
   setSelectedRating,
-  getProductsByPriceFilter,
+  // getProductsByPriceFilter,
+  // getProductsRatingFilter,
+  handleApplyFilters,
+  handleResetFilter,
 }) {
   return (
     <>
@@ -68,9 +68,7 @@ export default function FilterSidebar({
                 </Accordion.Item>
 
                 <Accordion.Item eventKey='2' className={styles.accordionItem}>
-                  <Accordion.Header as='h3' color='#562189'>
-                    Category
-                  </Accordion.Header>
+                  <Accordion.Header as='h3'>Category</Accordion.Header>
                   <Accordion.Body>
                     <CategoryFiltration
                       setSelectedCategory={setSelectedCategory}
@@ -90,7 +88,7 @@ export default function FilterSidebar({
                   <Accordion.Body>
                     <Brand
                       products={products}
-                      setSelectedBrands={setSelectedBrands}
+                      setSelectedBrand={setSelectedBrand}
                     />
                   </Accordion.Body>
                 </Accordion.Item>
@@ -99,18 +97,13 @@ export default function FilterSidebar({
                 <Button
                   className={`mt-3 mx-auto d-block ${styles.resetFilterBtn}`}
                   variant='primary'
-                  onClick={() => getProducts()}>
+                  onClick={handleResetFilter}>
                   Reset Filter
                 </Button>
                 <Button
                   className={`mt-3 mx-auto d-block ${styles.applyFilterBtn}`}
                   variant='primary'
-                  // onClick={() => getProductsByCategory(selectedCategory)}>
-                  onClick={() => {
-                    (getProductsByCategory(selectedCategory),
-                      getProductsBySortOption(selectedSortOption),
-                      getProductsByPriceFilter(products));
-                  }}>
+                  onClick={handleApplyFilters}>
                   Apply Filter
                 </Button>
               </div>

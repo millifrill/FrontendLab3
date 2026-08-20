@@ -1,6 +1,6 @@
 import { Form } from 'react-bootstrap';
 
-export default function Brand({ products, setSelectedBrands }) {
+export default function Brand({ products, setSelectedBrand }) {
   return (
     <>
       <Form.Label>Filter by brand</Form.Label>
@@ -9,12 +9,13 @@ export default function Brand({ products, setSelectedBrands }) {
           .filter((brand) => typeof brand === 'string')
           .map((brand: string) => (
             <Form.Check
-              name='brand'
+              type='radio'
               key={brand}
-              type='checkbox'
+              name='brand'
+              value={brand}
               id={brand}
               label={brand}
-              onChange={(e) => setSelectedBrands(e.target.value)}
+              onChange={(e) => setSelectedBrand(e.target.value)}
             />
           ))}
       </Form>
