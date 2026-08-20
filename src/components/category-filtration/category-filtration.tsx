@@ -1,19 +1,17 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-export default function CategoryFiltration({
-  categories,
-  setCategory,
-  setSelectedCategory,
-}) {
+export default function CategoryFiltration({ setSelectedCategory }) {
+  const [categories, setCategories] = useState<string[]>([]);
+
   useEffect(() => {
     async function getCategoryList(): Promise<void> {
       try {
         const res = await axios.get<string[]>(
           'https://dummyjson.com/products/category-list',
         );
-        setCategory(res.data);
+        setCategories(res.data);
       } catch (error) {
         console.error('Failed to fetch category list:', error);
       }
@@ -25,19 +23,19 @@ export default function CategoryFiltration({
     <>
       {categories && (
         <>
-          <p>Filter by category</p>
+          <Form.Label>Filter by category</Form.Label>
           <Form>
             <div className='mb-3'>
-              {categories.map((category) => {
+              {categories.map((category: string) => {
                 const categoryToUpperCase =
                   category.charAt(0).toUpperCase() + category.slice(1);
                 return (
                   <Form.Check
-                    key={category}
-                    value={category}
                     type='radio'
-                    id={category}
+                    key={category}
                     name='category'
+                    value={category}
+                    id={category}
                     label={categoryToUpperCase}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                   />
