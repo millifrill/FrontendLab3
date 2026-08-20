@@ -5,6 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
+import bcrypt from 'bcryptjs';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,32 +14,36 @@ export default function Login() {
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-
     const user = allUsers.find(
-      (user: { email: string; password: string }) =>
-        user.email === email && user.password === password,
+      (user: { email: string; passwordHash: string }) => user.email === email,
     );
 
-    if (user) {
-      setCurrentUser(user);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      router.push('/');
-    } else {
+    if (!user) {
       setErrorMessage('Incorrect email address or password');
+      return;
     }
+
+    const correctPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!correctPassword) {
+      setErrorMessage('Incorrect email address or password');
+      return;
+    }
+    setCurrentUser(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    router.push('/');
   };
 
   return (
     <>
       {!currentUser ? (
         <div>
-          <h1 className='fs-2 mb-5 mt-5'>Log in</h1>
-          <Form className={styles.form} onSubmit={handleSubmit}>
-            <Form.Group className='mb-4' controlId='email'>
+          <h1 className='fs-2 mb-5 mt-2'>Log in</h1>
+          <Form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <Form.Group className='mb-2' controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
@@ -48,7 +53,7 @@ export default function Login() {
               />
             </Form.Group>
 
-            <Form.Group className='mb-4' controlId='password'>
+            <Form.Group className='mb-2' controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'
@@ -76,7 +81,7 @@ export default function Login() {
           </Form>
         </div>
       ) : (
-        <h1>You are already logged in</h1>
+        <h1>You are logged in</h1>
       )}
     </>
   );

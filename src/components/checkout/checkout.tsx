@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { useCart } from '../../context/cart.context';
@@ -15,12 +15,28 @@ const SHIPPING_RATES: Record<ShippingOption, number> = {
   express: 14.99,
 };
 
+const nameRegex = /^[A-Za-z\s'-]+$/;
+const addressRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*\s\d+[A-Za-z]?$/;
+const swishRegex = /^07\d{8}$/;
+
+const DISCOUNT_CODES: Record<string, number> = {
+  SAVE10: 0.1,
+  WELCOME5: 0.05,
+};
+
+function sanitizeName(value: string): string {
+  return value.replace(/[^A-Za-z\s'-]/g, '');
+}
+
+function sanitizeDigits(value: string): string {
+  return value.replace(/\D/g, '');
+}
+
 export default function Checkout() {
   const { items, placeOrder } = useCart();
   const router = useRouter();
 
   const [step, setStep] = useState<1 | 2>(1);
-  const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Shipping form
@@ -31,6 +47,10 @@ export default function Checkout() {
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('');
   const [shipping, setShipping] = useState<ShippingOption>('standard');
+  const [shippingErrors, setShippingErrors] = useState<Record<string, string>>(
+    {},
+  );
+  const [attemptedShipping, setAttemptedShipping] = useState(false);
 
   // Payment form
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
@@ -38,9 +58,18 @@ export default function Checkout() {
   const [expDate, setExpDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [saveCard, setSaveCard] = useState(false);
+  const [saveSwish, setSaveSwish] = useState(false);
   const [discount, setDiscount] = useState('');
-  const [discountError, setDiscountError] = useState(false);
+  const [discountError, setDiscountError] = useState<string | null>(null);
+  const [appliedDiscount, setAppliedDiscount] = useState<{
+    code: string;
+    percent: number;
+  } | null>(null);
   const [swishNumber, setSwishNumber] = useState('');
+  const [paymentErrors, setPaymentErrors] = useState<Record<string, string>>(
+    {},
+  );
+  const [attemptedPayment, setAttemptedPayment] = useState(false);
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -49,27 +78,108 @@ export default function Checkout() {
   const shippingCost = SHIPPING_RATES[shipping];
   const taxRate = 0.04;
   const taxes = subtotal * taxRate;
-  const total = subtotal + shippingCost + taxes;
+  const discountAmount = appliedDiscount
+    ? subtotal * appliedDiscount.percent
+    : 0;
+  const total = subtotal + shippingCost + taxes - discountAmount;
 
-  const isShippingValid =
-    firstName.trim() !== '' &&
-    lastName.trim() !== '' &&
-    address.trim() !== '' &&
-    city.trim() !== '' &&
-    postalCode.trim() !== '' &&
-    country.trim() !== '';
+  function handlePaymentMethodChange(method: PaymentMethod) {
+    setPaymentMethod(method);
+    setAttemptedPayment(false);
+    setPaymentErrors({});
+  }
 
-  const isCardValid =
-    cardNumber.replace(/\s/g, '').length === 16 &&
-    expDate.length === 5 &&
-    cvv.length === 3;
+  function handleApplyDiscount() {
+    const code = discount.trim().toUpperCase();
+    if (!code) return;
+    const percent = DISCOUNT_CODES[code];
+    if (percent) {
+      setAppliedDiscount({ code, percent });
+      setDiscountError(null);
+    } else {
+      setDiscountError(code);
+      setAppliedDiscount(null);
+    }
+    setDiscount('');
+  }
 
-  const isPaymentValid =
-    paymentMethod === 'card'
-      ? isCardValid
-      : paymentMethod === 'transfer'
-        ? swishNumber.trim() !== ''
-        : true;
+  function validateShipping(): Record<string, string> {
+    const next: Record<string, string> = {};
+
+    if (!firstName.trim()) next.firstName = 'First name is required';
+    else if (firstName.trim().length < 2)
+      next.firstName = 'First name must be at least 2 characters';
+    else if (!nameRegex.test(firstName))
+      next.firstName = 'First name can only contain letters';
+
+    if (!lastName.trim()) next.lastName = 'Last name is required';
+    else if (lastName.trim().length < 2)
+      next.lastName = 'Last name must be at least 2 characters';
+    else if (!nameRegex.test(lastName))
+      next.lastName = 'Last name can only contain letters';
+
+    if (!address.trim()) next.address = 'Address is required';
+    else if (!addressRegex.test(address))
+      next.address = 'Address must include a street name and number';
+
+    if (!city.trim()) next.city = 'City is required';
+    else if (city.trim().length < 2)
+      next.city = 'City must be at least 2 characters';
+    else if (!nameRegex.test(city)) next.city = 'City can only contain letters';
+
+    if (!postalCode.trim()) next.postalCode = 'Postal code is required';
+    else if (postalCode.length !== 5)
+      next.postalCode = 'Postal code must be 5 digits';
+
+    if (!country.trim()) next.country = 'Country is required';
+    else if (country.trim().length < 2)
+      next.country = 'Country must be at least 2 characters';
+    else if (!nameRegex.test(country))
+      next.country = 'Country can only contain letters';
+
+    return next;
+  }
+
+  function validatePayment(): Record<string, string> {
+    const next: Record<string, string> = {};
+
+    if (paymentMethod === 'card') {
+      const digits = cardNumber.replace(/\s/g, '');
+      if (!digits) next.cardNumber = 'Card number is required';
+      else if (digits.length !== 16)
+        next.cardNumber = 'Card number must be 16 digits';
+
+      if (!expDate) next.expDate = 'Expiration date is required';
+      else if (expDate.length !== 5) next.expDate = 'Use MM/YY format';
+      else {
+        const [month, year] = expDate.split('/').map(Number);
+        if (month < 1 || month > 12) {
+          next.expDate = 'Enter a valid month';
+        } else if (new Date(2000 + year, month) < new Date()) {
+          next.expDate = 'This card has expired';
+        }
+      }
+
+      if (!cvv) next.cvv = 'CVV is required';
+      else if (cvv.length !== 3) next.cvv = 'CVV must be 3 digits';
+    } else if (paymentMethod === 'transfer') {
+      if (!swishNumber.trim()) next.swishNumber = 'Swish number is required';
+      else if (!swishRegex.test(swishNumber))
+        next.swishNumber = 'Enter a valid Swedish mobile number';
+    }
+
+    return next;
+  }
+
+  useEffect(() => {
+    if (attemptedShipping) setShippingErrors(validateShipping());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstName, lastName, address, city, postalCode, country]);
+
+  useEffect(() => {
+    if (attemptedPayment) setPaymentErrors(validatePayment());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardNumber, expDate, cvv, swishNumber, paymentMethod]);
 
   function formatCardNumber(value: string) {
     const digits = value.replace(/\D/g, '').slice(0, 16);
@@ -83,8 +193,17 @@ export default function Checkout() {
   }
 
   function handleContinue() {
-    setValidated(true);
-    if (isShippingValid) setStep(2);
+    setAttemptedShipping(true);
+    const errors = validateShipping();
+    setShippingErrors(errors);
+    if (Object.keys(errors).length === 0) setStep(2);
+  }
+
+  function handlePayClick() {
+    setAttemptedPayment(true);
+    const errors = validatePayment();
+    setPaymentErrors(errors);
+    if (Object.keys(errors).length === 0) handlePay();
   }
 
   function handlePay() {
@@ -158,22 +277,25 @@ export default function Checkout() {
               value={discount}
               onChange={(e) => {
                 setDiscount(e.target.value);
-                setDiscountError(false);
+                setDiscountError(null);
               }}
               className={styles.discountInput}
             />
             <Button
               variant='secondary'
               className={styles.applyBtn}
-              onClick={() => {
-                if (discount.trim()) setDiscountError(true);
-              }}>
+              onClick={handleApplyDiscount}>
               Apply
             </Button>
           </div>
           {discountError && (
             <p className={styles.discountError}>
-              No discount code matches "{discount}"
+              No discount code matches "{discountError}"
+            </p>
+          )}
+          {appliedDiscount && (
+            <p className={styles.discountSuccess}>
+              Discount code "{appliedDiscount.code}" applied
             </p>
           )}
 
@@ -186,6 +308,12 @@ export default function Checkout() {
               <span>Shipping</span>
               <span>${shippingCost.toFixed(2)}</span>
             </div>
+            {appliedDiscount && (
+              <div className={styles.priceRow}>
+                <span>Discount ({appliedDiscount.code})</span>
+                <span>-${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
             <div className={`${styles.priceRow} ${styles.totalRow}`}>
               <strong>Total</strong>
               <strong>${total.toFixed(2)}</strong>
@@ -212,104 +340,85 @@ export default function Checkout() {
 
           {/* ── Step 1: Shipping ── */}
           {step === 1 && (
-            <Form
-              noValidate
-              validated={validated}
-              className={styles.stepContent}>
+            <Form noValidate className={styles.stepContent}>
               <h2>Shipping Address</h2>
 
               <div className={styles.nameRow}>
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.label}>First Name</Form.Label>
+                <Form.Group className='mb-2'>
+                  <Form.Label>First Name</Form.Label>
                   <Form.Control
-                    required
                     type='text'
                     placeholder='John'
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className={styles.input}
+                    onChange={(e) => setFirstName(sanitizeName(e.target.value))}
                   />
-                  <Form.Control.Feedback type='invalid'>
-                    Please enter your first name.
-                  </Form.Control.Feedback>
+                  <p className={styles.errorMessage}>
+                    {shippingErrors.firstName}
+                  </p>
                 </Form.Group>
 
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.label}>Last Name</Form.Label>
+                <Form.Group className='mb-2'>
+                  <Form.Label>Last Name</Form.Label>
                   <Form.Control
-                    required
                     type='text'
                     placeholder='Doe'
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className={styles.input}
+                    onChange={(e) => setLastName(sanitizeName(e.target.value))}
                   />
-                  <Form.Control.Feedback type='invalid'>
-                    Please enter your last name.
-                  </Form.Control.Feedback>
+                  <p className={styles.errorMessage}>
+                    {shippingErrors.lastName}
+                  </p>
                 </Form.Group>
               </div>
 
-              <Form.Group className={styles.formGroup}>
-                <Form.Label className={styles.label}>Address</Form.Label>
+              <Form.Group className='mb-2'>
+                <Form.Label>Address</Form.Label>
                 <Form.Control
-                  required
                   type='text'
                   placeholder='123 Main Street'
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className={styles.input}
                 />
-                <Form.Control.Feedback type='invalid'>
-                  Please enter your address.
-                </Form.Control.Feedback>
+                <p className={styles.errorMessage}>{shippingErrors.address}</p>
               </Form.Group>
 
               <div className={styles.nameRow}>
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.label}>City</Form.Label>
+                <Form.Group className='mb-2'>
+                  <Form.Label>City</Form.Label>
                   <Form.Control
-                    required
                     type='text'
                     placeholder='Stockholm'
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className={styles.input}
+                    onChange={(e) => setCity(sanitizeName(e.target.value))}
                   />
-                  <Form.Control.Feedback type='invalid'>
-                    Please enter your city.
-                  </Form.Control.Feedback>
+                  <p className={styles.errorMessage}>{shippingErrors.city}</p>
                 </Form.Group>
 
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.label}>Postal Code</Form.Label>
+                <Form.Group className='mb-2'>
+                  <Form.Label>Postal Code</Form.Label>
                   <Form.Control
-                    required
                     type='text'
                     placeholder='11120'
                     value={postalCode}
-                    onChange={(e) => setPostalCode(e.target.value)}
-                    className={styles.input}
+                    onChange={(e) =>
+                      setPostalCode(sanitizeDigits(e.target.value).slice(0, 5))
+                    }
                   />
-                  <Form.Control.Feedback type='invalid'>
-                    Please enter your postal code.
-                  </Form.Control.Feedback>
+                  <p className={styles.errorMessage}>
+                    {shippingErrors.postalCode}
+                  </p>
                 </Form.Group>
               </div>
 
-              <Form.Group className={styles.formGroup}>
-                <Form.Label className={styles.label}>Country</Form.Label>
+              <Form.Group className='mb-2'>
+                <Form.Label>Country</Form.Label>
                 <Form.Control
-                  required
                   type='text'
                   placeholder='Sweden'
                   value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className={styles.input}
+                  onChange={(e) => setCountry(sanitizeName(e.target.value))}
                 />
-                <Form.Control.Feedback type='invalid'>
-                  Please enter your country.
-                </Form.Control.Feedback>
+                <p className={styles.errorMessage}>{shippingErrors.country}</p>
               </Form.Group>
 
               <h2 className={styles.shippingTitle}>Shipping Method</h2>
@@ -368,12 +477,12 @@ export default function Checkout() {
               <div className={styles.paymentOptions}>
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'card' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('card')}>
+                  onClick={() => handlePaymentMethodChange('card')}>
                   <Form.Check
                     type='radio'
                     id='card'
                     checked={paymentMethod === 'card'}
-                    onChange={() => setPaymentMethod('card')}
+                    onChange={() => handlePaymentMethodChange('card')}
                   />
                   <div>
                     <p className={styles.paymentName}>Credit / Debit Card</p>
@@ -383,12 +492,12 @@ export default function Checkout() {
 
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'bank' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('bank')}>
+                  onClick={() => handlePaymentMethodChange('bank')}>
                   <Form.Check
                     type='radio'
                     id='bank'
                     checked={paymentMethod === 'bank'}
-                    onChange={() => setPaymentMethod('bank')}
+                    onChange={() => handlePaymentMethodChange('bank')}
                   />
                   <div>
                     <p className={styles.paymentName}>Bank Transfer</p>
@@ -400,12 +509,12 @@ export default function Checkout() {
 
                 <label
                   className={`${styles.paymentOption} ${paymentMethod === 'transfer' ? styles.paymentSelected : ''}`}
-                  onClick={() => setPaymentMethod('transfer')}>
+                  onClick={() => handlePaymentMethodChange('transfer')}>
                   <Form.Check
                     type='radio'
                     id='transfer'
                     checked={paymentMethod === 'transfer'}
-                    onChange={() => setPaymentMethod('transfer')}
+                    onChange={() => handlePaymentMethodChange('transfer')}
                   />
                   <div>
                     <p className={styles.paymentName}>Swish</p>
@@ -419,10 +528,8 @@ export default function Checkout() {
               {/* Card form */}
               {paymentMethod === 'card' && (
                 <div className={styles.cardForm}>
-                  <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.label}>
-                      Card Number
-                    </Form.Label>
+                  <Form.Group className='mb-2'>
+                    <Form.Label>Card Number</Form.Label>
                     <Form.Control
                       type='text'
                       placeholder='1234 5678 9101 1121'
@@ -430,15 +537,15 @@ export default function Checkout() {
                       onChange={(e) =>
                         setCardNumber(formatCardNumber(e.target.value))
                       }
-                      className={styles.input}
                     />
+                    <p className={styles.errorMessage}>
+                      {paymentErrors.cardNumber}
+                    </p>
                   </Form.Group>
 
                   <div className={styles.nameRow}>
-                    <Form.Group className={styles.formGroup}>
-                      <Form.Label className={styles.label}>
-                        Expiration Date
-                      </Form.Label>
+                    <Form.Group className='mb-2'>
+                      <Form.Label>Expiration Date</Form.Label>
                       <Form.Control
                         type='text'
                         placeholder='MM/YY'
@@ -446,12 +553,14 @@ export default function Checkout() {
                         onChange={(e) =>
                           setExpDate(formatExpDate(e.target.value))
                         }
-                        className={styles.input}
                       />
+                      <p className={styles.errorMessage}>
+                        {paymentErrors.expDate}
+                      </p>
                     </Form.Group>
 
-                    <Form.Group className={styles.formGroup}>
-                      <Form.Label className={styles.label}>CVV</Form.Label>
+                    <Form.Group className='mb-2'>
+                      <Form.Label>CVV</Form.Label>
                       <Form.Control
                         type='text'
                         placeholder='123'
@@ -459,8 +568,8 @@ export default function Checkout() {
                         onChange={(e) =>
                           setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))
                         }
-                        className={styles.input}
                       />
+                      <p className={styles.errorMessage}>{paymentErrors.cvv}</p>
                     </Form.Group>
                   </div>
 
@@ -489,18 +598,32 @@ export default function Checkout() {
               {/* Swish form */}
               {paymentMethod === 'transfer' && (
                 <div className={styles.cardForm}>
-                  <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.label}>
-                      Swish Number
-                    </Form.Label>
+                  <Form.Group className='mb-2'>
+                    <Form.Label>Swish Number</Form.Label>
                     <Form.Control
                       type='text'
                       placeholder='07X XXX XX XX'
                       value={swishNumber}
-                      onChange={(e) => setSwishNumber(e.target.value)}
-                      className={styles.input}
+                      onChange={(e) =>
+                        setSwishNumber(
+                          sanitizeDigits(e.target.value).slice(0, 10),
+                        )
+                      }
                     />
+                    <p className={styles.errorMessage}>
+                      {paymentErrors.swishNumber}
+                    </p>
                   </Form.Group>
+
+                  <Form.Check
+                    type='checkbox'
+                    id='saveSwish'
+                    label='Save Swish number'
+                    checked={saveSwish}
+                    onChange={(e) => setSaveSwish(e.target.checked)}
+                    className={styles.saveCard}
+                  />
+
                   <p className={styles.infoText}>
                     You will receive a Swish payment request on your phone once
                     you confirm the order.
@@ -518,8 +641,8 @@ export default function Checkout() {
                 </Button>
                 <Button
                   className={styles.payBtn}
-                  disabled={!isPaymentValid || loading}
-                  onClick={handlePay}>
+                  disabled={loading}
+                  onClick={handlePayClick}>
                   {loading ? (
                     <>
                       <Spinner
