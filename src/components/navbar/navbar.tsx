@@ -19,7 +19,6 @@ export default function Navigationbar() {
   const { currentUser, setCurrentUser } = useAuth();
   const { totalCount: wishlistCount } = useWishlist();
 
-
   return (
     <Navbar collapseOnSelect expand='md' className={styles.navbar} sticky='top'>
       <Container>
@@ -77,12 +76,10 @@ export default function Navigationbar() {
               </Link>
             )}
 
-            <Link href='' className={styles.navLink}>
-              <button className={styles.btn}>
-                <IoMdMoon className={styles.icon} />
-                <span className={styles.navLink}>Dark</span>
-              </button>
-            </Link>
+            <button type='button' className={styles.btn}>
+              <IoMdMoon className={styles.icon} />
+              <span className={styles.navLink}>Dark</span>
+            </button>
           </Nav>
         </Navbar.Collapse>
       </Container>

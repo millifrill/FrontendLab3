@@ -80,6 +80,8 @@ export default function ProductList() {
     } catch (error) {
       console.error('Failed to fetch products by category:', error);
       setError('Failed to load products by category. Please try again.');
+    } finally {
+      setLoading(false);
     }
   }
 
