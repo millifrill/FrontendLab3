@@ -65,3 +65,45 @@ h2 {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
 }
+
+.vestiBtn,
+.vestiBtn:hover,
+.vestiBtnOutline,
+.vestiBtnOutline:hover,
+.vestiBtnOutlineDanger,
+.vestiBtnOutlineDanger:hover {
+  width: fit-content;
+  font-weight: 500;
+  font-size: 1rem;
+  padding-bottom: 0.5rem;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.vestiBtn {
+  color: var(--light);
+}
+
+.vestiBtn:hover {
+  transform: scale(1.01);
+}
+
+.vestiBtnOutline {
+  color: var(--primary);
+}
+
+.vestiBtnOutline:hover {
+  background-color: var(--light);
+  color: var(--primary);
+  transform: scale(1.01);
+}
+
+.vestiBtnOutlineDanger {
+  color: var(--danger);
+}
+
+.vestiBtnOutlineDanger:hover {
+  background-color: var(--light);
+  color: var(--danger);
+  transform: scale(1.01);
+}

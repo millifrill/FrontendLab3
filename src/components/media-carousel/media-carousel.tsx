@@ -77,13 +77,13 @@ export default function MediaCarousel({ product, smallestPossibleDiscount }) {
         <Modal.Footer className={styles.modalFooter}>
           <Button
             variant='outline-primary'
-            className={styles.btnOutline}
+            className='vestiBtnOutline'
             onClick={() => setShowConfirm(false)}>
             Cancel
           </Button>
           <Button
             variant='primary'
-            className={styles.btnPrimary}
+            className='vestiBtn'
             onClick={handleConfirmRemove}>
             Confirm
           </Button>
