@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { Product } from '../app/types/product';
+import { Product } from '../app/types/types';
 
 const MAX_COMPARE = 2;
 

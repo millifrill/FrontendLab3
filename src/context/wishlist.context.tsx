@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
 } from 'react';
-import { Product } from '../app/types/product';
+import { Product } from '../app/types/types';
 
 const STORAGE_KEY = 'vesti-wishlist';
 
