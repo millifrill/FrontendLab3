@@ -29,7 +29,7 @@
 }
 
 .navLink:hover {
-  color: var(--info);
+  color: var(--link-hover);
 }
 
 .navbar .toggler {
@@ -61,7 +61,7 @@
 }
 
 .navbar .navLink:hover {
-  color: var(--secondary);
+  color: var(--link-hover);
 }
 
 .navbar .wishlistBadge,

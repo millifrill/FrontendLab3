@@ -19,6 +19,7 @@
 .brandLogo {
   width: 220px;
 }
+
 .link {
   display: flex;
   gap: 30px;
@@ -28,6 +29,11 @@
   color: var(--bg);
   text-decoration: none;
 }
+
+.link a:hover {
+  color: var(--link-hover);
+}
+
 .socialMedia {
   display: flex;
   gap: 20px;
@@ -41,7 +47,7 @@
 }
 
 .socialMedia a:hover .socialIcon {
-  color: var(--secondary);
+  color: var(--link-hover);
 }
 
 .copyright {

@@ -43,14 +43,14 @@
 }
 
 .resetFilterBtn:hover {
-  background-color: var(--secondary);
+  background-color: var(--light);
   color: var(--primary);
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 .applyFilterBtn:hover {
   background-color: var(--btn-hover);
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 .accordionItem :global(.accordion-button:not(.collapsed)) {
