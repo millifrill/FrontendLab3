@@ -24,6 +24,7 @@
   --border: #d7d8df;
   --star: #fde047;
   --btn-hover: #072f41;
+  --link-hover: #f1ddbd;
   --shadow:
     rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
@@ -80,10 +81,45 @@ h4 {
   margin-bottom: 0;
 }
 
-.btn {
+.btn,
+.btn:hover,
+.btn-outline,
+.btn-outline:hover,
+.btn-outline-danger,
+.btn-outline-danger:hover {
   width: fit-content;
   font-weight: 500;
-  color: var(--text-h);
-  margin-bottom: 1rem;
+  font-size: 1rem;
   padding-bottom: 0.5rem;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  color: var(--light);
+}
+
+.btn:hover {
+  /* color: var(--light); */
+  transform: scale(1.01);
+}
+
+.btn-outline {
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--light);
+  color: var(--primary);
+  transform: scale(1.01);
+}
+
+.btn-outline-danger {
+  color: var(--danger);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--light);
+  color: var(--danger);
+  transform: scale(1.01);
 }
