@@ -61,10 +61,10 @@ export default function Register() {
       email,
       passwordHash,
     };
+
     localStorage.setItem('users', JSON.stringify([...allUsers, newUser]));
     localStorage.setItem('currentUser', JSON.stringify(newUser));
     setCurrentUser(newUser);
-    router.push('/');
   };
 
   return (
@@ -119,7 +119,7 @@ export default function Register() {
           </Form>
         </div>
       ) : (
-        <h1>You are logged in</h1>
+        router.push('/account')
       )}
     </>
   );

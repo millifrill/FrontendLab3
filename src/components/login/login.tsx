@@ -33,7 +33,6 @@ export default function Login() {
     }
     setCurrentUser(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
-    router.push('/');
   };
 
   return (
@@ -80,7 +79,7 @@ export default function Login() {
           </Form>
         </div>
       ) : (
-        <h1>You are logged in</h1>
+        router.push('/account')
       )}
     </>
   );
