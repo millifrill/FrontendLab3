@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import { Product, ProductRes } from '../../app/types/product';
+import { Product, ProductRes } from '../../app/types/types';
 import { GoSearch } from 'react-icons/go';
 import { InputGroup } from 'react-bootstrap';
 import ProductCard from '../product-card/product-card';
