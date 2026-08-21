@@ -6,21 +6,22 @@ import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
 import bcrypt from 'bcryptjs';
+import { User } from '../../app/types/user';
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordAgain, setPasswordAgain] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPasswordError('');
-    setEmailError('');
+    setPasswordError(null);
+    setEmailError(null);
     let anyError = false;
 
     if (password !== passwordAgain) {
@@ -46,8 +47,8 @@ export default function Register() {
       anyError = true;
     }
 
-    const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    if (allUsers.some((user: { email: string }) => user.email === email)) {
+    const allUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    if (allUsers.some((user) => user.email === email)) {
       setEmailError('Email address already in use');
       anyError = true;
     }

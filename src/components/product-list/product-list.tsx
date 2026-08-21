@@ -14,12 +14,12 @@ import Link from 'next/link';
 
 export default function ProductList() {
   const [searchInput, setSearchInput] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const hasSearched = useRef(false);
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const hasSearched = useRef<boolean>(false);
   const [previewProducts, setPreviewProducts] = useState<Product[]>([]);
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState<boolean>(false);
   const searchAndPreview = useRef<HTMLDivElement>(null);
-  const [resultsText, setResultsText] = useState('');
+  const [resultsText, setResultsText] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [active, setActive] = useState<number>(1);
@@ -51,7 +51,7 @@ export default function ProductList() {
   }, [active]);
 
   useEffect(() => {
-    if (!searchInput.trim()) {
+    if (!searchInput?.trim()) {
       setPreviewProducts([]);
       return;
     }
@@ -131,9 +131,9 @@ export default function ProductList() {
     e.preventDefault();
     hasSearched.current = true;
     setActive(1);
-    setSearchQuery(searchInput.trim());
+    setSearchQuery(searchInput?.trim() ?? null);
     setResultsText(
-      searchInput ? `Search results for "${searchInput.trim()}"` : '',
+      searchInput ? `Search results for "${searchInput.trim()}"` : null,
     );
     setSearchInput('');
   };

@@ -76,7 +76,7 @@ export default function Navigationbar() {
                   href='/'
                   className={styles.navLink}
                   onClick={() => {
-                    setCurrentUser('');
+                    setCurrentUser(null);
                     localStorage.removeItem('currentUser');
                   }}>
                   <RiLogoutBoxFill className={styles.icon} />
