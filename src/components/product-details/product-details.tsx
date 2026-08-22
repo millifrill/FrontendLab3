@@ -88,8 +88,10 @@ export default function ProductDetails({ id }) {
                       variant='success'
                       dismissible
                       onClose={clearRecentlyAdded}
-                      className={styles.alert}>
-                      <strong>{recentlyAdded}</strong> was added to your cart.
+                      className='alert'>
+                      <p>
+                        <strong>{recentlyAdded}</strong> was added to your cart.
+                      </p>
                     </Alert>
                   )}
                 </div>

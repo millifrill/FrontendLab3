@@ -65,3 +65,57 @@ h2 {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
 }
+
+.vesti-btn,
+.vesti-btn:hover,
+.vesti-btn-outline,
+.vesti-btn-outline:hover,
+.vesti-btn-outline-danger,
+.vesti-btn-outline-danger:hover {
+  width: fit-content;
+  font-weight: 500;
+  font-size: 1rem;
+  padding-bottom: 0.5rem;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.vesti-btn {
+  color: var(--light);
+}
+
+.vesti-btn:hover {
+  transform: scale(1.01);
+}
+
+.vesti-btn-outline {
+  color: var(--primary);
+}
+
+.vesti-btn-outline:hover {
+  background-color: var(--light);
+  color: var(--primary);
+  transform: scale(1.01);
+}
+
+.vesti-btn-outline-danger {
+  color: var(--danger);
+}
+
+.vesti-btn-outline-danger:hover {
+  background-color: var(--light);
+  color: var(--danger);
+  transform: scale(1.01);
+}
+
+.alert {
+  z-index: 3;
+  position: absolute;
+  top: 68px;
+  right: 10px;
+  width: 320px;
+  font-size: 0.8rem;
+  @media (min-width: 768px) {
+    width: 450px;
+  }
+}

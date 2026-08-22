@@ -40,8 +40,10 @@ export default function Cart() {
           variant='success'
           dismissible
           onClose={clearRecentlyAdded}
-          className={styles.alert}>
-          <strong>{recentlyAdded}</strong> was added to your cart.
+          className='alert'>
+          <p>
+            <strong>{recentlyAdded}</strong> was added to your cart.
+          </p>
         </Alert>
       )}
 
@@ -50,7 +52,7 @@ export default function Cart() {
           variant='success'
           dismissible
           onClose={() => setRemoveAlert(null)}
-          className={styles.alert}>
+          className='alert'>
           <strong>{removeAlert}</strong> was removed from your cart.
         </Alert>
       )}
@@ -65,13 +67,13 @@ export default function Cart() {
         <Modal.Footer className={styles.modalFooter}>
           <Button
             variant='primary'
-            className={styles.btnPrimary}
+            className='vesti-btn'
             onClick={() => setConfirmId(null)}>
             Cancel
           </Button>
           <Button
             variant='outline-primary'
-            className={styles.btnOutline}
+            className='vesti-btn-outline'
             onClick={handleConfirmRemove}>
             Confirm
           </Button>

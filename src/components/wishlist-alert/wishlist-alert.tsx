@@ -23,7 +23,7 @@ export default function WishlistAlert() {
         variant='success'
         dismissible
         onClose={clearRecentlyAdded}
-        className={styles.alert}>
+        className='alert'>
         <strong>{recentlyAdded}</strong> was added to your wishlist.
       </Alert>
     );
@@ -35,7 +35,7 @@ export default function WishlistAlert() {
         variant='success'
         dismissible
         onClose={clearRemoveAlert}
-        className={styles.alert}>
+        className='alert'>
         <strong>{removeAlert}</strong> was removed from your wishlist.
       </Alert>
     );
