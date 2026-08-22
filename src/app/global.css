@@ -66,12 +66,12 @@ h2 {
   padding-bottom: 0.5rem;
 }
 
-.vestiBtn,
-.vestiBtn:hover,
-.vestiBtnOutline,
-.vestiBtnOutline:hover,
-.vestiBtnOutlineDanger,
-.vestiBtnOutlineDanger:hover {
+.vesti-btn,
+.vesti-btn:hover,
+.vesti-btn-outline,
+.vesti-btn-outline:hover,
+.vesti-btn-outline-danger,
+.vesti-btn-outline-danger:hover {
   width: fit-content;
   font-weight: 500;
   font-size: 1rem;
@@ -80,29 +80,29 @@ h2 {
   box-shadow: var(--shadow);
 }
 
-.vestiBtn {
+.vesti-btn {
   color: var(--light);
 }
 
-.vestiBtn:hover {
+.vesti-btn:hover {
   transform: scale(1.01);
 }
 
-.vestiBtnOutline {
+.vesti-btn-outline {
   color: var(--primary);
 }
 
-.vestiBtnOutline:hover {
+.vesti-btn-outline:hover {
   background-color: var(--light);
   color: var(--primary);
   transform: scale(1.01);
 }
 
-.vestiBtnOutlineDanger {
+.vesti-btn-outline-danger {
   color: var(--danger);
 }
 
-.vestiBtnOutlineDanger:hover {
+.vesti-btn-outline-danger:hover {
   background-color: var(--light);
   color: var(--danger);
   transform: scale(1.01);

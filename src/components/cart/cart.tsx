@@ -65,13 +65,13 @@ export default function Cart() {
         <Modal.Footer className={styles.modalFooter}>
           <Button
             variant='primary'
-            className='vestiBtn'
+            className='vesti-btn'
             onClick={() => setConfirmId(null)}>
             Cancel
           </Button>
           <Button
             variant='outline-primary'
-            className='vestiBtnOutline'
+            className='vesti-btn-outline'
             onClick={handleConfirmRemove}>
             Confirm
           </Button>
