@@ -109,9 +109,10 @@ h2 {
 }
 
 .alert {
+  z-index: 3;
   position: absolute;
   top: 68px;
-  right: 10;
+  right: 10px;
   width: 320px;
   font-size: 0.8rem;
   @media (min-width: 768px) {

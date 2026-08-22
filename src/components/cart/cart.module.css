@@ -254,14 +254,3 @@
 .modalFooter {
   justify-content: center;
 }
-
-.alert {
-  position: absolute;
-  top: 68px;
-  right: 10;
-  width: 320px;
-  font-size: 0.8rem;
-  @media (min-width: 768px) {
-    width: 450px;
-  }
-}
