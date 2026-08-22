@@ -40,7 +40,7 @@ export default function Cart() {
           variant='success'
           dismissible
           onClose={clearRecentlyAdded}
-          className={styles.alert}>
+          className='alert'>
           <strong>{recentlyAdded}</strong> was added to your cart.
         </Alert>
       )}
@@ -50,7 +50,7 @@ export default function Cart() {
           variant='success'
           dismissible
           onClose={() => setRemoveAlert(null)}
-          className={styles.alert}>
+          className='alert'>
           <strong>{removeAlert}</strong> was removed from your cart.
         </Alert>
       )}
