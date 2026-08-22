@@ -41,7 +41,9 @@ export default function Cart() {
           dismissible
           onClose={clearRecentlyAdded}
           className='alert'>
-          <strong>{recentlyAdded}</strong> was added to your cart.
+          <p>
+            <strong>{recentlyAdded}</strong> was added to your cart.
+          </p>
         </Alert>
       )}
 
