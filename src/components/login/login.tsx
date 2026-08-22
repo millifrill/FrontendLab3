@@ -6,21 +6,20 @@ import Link from 'next/link';
 import { useAuth } from '../../context/auth.context';
 import { useRouter } from 'next/navigation';
 import bcrypt from 'bcryptjs';
+import { User } from '../../app/types/user';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { currentUser, setCurrentUser } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = allUsers.find(
-      (user: { email: string; passwordHash: string }) => user.email === email,
-    );
+    setErrorMessage(null);
+    const allUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = allUsers.find((user) => user.email === email);
 
     if (!user) {
       setErrorMessage('Incorrect email address or password');
@@ -34,7 +33,6 @@ export default function Login() {
     }
     setCurrentUser(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
-    router.push('/');
   };
 
   return (
@@ -81,7 +79,7 @@ export default function Login() {
           </Form>
         </div>
       ) : (
-        <h1>You are logged in</h1>
+        router.push('/account')
       )}
     </>
   );

@@ -1,12 +1,10 @@
-.titles {
-  min-height: 62px;
-}
-
 .title {
+  min-height: 46px;
   font-size: 1rem;
 }
 
 .subtitle {
+  min-height: 16px;
   font-size: 0.8rem;
 }
 
